@@ -22,3 +22,9 @@ This is a [PTSD](https://github.com/ntut-open-source-club/practical-tools-for-si
    cmake -DCMAKE_BUILD_TYPE=Debug -B build # -G Ninja
    ```
    better read [PTSD README](https://github.com/ntut-open-source-club/practical-tools-for-simple-design)
+
+character:葉洧辰
+obj:楊宇詮
+
+week2:
+   楊宇詮:熟悉PTSD、構思物件的碰撞實作
