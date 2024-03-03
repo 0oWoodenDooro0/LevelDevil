@@ -2,6 +2,10 @@
 #define APP_HPP
 
 #include "pch.hpp" // IWYU pragma: export
+#include "Character.hpp"
+#include "Util/Root.hpp"
+#include "Background.hpp"
+#include "Wall.hpp"
 
 class App {
 public:
@@ -11,7 +15,7 @@ public:
         END,
     };
 
-    State GetCurrentState() const { return m_CurrentState; }
+    [[nodiscard]] State GetCurrentState() const { return current_state_; }
 
     void Start();
 
@@ -20,10 +24,13 @@ public:
     void End(); // NOLINT(readability-convert-member-functions-to-static)
 
 private:
-    void ValidTask();
+    State current_state_ = State::START;
+    Util::Root root_;
 
-private:
-    State m_CurrentState = State::START;
+    std::shared_ptr<Background> background_;
+    std::vector<std::shared_ptr<Wall>> walls_;
+
+    std::shared_ptr<Character> character_;
 };
 
 #endif
