@@ -4,6 +4,7 @@ set(SRC_FILES
     Background.cpp
     Wall.cpp
     CollisionHandler.cpp
+    Animator.cpp
 )
 
 set(INCLUDE_FILES
@@ -12,6 +13,7 @@ set(INCLUDE_FILES
     Background.hpp
     Wall.hpp
     CollisionHandler.hpp
+    Animator.hpp
 )
 
 set(TEST_FILES
