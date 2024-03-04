@@ -80,7 +80,6 @@ private:
     float gravity_ = -0.98;
     glm::vec2 acceleration_ = {0, 0};
     glm::vec2 velocity_ = {0, 0};
-    glm::vec2 last_safe_position = {0, 0};
     bool direction_right_ = true;
     AnimationState animation_state_ = AnimationState::Idle;
 };
