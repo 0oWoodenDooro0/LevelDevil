@@ -38,7 +38,7 @@ public:
 
     [[nodiscard]] inline glm::vec2 GetPosition() const { return m_Transform.translation; }
 
-    [[nodiscard]] inline glm::vec2 GetSize() const { return {24, 64}; }
+    [[nodiscard]] inline glm::vec2 GetSize() const { return {32, 64}; }
 
     void Update(const std::vector<std::shared_ptr<Wall>> &walls);
 
