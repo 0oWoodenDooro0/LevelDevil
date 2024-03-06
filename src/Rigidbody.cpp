@@ -10,7 +10,7 @@
 
 void Rigidbody::Update(glm::vec2 position, glm::vec2 size, const std::vector<std::shared_ptr<Wall>>& walls,
                        const std::function<void(glm::vec2)> &translate) {
-    velocity_ += acceleration_;
+    SetVelocity(GetVelocity() + GetAcceleration());
     ResetAcceleration();
 
     float nearest_time = 1;
@@ -30,5 +30,5 @@ void Rigidbody::Update(glm::vec2 position, glm::vec2 size, const std::vector<std
     }
     SetVelocity(nearest_delta_position);
 
-    translate(velocity_);
+    translate(GetVelocity());
 }
