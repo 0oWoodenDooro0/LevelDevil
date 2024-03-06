@@ -37,6 +37,8 @@ public:
 
     [[nodiscard]] bool GroundCheck(const std::vector<std::shared_ptr<Wall>> &others) const;
 
+    void dead();
+
 private:
     Animator animator_;
 

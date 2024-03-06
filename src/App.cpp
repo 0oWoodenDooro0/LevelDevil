@@ -31,6 +31,8 @@ void App::Start() {
     walls_[8]->SetPosition({192, -136});
     walls_[9]->SetPosition({192, -72});
 
+    spikes_.push_back(std::make_shared<Spike>(RESOURCE_DIR"/image/component/spike.png"));
+    spikes_[0]->SetPosition({ 128,-136 });
 
     current_state_ = State::UPDATE;
 }
@@ -38,7 +40,8 @@ void App::Start() {
 void App::Update() {
 
     character_->Update( walls_);
-
+    for(const auto &spike: spikes_)
+    spike->Update(character_);
     /*
      * Do not touch the code below as they serve the purpose for
      * closing the window.
