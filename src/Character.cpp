@@ -3,38 +3,43 @@
 //
 
 #include "Character.hpp"
+
+#include <utility>
 #include "Util/Image.hpp"
 #include "Util/Time.hpp"
 #include "CollisionHandler.hpp"
 #include "Util/Input.hpp"
 
-Character::Character() : Util::GameObject(
-        std::make_unique<Util::Image>(RESOURCE_DIR"/Image/Character/Idle/man_idle.png"), 1) {}
+Character::Character() : Util::GameObject() {
+    SetZIndex(1);
+    animator_.SetAnimationStates(
+            {{"Idle",      std::make_unique<Util::Image>(RESOURCE_DIR"/image/character/idle/man_idle.png")},
+             {"JumpLeft",  std::make_unique<Util::Image>(RESOURCE_DIR"/image/character/jump_left/man_jump_left.png")},
+             {"JumpRight", std::make_unique<Util::Image>(RESOURCE_DIR"/image/character/jump_right/man_jump_right.png")},
+             {"RunLeft",   std::make_unique<Util::Animation>(
+                     std::vector<std::string>{(RESOURCE_DIR"/image/character/run_left/man_run_left1.png"),
+                                              (RESOURCE_DIR"/image/character/run_left/man_run_left2.png"),
+                                              (RESOURCE_DIR"/image/character/run_left/man_run_left3.png"),
+                                              (RESOURCE_DIR"/image/character/run_left/man_run_left4.png"),
+                                              (RESOURCE_DIR"/image/character/run_left/man_run_left5.png"),
+                                              (RESOURCE_DIR"/image/character/run_left/man_run_left6.png"),
+                                              (RESOURCE_DIR"/image/character/run_left/man_run_left7.png"),
+                                              (RESOURCE_DIR"/image/character/run_left/man_run_left8.png")}, true, 40,
+                     true, 0)},
+             {"RunRight",  std::make_unique<Util::Animation>(
+                     std::vector<std::string>{(RESOURCE_DIR"/image/character/run_right/man_run_right1.png"),
+                                              (RESOURCE_DIR"/image/character/run_right/man_run_right2.png"),
+                                              (RESOURCE_DIR"/image/character/run_right/man_run_right3.png"),
+                                              (RESOURCE_DIR"/image/character/run_right/man_run_right4.png"),
+                                              (RESOURCE_DIR"/image/character/run_right/man_run_right5.png"),
+                                              (RESOURCE_DIR"/image/character/run_right/man_run_right6.png"),
+                                              (RESOURCE_DIR"/image/character/run_right/man_run_right7.png"),
+                                              (RESOURCE_DIR"/image/character/run_right/man_run_right8.png")}, true, 40,
+                     true, 0)}});
+}
 
 void Character::Translate(const glm::vec2 &position) {
     m_Transform.translation += position;
-}
-
-void Character::SetAnimation(AnimationState animation_state) {
-    if (animation_state_ == animation_state) return;
-    animation_state_ = animation_state;
-    switch (animation_state) {
-        case AnimationState::Idle:
-            m_Drawable = idle_drawable_;
-            break;
-        case AnimationState::JumpLeft:
-            m_Drawable = jump_left_drawable_;
-            break;
-        case AnimationState::JumpRight:
-            m_Drawable = jump_right_drawable_;
-            break;
-        case AnimationState::RunLeft:
-            m_Drawable = run_left_drawable_;
-            break;
-        case AnimationState::RunRight:
-            m_Drawable = run_right_drawable_;
-            break;
-    }
 }
 
 void Character::Update(const std::vector<std::shared_ptr<Wall>> &walls) {
@@ -49,21 +54,23 @@ void Character::Update(const std::vector<std::shared_ptr<Wall>> &walls) {
         input_velocity.y = 1;
     }
     auto onGrounded = GroundCheck(walls);
+    std::function<void(std::shared_ptr<Core::Drawable>)> set_drawable_function = [&](
+            std::shared_ptr<Core::Drawable> drawable) { m_Drawable = std::move(drawable); };
     if (!onGrounded) {
         acceleration_.y = gravity_;
         if (direction_right_) {
-            SetAnimation(AnimationState::JumpRight);
+            animator_.UpdateAnimationState("JumpRight", set_drawable_function);
         } else {
-            SetAnimation(AnimationState::JumpLeft);
+            animator_.UpdateAnimationState("JumpLeft", set_drawable_function);
         }
     } else {
         velocity_ = {0, 0};
         if (input_velocity.x > 0) {
-            SetAnimation(AnimationState::RunRight);
+            animator_.UpdateAnimationState("RunRight", set_drawable_function);
         } else if (input_velocity.x < 0) {
-            SetAnimation(AnimationState::RunLeft);
+            animator_.UpdateAnimationState("RunLeft", set_drawable_function);
         } else {
-            SetAnimation(AnimationState::Idle);
+            animator_.UpdateAnimationState("Idle", set_drawable_function);
         }
     }
     if (input_velocity.x > 0) {
@@ -84,7 +91,7 @@ void Character::Update(const std::vector<std::shared_ptr<Wall>> &walls) {
         glm::vec2 delta_position = CollisionHandler::SweepTest(GetPosition(), wall->GetPosition(), GetSize(),
                                                                wall->GetSize(), velocity_);
         float delta_time = hypot(delta_position.x, delta_position.y);
-        if (max_time != 0){
+        if (max_time != 0) {
             float time = delta_time / max_time;
             if (time < nearest_time) {
                 nearest_time = time;
