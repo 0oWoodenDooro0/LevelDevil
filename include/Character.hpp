@@ -29,8 +29,6 @@ public:
 
     [[nodiscard]] inline glm::vec2 GetPosition() const { return m_Transform.translation; }
 
-    [[nodiscard]] inline glm::vec2 GetSize() const { return {32, 64}; }
-
     [[nodiscard]] inline Collider GetCollider() const { return {GetPosition() - glm::vec2(2, 6), {36, 52}}; }
 
     void Update(const std::vector<std::shared_ptr<Wall>> &walls);

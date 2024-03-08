@@ -40,9 +40,8 @@ void App::Start() {
 
 void App::Update() {
 
-    character_->Update( walls_);
-    for(const auto &spike: spikes_)
-    spike->Update(character_);
+    character_->Update(walls_);
+    for (const auto &spike: spikes_) { spike->Update(character_); }
     /*
      * Do not touch the code below as they serve the purpose for
      * closing the window.
