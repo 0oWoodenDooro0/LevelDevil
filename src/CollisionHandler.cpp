@@ -5,11 +5,9 @@
 #include "CollisionHandler.hpp"
 #include "Collider.hpp"
 
-bool CollisionHandler::CheckCollision(glm::vec2 position1, glm::vec2 size1, glm::vec2 position2, glm::vec2 size2) {
-    return position1.x + size1.x / 2 > position2.x - size2.x / 2 &&
-           position1.x - size1.x / 2 < position2.x + size2.x / 2 &&
-           position1.y + size1.y / 2 > position2.y - size2.y / 2 &&
-           position1.y - size1.y / 2 < position2.y + size2.y / 2;
+bool CollisionHandler::CheckCollision(Collider collider, Collider other) {
+    return collider.right > other.left && collider.left < other.right && collider.top > other.bottom &&
+           collider.bottom < other.top;
 }
 
 glm::vec2 CollisionHandler::SweepTest(Collider collider, Collider other, glm::vec2 velocity) {

@@ -86,9 +86,9 @@ void Character::Update(const std::vector<std::shared_ptr<Wall>> &walls) {
 
 bool Character::GroundCheck(const std::vector<std::shared_ptr<Wall>> &others) const {
     for (const auto &other: others) {
-        if (CollisionHandler::CheckCollision({GetCollider().center.x, GetCollider().bottom},
-                                             glm::vec2(GetCollider().size.x, 0.1), other->GetPosition(),
-                                             other->GetSize())) {
+        if (CollisionHandler::CheckCollision(
+                Collider({GetCollider().center.x, GetCollider().bottom}, {GetCollider().size.x, 0.1}),
+                other->GetCollider())) {
             return true;
         }
     }
