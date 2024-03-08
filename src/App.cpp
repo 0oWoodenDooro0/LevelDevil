@@ -31,9 +31,9 @@ void App::Start() {
     walls_[8]->SetPosition({192, -136});
     walls_[9]->SetPosition({192, -72});
 
-    spikes_.push_back(std::make_shared<Spike>(RESOURCE_DIR"/image/component/spike.png"));
-    spikes_[0]->SetPosition({ 128,-136 });
-    root_.AddChild(spikes_[0]);
+//    spikes_.push_back(std::make_shared<Spike>(RESOURCE_DIR"/image/component/spike.png"));
+//    spikes_[0]->SetPosition({ 128,-136 });
+//    root_.AddChild(spikes_[0]);
 
     current_state_ = State::UPDATE;
 }
