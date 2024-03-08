@@ -34,6 +34,8 @@ public:
 
     [[nodiscard]] bool GroundCheck(const std::vector<std::shared_ptr<Wall>> &others) const;
 
+    void Dead();
+
 private:
     Animator animator_;
     Rigidbody rigidbody_;

@@ -6,6 +6,7 @@ set(SRC_FILES
     CollisionHandler.cpp
     Animator.cpp
     Rigidbody.cpp
+    Spike.cpp
 )
 
 set(INCLUDE_FILES
@@ -16,6 +17,7 @@ set(INCLUDE_FILES
     CollisionHandler.hpp
     Animator.hpp
     Rigidbody.hpp
+    Spike.hpp
 )
 
 set(TEST_FILES
