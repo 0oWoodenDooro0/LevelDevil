@@ -7,6 +7,7 @@ set(SRC_FILES
     Animator.cpp
     Rigidbody.cpp
     Spike.cpp
+    Collider.cpp
 )
 
 set(INCLUDE_FILES
@@ -18,6 +19,7 @@ set(INCLUDE_FILES
     Animator.hpp
     Rigidbody.hpp
     Spike.hpp
+    Collider.hpp
 )
 
 set(TEST_FILES

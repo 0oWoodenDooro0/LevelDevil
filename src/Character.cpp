@@ -81,14 +81,14 @@ void Character::Update(const std::vector<std::shared_ptr<Wall>> &walls) {
             {float(move_speed_ * input_velocity.x * Util::Time::GetDeltaTime()), rigidbody_.GetVelocity().y});
 
     std::function<void(glm::vec2)> translate = [&](glm::vec2 position) { m_Transform.translation += position; };
-    rigidbody_.Update(GetPosition(), GetSize(), walls, translate);
+    rigidbody_.Update(GetCollider(), walls, translate);
 }
 
 bool Character::GroundCheck(const std::vector<std::shared_ptr<Wall>> &others) const {
     for (const auto &other: others) {
-        if (CollisionHandler::CheckCollision(GetPosition() - glm::vec2(0, GetSize().y / 2),
-                                             glm::vec2(GetSize().x, 0.1), other->GetPosition(),
-                                             other->GetSize())) {
+        if (CollisionHandler::CheckCollision(
+                Collider({GetCollider().center.x, GetCollider().bottom}, {GetCollider().size.x, 0.1}),
+                other->GetCollider())) {
             return true;
         }
     }

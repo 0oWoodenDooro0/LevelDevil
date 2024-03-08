@@ -16,19 +16,21 @@
 
 class Spike : public Util::GameObject {
 public:
-    explicit Spike(const std::string& image_path);
+    explicit Spike(const std::string &image_path);
 
-    void SetImage(const std::string& image_path);
+    void SetImage(const std::string &image_path);
 
     inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }
 
     [[nodiscard]] inline glm::vec2 GetPosition() const { return m_Transform.translation; }
 
-    [[nodiscard]] inline glm::vec2 GetSize() const { return { 64, 64 }; }
+    [[nodiscard]] inline glm::vec2 GetSize() const { return m_Drawable->GetSize(); }
 
-    void Update(std::shared_ptr<Character> character_);
+    [[nodiscard]] inline Collider GetCollider() const {
+        return {GetPosition() - glm::vec2(0, 21), GetSize() - glm::vec2(0, 42)};
+    }
 
-    void Translate(const glm::vec2& position);
+    void Update(const std::shared_ptr<Character>& character_) const;
 
 private:
     std::string image_path_;
