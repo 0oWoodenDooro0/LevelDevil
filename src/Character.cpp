@@ -96,6 +96,5 @@ bool Character::GroundCheck(const std::vector<std::shared_ptr<Wall>> &others) co
 }
 
 void Character::Dead() {
-    SetPosition(glm::vec2(0,0));
     SetVisible(false);
 }
