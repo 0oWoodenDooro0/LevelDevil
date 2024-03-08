@@ -8,6 +8,7 @@ set(SRC_FILES
     Rigidbody.cpp
     Spike.cpp
     Collider.cpp
+    Door.cpp
 )
 
 set(INCLUDE_FILES
@@ -20,6 +21,7 @@ set(INCLUDE_FILES
     Rigidbody.hpp
     Spike.hpp
     Collider.hpp
+    Door.hpp
 )
 
 set(TEST_FILES

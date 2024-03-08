@@ -7,6 +7,7 @@
 #include "Background.hpp"
 #include "Wall.hpp"
 #include "Spike.hpp"
+#include "Door.hpp"
 
 class App {
 public:
@@ -31,6 +32,7 @@ private:
     std::shared_ptr<Background> background_;
     std::vector<std::shared_ptr<Wall>> walls_;
     std::vector<std::shared_ptr<Spike>> spikes_;
+    std::shared_ptr<Door> door_;
     std::shared_ptr<Character> character_;
 };
 
