@@ -5,6 +5,7 @@ set(SRC_FILES
     Wall.cpp
     CollisionHandler.cpp
     Animator.cpp
+    Spike.cpp
 )
 
 set(INCLUDE_FILES
@@ -14,6 +15,7 @@ set(INCLUDE_FILES
     Wall.hpp
     CollisionHandler.hpp
     Animator.hpp
+    Spike.hpp
 )
 
 set(TEST_FILES
