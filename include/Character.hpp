@@ -10,6 +10,7 @@
 #include "Util/GameObject.hpp"
 #include "Util/Image.hpp"
 #include "Util/Animation.hpp"
+#include "Util/SFX.hpp"
 #include "Wall.hpp"
 #include "Animator.hpp"
 #include "Rigidbody.hpp"
@@ -42,11 +43,15 @@ public:
 private:
     Animator animator_;
     Rigidbody rigidbody_;
+    Util::SFX run_sfx_ = Util::SFX(RESOURCE_DIR"/sound/run.mp3");
+    Util::SFX jump_sfx_ = Util::SFX(RESOURCE_DIR"/sound/jump.mp3");
 
     float move_speed_ = 350;
     float jump_height_ = 12;
     float gravity_ = -0.98;
-    bool direction_right_ = true;
+    bool is_direction_right_ = true;
+    bool is_run_ = false;
+    float run_sfx_time = 0.25;
 };
 
 #endif //LEVELDEVIL_CHARACTER_HPP

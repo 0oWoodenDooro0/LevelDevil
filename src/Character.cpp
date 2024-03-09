@@ -49,12 +49,12 @@ void Character::Update(const std::vector<std::shared_ptr<Wall>> &walls) {
         Util::Input::IsKeyDown(Util::Keycode::UP)) {
         input_velocity.y = 1;
     }
-    auto onGrounded = GroundCheck(walls);
+    auto isGrounded = GroundCheck(walls);
     std::function<void(std::shared_ptr<Core::Drawable>)> set_drawable_function = [&](
             std::shared_ptr<Core::Drawable> drawable) { m_Drawable = std::move(drawable); };
-    if (!onGrounded) {
+    if (!isGrounded) {
         rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, gravity_});
-        if (direction_right_) {
+        if (is_direction_right_) {
             animator_.UpdateAnimationState("JumpRight", set_drawable_function);
         } else {
             animator_.UpdateAnimationState("JumpLeft", set_drawable_function);
@@ -70,12 +70,19 @@ void Character::Update(const std::vector<std::shared_ptr<Wall>> &walls) {
         }
     }
     if (input_velocity.x > 0) {
-        direction_right_ = true;
+        is_direction_right_ = true;
     } else if (input_velocity.x < 0) {
-        direction_right_ = false;
+        is_direction_right_ = false;
     }
-    if (input_velocity.y > 0 && onGrounded) {
+    is_run_ = abs(input_velocity.x) > 0;
+    run_sfx_time -= float(Util::Time::GetDeltaTime());
+    if (is_run_ && run_sfx_time < 0 && isGrounded){
+        run_sfx_.Play();
+        run_sfx_time = 0.25;
+    }
+    if (input_velocity.y > 0 && isGrounded) {
         rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, jump_height_});
+        jump_sfx_.Play();
     }
     rigidbody_.SetVelocity(
             {float(move_speed_ * input_velocity.x * Util::Time::GetDeltaTime()), rigidbody_.GetVelocity().y});
