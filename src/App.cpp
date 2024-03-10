@@ -7,7 +7,9 @@
 void App::Start() {
     LOG_TRACE("Start");
 
-    character_ = std::make_shared<Character>();
+    audio_maganer_ = AudioManager();
+
+    character_ = std::make_shared<Character>(audio_maganer_);
 
     root_.AddChild(character_);
 
@@ -40,9 +42,11 @@ void App::Start() {
 
 void App::Update() {
 
-    character_->Update( walls_);
-    for(const auto &spike: spikes_)
-    spike->Update(character_);
+    audio_maganer_.Update();
+    character_->Update(walls_);
+    for (const auto &spike: spikes_) {
+        spike->Update(character_);
+    }
     /*
      * Do not touch the code below as they serve the purpose for
      * closing the window.

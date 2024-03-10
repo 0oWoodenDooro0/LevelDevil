@@ -15,10 +15,12 @@
 #include "Animator.hpp"
 #include "Rigidbody.hpp"
 #include "Collider.hpp"
+#include "SoundEffect.hpp"
+#include "AudioManager.hpp"
 
 class Character : public Util::GameObject {
 public:
-    explicit Character();
+    explicit Character(AudioManager audioManager);
 
     Character(const Character &) = delete;
 
@@ -43,15 +45,13 @@ public:
 private:
     Animator animator_;
     Rigidbody rigidbody_;
-    Util::SFX run_sfx_ = Util::SFX(RESOURCE_DIR"/sound/run.mp3");
-    Util::SFX jump_sfx_ = Util::SFX(RESOURCE_DIR"/sound/jump.mp3");
+    AudioManager audioManager_;
 
     float move_speed_ = 350;
     float jump_height_ = 12;
     float gravity_ = -0.98;
     bool is_direction_right_ = true;
     bool is_run_ = false;
-    float run_sfx_time = 0.25;
 };
 
 #endif //LEVELDEVIL_CHARACTER_HPP

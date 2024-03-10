@@ -10,7 +10,7 @@
 #include "CollisionHandler.hpp"
 #include "Util/Input.hpp"
 
-Character::Character() : Util::GameObject() {
+Character::Character(AudioManager audioManager) : Util::GameObject(), audioManager_(std::move(audioManager)) {
     SetZIndex(1);
     animator_.SetAnimationStates(
             {{"Idle",      std::make_unique<Util::Image>(RESOURCE_DIR"/image/character/idle/man_idle.png")},
@@ -75,14 +75,12 @@ void Character::Update(const std::vector<std::shared_ptr<Wall>> &walls) {
         is_direction_right_ = false;
     }
     is_run_ = abs(input_velocity.x) > 0;
-    run_sfx_time -= float(Util::Time::GetDeltaTime());
-    if (is_run_ && run_sfx_time < 0 && isGrounded){
-        run_sfx_.Play();
-        run_sfx_time = 0.25;
+    if (is_run_ && isGrounded) {
+        audioManager_.Play(AudioManager::SFX::Run);
     }
     if (input_velocity.y > 0 && isGrounded) {
         rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, jump_height_});
-        jump_sfx_.Play();
+        audioManager_.Play(AudioManager::SFX::Jump);
     }
     rigidbody_.SetVelocity(
             {float(move_speed_ * input_velocity.x * Util::Time::GetDeltaTime()), rigidbody_.GetVelocity().y});
