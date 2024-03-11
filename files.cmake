@@ -8,6 +8,8 @@ set(SRC_FILES
     Rigidbody.cpp
     Spike.cpp
     Collider.cpp
+    SoundEffect.cpp
+    AudioManager.cpp
 )
 
 set(INCLUDE_FILES
@@ -20,6 +22,8 @@ set(INCLUDE_FILES
     Rigidbody.hpp
     Spike.hpp
     Collider.hpp
+    SoundEffect.hpp
+    AudioManager.hpp
 )
 
 set(TEST_FILES

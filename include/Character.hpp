@@ -10,14 +10,17 @@
 #include "Util/GameObject.hpp"
 #include "Util/Image.hpp"
 #include "Util/Animation.hpp"
+#include "Util/SFX.hpp"
 #include "Wall.hpp"
 #include "Animator.hpp"
 #include "Rigidbody.hpp"
 #include "Collider.hpp"
+#include "SoundEffect.hpp"
+#include "AudioManager.hpp"
 
 class Character : public Util::GameObject {
 public:
-    explicit Character();
+    explicit Character(AudioManager audioManager);
 
     Character(const Character &) = delete;
 
@@ -40,11 +43,13 @@ public:
 private:
     Animator animator_;
     Rigidbody rigidbody_;
+    AudioManager audioManager_;
 
     float move_speed_ = 350;
     float jump_height_ = 12;
     float gravity_ = -0.98;
-    bool direction_right_ = true;
+    bool is_direction_right_ = true;
+    bool is_run_ = false;
 };
 
 #endif //LEVELDEVIL_CHARACTER_HPP
