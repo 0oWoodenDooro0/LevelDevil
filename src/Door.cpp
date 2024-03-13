@@ -2,7 +2,7 @@
 // Created by User on 2024/3/8.
 //
 
-#include "Spike.hpp"
+#include "Door.hpp"
 
 #include <utility>
 #include <glm/vec2.hpp>
@@ -12,7 +12,6 @@
 #include "Util/Input.hpp"
 #include "Character.hpp"
 #include "Animator.hpp"
-#include "Door.hpp"
 
 Door::Door() : Util::GameObject() {
     SetZIndex(0);
@@ -28,14 +27,22 @@ Door::Door() : Util::GameObject() {
                  false, 0)} });
 }
 
-void Door::Update(std::shared_ptr<Character> character_) {
+void Door::IfStageClear(bool ifclear) {
+    std::function<void(std::shared_ptr<Core::Drawable>)> set_drawable_function = [&](
+        std::shared_ptr<Core::Drawable> drawable) { m_Drawable = std::move(drawable); };
+    if (ifclear)
+        animator_.UpdateAnimationState("StageClear", set_drawable_function);
+    else
+        animator_.UpdateAnimationState("Idle", set_drawable_function);
+}
+
+bool Door::Update(std::shared_ptr<Character> character_) {
     std::function<void(std::shared_ptr<Core::Drawable>)> set_drawable_function = [&](
             std::shared_ptr<Core::Drawable> drawable) { m_Drawable = std::move(drawable); };
     if (CollisionHandler::CheckCollision(character_->GetCollider(), GetCollider())) {
-        character_->SetVisible(false);
-        animator_.UpdateAnimationState("StageClear", set_drawable_function);
+        return true;
     }
     else {
-        animator_.UpdateAnimationState("Idle", set_drawable_function);
+        return false;
     }
 }

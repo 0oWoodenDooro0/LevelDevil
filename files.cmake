@@ -9,6 +9,7 @@ set(SRC_FILES
     Spike.cpp
     Collider.cpp
     Door.cpp
+    Button.cpp
 )
 
 set(INCLUDE_FILES
@@ -22,6 +23,7 @@ set(INCLUDE_FILES
     Spike.hpp
     Collider.hpp
     Door.hpp
+    Button.hpp
 )
 
 set(TEST_FILES

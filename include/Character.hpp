@@ -47,6 +47,7 @@ private:
     float jump_height_ = 12;
     float gravity_ = -0.98;
     bool direction_right_ = true;
+    bool dead_or_clear_ = false;
 };
 
 #endif //LEVELDEVIL_CHARACTER_HPP

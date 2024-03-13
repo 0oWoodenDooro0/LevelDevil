@@ -26,7 +26,9 @@ public:
 
     [[nodiscard]] inline Collider GetCollider() const { return { GetPosition(), GetSize()}; }
 
-    void Update(std::shared_ptr<Character> character_);
+    void IfStageClear(bool ifclear);
+
+    bool Update(std::shared_ptr<Character> character_);
 
 private:
     Animator animator_;

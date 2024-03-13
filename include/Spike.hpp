@@ -30,7 +30,7 @@ public:
         return {GetPosition() - glm::vec2(0, 21), GetSize() - glm::vec2(0, 42)};
     }
 
-    void Update(const std::shared_ptr<Character>& character_) const;
+    bool Update(const std::shared_ptr<Character>& character_) const;
 
 private:
     std::string image_path_;
