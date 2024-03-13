@@ -15,7 +15,7 @@
 
 class Button : public Util::GameObject {
 public:
-    explicit Button(std::shared_ptr<Core::Drawable> Idle, std::shared_ptr<Core::Drawable> Cursor_OnTop, std::shared_ptr<Core::Drawable> Pressed);
+    explicit Button(const std::string& Idle, const std::string& Cursor_OnTop, const std::string& Pressed);
 
     inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }
 

@@ -14,13 +14,13 @@
 #include "Character.hpp"
 #include "Animator.hpp"
 
-Button::Button(std::shared_ptr<Core::Drawable> Idle, std::shared_ptr<Core::Drawable> Cursor_OnTop, std::shared_ptr<Core::Drawable> Pressed) : Util::GameObject() {
+Button::Button(const std::string& Idle, const std::string& Cursor_OnTop, const std::string& Pressed) : Util::GameObject() {
     SetZIndex(1);
     m_Drawable = std::make_unique<Util::Image>(Idle);
     animator_.SetAnimationStates(
-        { {"Idle", Idle},
-        {"Cursor_OnTop", Cursor_OnTop},
-         {"Pressed", Pressed} });
+        { {"Idle", std::make_unique<Util::Image>(Idle)},
+        {"Cursor_OnTop", std::make_unique<Util::Image>(Cursor_OnTop)},
+         {"Pressed", std::make_unique<Util::Image>(Pressed)} });
 }
 
 void Button::Update() {

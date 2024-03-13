@@ -23,7 +23,7 @@ Door::Door() : Util::GameObject() {
                                           (RESOURCE_DIR"/image/door/in_door2.png"),
                                           (RESOURCE_DIR"/image/door/in_door3.png"),
                                           (RESOURCE_DIR"/image/door/in_door4.png"),
-                                          (RESOURCE_DIR"/image/door/in_door5.png")}, true, 250,
+                                          (RESOURCE_DIR"/image/door/in_door5.png")}, true, 450,
                  false, 0)} });
 }
 
