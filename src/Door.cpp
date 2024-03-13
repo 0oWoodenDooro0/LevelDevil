@@ -34,11 +34,10 @@ void Door::IfStageClear(bool ifclear) {
         animator_.UpdateAnimationState("StageClear", set_drawable_function);
     else
         animator_.UpdateAnimationState("Idle", set_drawable_function);
+    
 }
 
 bool Door::Update(std::shared_ptr<Character> character_) {
-    std::function<void(std::shared_ptr<Core::Drawable>)> set_drawable_function = [&](
-            std::shared_ptr<Core::Drawable> drawable) { m_Drawable = std::move(drawable); };
     if (CollisionHandler::CheckCollision(character_->GetCollider(), GetCollider())) {
         return true;
     }

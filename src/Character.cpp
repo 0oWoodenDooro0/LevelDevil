@@ -52,7 +52,7 @@ void Character::Update(const std::vector<std::shared_ptr<Wall>> &walls) {
     auto onGrounded = GroundCheck(walls);
     std::function<void(std::shared_ptr<Core::Drawable>)> set_drawable_function = [&](
             std::shared_ptr<Core::Drawable> drawable) { m_Drawable = std::move(drawable); };
-
+    
     if (dead_or_clear_) {
         rigidbody_.ResetVelocity();
         rigidbody_.ResetAcceleration();
@@ -104,6 +104,6 @@ bool Character::GroundCheck(const std::vector<std::shared_ptr<Wall>> &others) co
 }
 
 void Character::Dead() {
-    //SetVisible(false);
+    SetVisible(false);
     dead_or_clear_ = true;
 }
