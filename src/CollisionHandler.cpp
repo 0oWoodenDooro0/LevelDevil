@@ -10,6 +10,11 @@ bool CollisionHandler::CheckCollision(Collider collider, Collider other) {
            collider.bottom < other.top;
 }
 
+bool CollisionHandler::IsCollide(glm::vec2 position, Collider collider) {
+    return collider.right > position.x && collider.left < position.x && collider.top > position.y &&
+           collider.bottom < position.y;
+}
+
 glm::vec2 CollisionHandler::SweepTest(Collider collider, Collider other, glm::vec2 velocity) {
     float deltaX = velocity.x;
     float deltaY = velocity.y;

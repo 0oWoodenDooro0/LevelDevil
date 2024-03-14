@@ -1,19 +1,18 @@
 //
-// Created by User on 2024/3/2.
+// Created by User on 2024/3/12.
 //
 
-#ifndef LEVELDEVIL_WALL_HPP
-#define LEVELDEVIL_WALL_HPP
+#ifndef LEVELDEVIL_SPRITE_HPP
+#define LEVELDEVIL_SPRITE_HPP
 
 
+#include <string>
 #include "Util/GameObject.hpp"
 #include "Collider.hpp"
 
-class Wall : public Util::GameObject {
+class Sprite : public Util::GameObject {
 public:
-    explicit Wall(const std::string &image_path);
-
-    void SetImage(const std::string &image_path);
+    explicit Sprite(const std::shared_ptr<Core::Drawable>& drawable, float z_index = 0);
 
     inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }
 
@@ -22,10 +21,7 @@ public:
     inline glm::vec2 GetSize() { return m_Drawable->GetSize(); }
 
     inline Collider GetCollider() { return {GetPosition(), GetSize()}; }
-
-private:
-    std::string image_path_;
 };
 
 
-#endif //LEVELDEVIL_WALL_HPP
+#endif //LEVELDEVIL_SPRITE_HPP

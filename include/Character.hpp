@@ -11,7 +11,6 @@
 #include "Util/Image.hpp"
 #include "Util/Animation.hpp"
 #include "Util/SFX.hpp"
-#include "Wall.hpp"
 #include "Animator.hpp"
 #include "Rigidbody.hpp"
 #include "Collider.hpp"
@@ -34,9 +33,9 @@ public:
 
     [[nodiscard]] inline Collider GetCollider() const { return {GetPosition() - glm::vec2(2, 6), {36, 52}}; }
 
-    void Update(const std::vector<std::shared_ptr<Wall>> &walls);
+    void Update(const std::vector<std::shared_ptr<Sprite>> &walls);
 
-    [[nodiscard]] bool GroundCheck(const std::vector<std::shared_ptr<Wall>> &others) const;
+    [[nodiscard]] bool GroundCheck(const std::vector<std::shared_ptr<Sprite>> &others) const;
 
     void Dead();
 

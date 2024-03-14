@@ -8,8 +8,8 @@
 
 #include <glm/vec2.hpp>
 #include <functional>
-#include "Wall.hpp"
 #include "Collider.hpp"
+#include "Sprite.hpp"
 
 class Rigidbody {
 public:
@@ -27,7 +27,7 @@ public:
 
     inline void ResetVelocity() { velocity_ = {0, 0}; }
 
-    void Update(Collider collider, const std::vector<std::shared_ptr<Wall>> &walls,
+    void Update(Collider collider, const std::vector<std::shared_ptr<Sprite>> &walls,
                 const std::function<void(glm::vec2)> &translate);
 
 private:

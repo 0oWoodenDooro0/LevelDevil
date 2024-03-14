@@ -5,9 +5,10 @@
 #include "Character.hpp"
 #include "Util/Root.hpp"
 #include "Background.hpp"
-#include "Wall.hpp"
 #include "Spike.hpp"
 #include "AudioManager.hpp"
+#include "Button.hpp"
+#include "Sprite.hpp"
 
 class App {
 public:
@@ -27,11 +28,17 @@ public:
 
 private:
     State current_state_ = State::START;
+    unsigned int level_ = 0;
+
     Util::Root root_;
 
     AudioManager audio_maganer_;
     std::shared_ptr<Background> background_;
-    std::vector<std::shared_ptr<Wall>> walls_;
+
+    std::vector<std::shared_ptr<Button<int>>> door_buttons_;
+    std::vector<std::shared_ptr<Sprite>> button_hovers_;
+
+    std::vector<std::shared_ptr<Sprite>> walls_;
     std::vector<std::shared_ptr<Spike>> spikes_;
     std::shared_ptr<Character> character_;
 };

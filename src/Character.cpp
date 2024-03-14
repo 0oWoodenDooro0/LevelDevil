@@ -38,7 +38,7 @@ Character::Character(AudioManager audioManager) : Util::GameObject(), audioManag
                      true, 0)}});
 }
 
-void Character::Update(const std::vector<std::shared_ptr<Wall>> &walls) {
+void Character::Update(const std::vector<std::shared_ptr<Sprite>> &walls) {
     glm::vec2 input_velocity = {0, 0};
     if (Util::Input::IsKeyPressed(Util::Keycode::A) || Util::Input::IsKeyPressed(Util::Keycode::LEFT)) {
         input_velocity.x = -1;
@@ -51,7 +51,7 @@ void Character::Update(const std::vector<std::shared_ptr<Wall>> &walls) {
     }
     auto isGrounded = GroundCheck(walls);
     std::function<void(std::shared_ptr<Core::Drawable>)> set_drawable_function = [&](
-            std::shared_ptr<Core::Drawable> drawable) { m_Drawable = std::move(drawable); };
+            const std::shared_ptr<Core::Drawable>& drawable) { this->SetDrawable(drawable); };
     if (!isGrounded) {
         rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, gravity_});
         if (is_direction_right_) {
@@ -89,7 +89,7 @@ void Character::Update(const std::vector<std::shared_ptr<Wall>> &walls) {
     rigidbody_.Update(GetCollider(), walls, translate);
 }
 
-bool Character::GroundCheck(const std::vector<std::shared_ptr<Wall>> &others) const {
+bool Character::GroundCheck(const std::vector<std::shared_ptr<Sprite>> &others) const {
     for (const auto &other: others) {
         if (CollisionHandler::CheckCollision(
                 Collider({GetCollider().center.x, GetCollider().bottom}, {GetCollider().size.x, 0.1}),
