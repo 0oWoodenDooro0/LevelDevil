@@ -39,6 +39,15 @@ Character::Character(AudioManager audioManager) : Util::GameObject(), audioManag
 }
 
 void Character::Update(const std::vector<std::shared_ptr<Sprite>> &walls) {
+    std::function<void(std::shared_ptr<Core::Drawable>)> set_drawable_function = [&](
+            std::shared_ptr<Core::Drawable> drawable) { m_Drawable = std::move(drawable); };
+    if (dead_or_clear_) {
+        rigidbody_.ResetVelocity();
+        rigidbody_.ResetAcceleration();
+        animator_.UpdateAnimationState("Idle", set_drawable_function);
+        return;
+    }
+
     glm::vec2 input_velocity = {0, 0};
     if (Util::Input::IsKeyPressed(Util::Keycode::A) || Util::Input::IsKeyPressed(Util::Keycode::LEFT)) {
         input_velocity.x = -1;
@@ -50,8 +59,6 @@ void Character::Update(const std::vector<std::shared_ptr<Sprite>> &walls) {
         input_velocity.y = 1;
     }
     auto isGrounded = GroundCheck(walls);
-    std::function<void(std::shared_ptr<Core::Drawable>)> set_drawable_function = [&](
-            const std::shared_ptr<Core::Drawable>& drawable) { this->SetDrawable(drawable); };
     if (!isGrounded) {
         rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, gravity_});
         if (is_direction_right_) {

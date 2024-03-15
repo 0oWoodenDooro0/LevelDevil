@@ -47,6 +47,7 @@ private:
     float move_speed_ = 350;
     float jump_height_ = 12;
     float gravity_ = -0.98;
+    bool dead_or_clear_ = false;
     bool is_direction_right_ = true;
     bool is_run_ = false;
 };

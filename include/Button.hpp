@@ -1,5 +1,5 @@
 //
-// Created by User on 2024/3/12.
+// Created by User on 2024/3/15.
 //
 
 #ifndef LEVELDEVIL_BUTTON_HPP
@@ -7,23 +7,22 @@
 
 
 #include "Util/GameObject.hpp"
+#include "Animator.hpp"
 #include "Collider.hpp"
+#include "Util/Image.hpp"
 
-template<class... Args>
 class Button : public Util::GameObject {
-    typedef std::function<void(Args...)> eventFunction;
-
 public:
     enum class State {
         Idle,
-        Hover
+        Hover,
+        Click
     };
 
-    explicit Button(const std::shared_ptr<Core::Drawable> &drawable, eventFunction on_click, float z_index = 0)
-            : Util::GameObject(), on_click_function_(on_click) {
-        SetDrawable(drawable);
-        SetZIndex(z_index);
-    }
+    explicit Button(const std::shared_ptr<Core::Drawable> &idle,
+                    const std::shared_ptr<Core::Drawable> &hover,
+                    const std::shared_ptr<Core::Drawable> &click,
+                    float z_index = 10);
 
     inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }
 
@@ -33,36 +32,21 @@ public:
 
     inline Collider GetCollider() { return {GetPosition(), GetSize()}; }
 
-    void UpdateState(State state) {
-        if (current_state_ == state) return;
-        current_state_ = state;
-        switch (current_state_) {
-            case State::Idle:
-                Idle();
-                break;
-            case State::Hover:
-                Hover();
-                break;
-        }
-    }
+    inline State GetState() { return current_state_; }
 
-    void Hover() {
-        for (const auto &child: m_Children) {
-            child->SetVisible(true);
-        }
-    }
+    void UpdateState(State state);
 
-    void Idle() {
-        for (const auto &child: m_Children) {
-            child->SetVisible(false);
-        }
-    }
+    void Update();
 
-    inline void OnClick(const Args &... args) const { (on_click_function_)(args...); }
+    virtual void OnClick() {};
+
+    virtual void OnHover() {};
+
+    virtual void OnIdle() {};
 
 private:
+    Animator animator_;
     State current_state_ = State::Idle;
-    eventFunction on_click_function_;
 };
 
 

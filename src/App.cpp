@@ -21,16 +21,15 @@ void App::Start() {
 
     for (int i = 0; i < 15; ++i) {
 
-        auto door_button = std::make_shared<Button<int>>(
-                std::make_shared<Util::Image>(RESOURCE_DIR"/image/ui/unlock_door.png"),
-                [&](int level) { level_ = level; });
+        auto door_button = std::make_shared<DoorButton>(
+                std::make_shared<Util::Image>(RESOURCE_DIR"/image/ui/unlock_door.png"));
         door_button->SetPosition(door_positions[i]);
 
         auto button_hover = std::make_shared<Sprite>(std::make_shared<Util::Animation>(
                 std::vector<std::string>{(RESOURCE_DIR"/image/ui/door_hover1.png"),
                                          (RESOURCE_DIR"/image/ui/door_hover2.png"),
                                          (RESOURCE_DIR"/image/ui/door_hover3.png"),
-                                         (RESOURCE_DIR"/image/ui/door_hover4.png")}, true, 200, true, 0), 10);
+                                         (RESOURCE_DIR"/image/ui/door_hover4.png")}, true, 200, true, 0), 11);
         button_hover->SetPosition(door_positions[i] + glm::vec2(0, 32));
         button_hover->SetVisible(false);
 
@@ -53,13 +52,10 @@ void App::Update() {
     audio_maganer_.Update();
 
     for (int i = 0; i < int(door_buttons_.size()); ++i) {
-        if (CollisionHandler::IsCollide(Util::Input::GetCursorPosition(), door_buttons_[i]->GetCollider())) {
-            door_buttons_[i]->UpdateState(Button<int>::State::Hover);
-            if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
-                door_buttons_[i]->OnClick(i + 1);
-            }
-        } else {
-            door_buttons_[i]->UpdateState(Button<int>::State::Idle);
+        door_buttons_[i]->Update();
+        if (door_buttons_[i]->GetState() == Button::State::Click) {
+            level_ = i + 1;
+            LOG_DEBUG("{}", level_);
         }
     }
 

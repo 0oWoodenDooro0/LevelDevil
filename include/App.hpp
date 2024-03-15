@@ -6,9 +6,10 @@
 #include "Util/Root.hpp"
 #include "Background.hpp"
 #include "Spike.hpp"
+#include "Door.hpp"
 #include "AudioManager.hpp"
-#include "Button.hpp"
 #include "Sprite.hpp"
+#include "DoorButton.hpp"
 
 class App {
 public:
@@ -35,11 +36,12 @@ private:
     AudioManager audio_maganer_;
     std::shared_ptr<Background> background_;
 
-    std::vector<std::shared_ptr<Button<int>>> door_buttons_;
+    std::vector<std::shared_ptr<DoorButton>> door_buttons_;
     std::vector<std::shared_ptr<Sprite>> button_hovers_;
 
     std::vector<std::shared_ptr<Sprite>> walls_;
     std::vector<std::shared_ptr<Spike>> spikes_;
+    std::shared_ptr<Door> door_;
     std::shared_ptr<Character> character_;
 };
 
