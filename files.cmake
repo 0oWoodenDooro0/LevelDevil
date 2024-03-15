@@ -12,6 +12,7 @@ set(SRC_FILES
     AudioManager.cpp
     Button.cpp
     Sprite.cpp
+    DoorButton.cpp
 )
 
 set(INCLUDE_FILES
@@ -28,6 +29,7 @@ set(INCLUDE_FILES
     AudioManager.hpp
     Button.hpp
     Sprite.hpp
+    DoorButton.hpp
 )
 
 set(TEST_FILES
