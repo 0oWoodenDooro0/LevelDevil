@@ -23,7 +23,6 @@ void Spike::SetImage(const std::string &image_path) {
 }
 
 void Spike::Update(const std::shared_ptr<Character>& character_) const {
-    if (CollisionHandler::CheckCollision(character_->GetCollider(), GetCollider())) {
+    if (CollisionHandler::CheckCollision(character_->GetCollider(), GetCollider()))
         character_->Dead();
-    }
 }

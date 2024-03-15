@@ -33,9 +33,13 @@ void App::Start() {
     walls_[8]->SetPosition({192, -136});
     walls_[9]->SetPosition({192, -72});
 
-//    spikes_.push_back(std::make_shared<Spike>(RESOURCE_DIR"/image/component/spike.png"));
-//    spikes_[0]->SetPosition({ 128,-136 });
-//    root_.AddChild(spikes_[0]);
+    door_ = std::make_shared<Door>();
+    door_->SetPosition({ 128,-136 });
+    root_.AddChild(door_);
+
+    spikes_.push_back(std::make_shared<Spike>(RESOURCE_DIR"/image/component/spike.png"));
+    spikes_[0]->SetPosition({ -128,-72 });
+    root_.AddChild(spikes_[0]);
 
     current_state_ = State::UPDATE;
 }
@@ -47,7 +51,8 @@ void App::Update() {
     for (const auto &spike: spikes_) {
         spike->Update(character_);
     }
-
+    door_->Update(character_);
+  
     /*
      * Do not touch the code below as they serve the purpose for
      * closing the window.

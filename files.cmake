@@ -8,6 +8,7 @@ set(SRC_FILES
     Rigidbody.cpp
     Spike.cpp
     Collider.cpp
+    Door.cpp
     SoundEffect.cpp
     AudioManager.cpp
 )
@@ -22,6 +23,7 @@ set(INCLUDE_FILES
     Rigidbody.hpp
     Spike.hpp
     Collider.hpp
+    Door.hpp
     SoundEffect.hpp
     AudioManager.hpp
 )
