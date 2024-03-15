@@ -16,6 +16,13 @@
 
 class Door : public Util::GameObject {
 public:
+    enum State
+    {
+        Idle,
+        Delay,
+        StageClear
+    };
+
     explicit Door();
 
     inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }
@@ -26,12 +33,17 @@ public:
 
     [[nodiscard]] inline Collider GetCollider() const { return { GetPosition(), GetSize()}; }
 
-    void IfStageClear(bool ifclear);
+    bool GetifClear() { return isclear_; }
 
-    bool Update(std::shared_ptr<Character> character_);
+    bool SetifClear(bool isclear) { isclear_ = isclear; }
+
+    void Update(std::shared_ptr<Character> character_);
 
 private:
     Animator animator_;
+    bool isclear_=false;
+    float timer_ = 1;
+    State current_state_ = State::Idle;
 };
 
 #endif //LEVELDEVIL_DOOR_HPP

@@ -39,6 +39,15 @@ Character::Character() : Util::GameObject() {
 }
 
 void Character::Update(const std::vector<std::shared_ptr<Wall>> &walls) {
+    std::function<void(std::shared_ptr<Core::Drawable>)> set_drawable_function = [&](
+        std::shared_ptr<Core::Drawable> drawable) { m_Drawable = std::move(drawable); };
+    if (dead_or_clear_) {
+            rigidbody_.ResetVelocity();
+            rigidbody_.ResetAcceleration();
+            animator_.UpdateAnimationState("Idle", set_drawable_function);
+            return;
+        }
+
     glm::vec2 input_velocity = {0, 0};
     if (Util::Input::IsKeyPressed(Util::Keycode::A) || Util::Input::IsKeyPressed(Util::Keycode::LEFT)) {
         input_velocity.x = -1;
@@ -50,16 +59,6 @@ void Character::Update(const std::vector<std::shared_ptr<Wall>> &walls) {
         input_velocity.y = 1;
     }
     auto onGrounded = GroundCheck(walls);
-    std::function<void(std::shared_ptr<Core::Drawable>)> set_drawable_function = [&](
-            std::shared_ptr<Core::Drawable> drawable) { m_Drawable = std::move(drawable); };
-    
-    if (dead_or_clear_) {
-        rigidbody_.ResetVelocity();
-        rigidbody_.ResetAcceleration();
-        animator_.UpdateAnimationState("Idle", set_drawable_function);
-        return;
-    }
-
     if (!onGrounded) {
         rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, gravity_});
         if (direction_right_) {
@@ -104,6 +103,6 @@ bool Character::GroundCheck(const std::vector<std::shared_ptr<Wall>> &others) co
 }
 
 void Character::Dead() {
-    SetVisible(false);
+    //SetVisible(false);
     dead_or_clear_ = true;
 }

@@ -46,12 +46,8 @@ void App::Update() {
 
     character_->Update( walls_);
     for (const auto& spike : spikes_)
-        if (spike->Update(character_))
-            character_->Dead();
-    if (door_->Update(character_)) {
-        character_->Dead();
-        door_->IfStageClear(true);
-    }
+        spike->Update(character_);
+    door_->Update(character_);
         
     /*
      * Do not touch the code below as they serve the purpose for
