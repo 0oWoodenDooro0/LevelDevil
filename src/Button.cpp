@@ -35,7 +35,7 @@ void Button::Update() {
     if (CollisionHandler::IsCollide(Util::Input::GetCursorPosition(), GetCollider())) {
         UpdateState(State::Hover);
         if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
-            OnClick();
+            UpdateState(State::Click);
         }
     } else {
         UpdateState(State::Idle);
