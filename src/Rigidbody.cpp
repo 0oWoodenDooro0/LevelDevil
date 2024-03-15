@@ -14,17 +14,16 @@ void Rigidbody::Update(Collider collider, const std::vector<std::shared_ptr<Wall
     SetVelocity(GetVelocity() + GetAcceleration());
     ResetAcceleration();
 
-    float nearest_time = 1;
     glm::vec2 nearest_delta_position = GetVelocity();
-    float max_time = hypot(GetVelocity().x, GetVelocity().y);
+    glm::vec2 max_velocity = {GetVelocity().x, GetVelocity().y};
     for (const auto &wall: walls) {
-        glm::vec2 delta_position = CollisionHandler::SweepTest(collider, wall->GetCollider(), GetVelocity());
-        float delta_time = hypot(delta_position.x, delta_position.y);
-        if (max_time != 0) {
-            float time = delta_time / max_time;
-            if (time < nearest_time) {
-                nearest_time = time;
-                nearest_delta_position = delta_position;
+        glm::vec2 delta_velocity = CollisionHandler::SweepTest(collider, wall->GetCollider(), GetVelocity());
+        if (hypot(GetVelocity().x, GetVelocity().y) != 0) {
+            if (abs(delta_velocity.x) < abs(max_velocity.x)) {
+                nearest_delta_position.x = delta_velocity.x;
+            }
+            if (abs(delta_velocity.y) < abs(max_velocity.y)) {
+                nearest_delta_position.y = delta_velocity.y;
             }
         }
     }

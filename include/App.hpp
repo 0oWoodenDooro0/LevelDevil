@@ -8,6 +8,7 @@
 #include "Wall.hpp"
 #include "Spike.hpp"
 #include "Door.hpp"
+#include "AudioManager.hpp"
 
 class App {
 public:
@@ -29,6 +30,7 @@ private:
     State current_state_ = State::START;
     Util::Root root_;
 
+    AudioManager audio_maganer_;
     std::shared_ptr<Background> background_;
     std::vector<std::shared_ptr<Wall>> walls_;
     std::vector<std::shared_ptr<Spike>> spikes_;

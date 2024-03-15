@@ -10,7 +10,7 @@
 #include "CollisionHandler.hpp"
 #include "Util/Input.hpp"
 
-Character::Character() : Util::GameObject() {
+Character::Character(AudioManager audioManager) : Util::GameObject(), audioManager_(std::move(audioManager)) {
     SetZIndex(1);
     animator_.SetAnimationStates(
             {{"Idle",      std::make_unique<Util::Image>(RESOURCE_DIR"/image/character/idle/man_idle.png")},
@@ -58,10 +58,10 @@ void Character::Update(const std::vector<std::shared_ptr<Wall>> &walls) {
         Util::Input::IsKeyDown(Util::Keycode::UP)) {
         input_velocity.y = 1;
     }
-    auto onGrounded = GroundCheck(walls);
-    if (!onGrounded) {
+    auto isGrounded = GroundCheck(walls);
+    if (!isGrounded) {
         rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, gravity_});
-        if (direction_right_) {
+        if (is_direction_right_) {
             animator_.UpdateAnimationState("JumpRight", set_drawable_function);
         } else {
             animator_.UpdateAnimationState("JumpLeft", set_drawable_function);
@@ -77,12 +77,17 @@ void Character::Update(const std::vector<std::shared_ptr<Wall>> &walls) {
         }
     }
     if (input_velocity.x > 0) {
-        direction_right_ = true;
+        is_direction_right_ = true;
     } else if (input_velocity.x < 0) {
-        direction_right_ = false;
+        is_direction_right_ = false;
     }
-    if (input_velocity.y > 0 && onGrounded) {
+    is_run_ = abs(input_velocity.x) > 0;
+    if (is_run_ && isGrounded) {
+        audioManager_.Play(AudioManager::SFX::Run);
+    }
+    if (input_velocity.y > 0 && isGrounded) {
         rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, jump_height_});
+        audioManager_.Play(AudioManager::SFX::Jump);
     }
     rigidbody_.SetVelocity(
             {float(move_speed_ * input_velocity.x * Util::Time::GetDeltaTime()), rigidbody_.GetVelocity().y});

@@ -9,6 +9,8 @@ set(SRC_FILES
     Spike.cpp
     Collider.cpp
     Door.cpp
+    SoundEffect.cpp
+    AudioManager.cpp
 )
 
 set(INCLUDE_FILES
@@ -22,6 +24,8 @@ set(INCLUDE_FILES
     Spike.hpp
     Collider.hpp
     Door.hpp
+    SoundEffect.hpp
+    AudioManager.hpp
 )
 
 set(TEST_FILES

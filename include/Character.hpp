@@ -10,14 +10,17 @@
 #include "Util/GameObject.hpp"
 #include "Util/Image.hpp"
 #include "Util/Animation.hpp"
+#include "Util/SFX.hpp"
 #include "Wall.hpp"
 #include "Animator.hpp"
 #include "Rigidbody.hpp"
 #include "Collider.hpp"
+#include "SoundEffect.hpp"
+#include "AudioManager.hpp"
 
 class Character : public Util::GameObject {
 public:
-    explicit Character();
+    explicit Character(AudioManager audioManager);
 
     Character(const Character &) = delete;
 
@@ -28,8 +31,6 @@ public:
     Character &operator=(Character &&) = delete;
 
     [[nodiscard]] inline glm::vec2 GetPosition() const { return m_Transform.translation; }
-
-    [[nodiscard]] inline glm::vec2 GetSize() const { return {32, 64}; }
 
     [[nodiscard]] inline Collider GetCollider() const { return {GetPosition() - glm::vec2(2, 6), {36, 52}}; }
 
@@ -42,12 +43,14 @@ public:
 private:
     Animator animator_;
     Rigidbody rigidbody_;
+    AudioManager audioManager_;
 
     float move_speed_ = 350;
     float jump_height_ = 12;
     float gravity_ = -0.98;
-    bool direction_right_ = true;
     bool dead_or_clear_ = false;
+    bool is_direction_right_ = true;
+    bool is_run_ = false;
 };
 
 #endif //LEVELDEVIL_CHARACTER_HPP
