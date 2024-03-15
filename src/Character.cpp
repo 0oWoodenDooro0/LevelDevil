@@ -40,13 +40,13 @@ Character::Character() : Util::GameObject() {
 
 void Character::Update(const std::vector<std::shared_ptr<Wall>> &walls) {
     std::function<void(std::shared_ptr<Core::Drawable>)> set_drawable_function = [&](
-        std::shared_ptr<Core::Drawable> drawable) { m_Drawable = std::move(drawable); };
+            std::shared_ptr<Core::Drawable> drawable) { m_Drawable = std::move(drawable); };
     if (dead_or_clear_) {
-            rigidbody_.ResetVelocity();
-            rigidbody_.ResetAcceleration();
-            animator_.UpdateAnimationState("Idle", set_drawable_function);
-            return;
-        }
+        rigidbody_.ResetVelocity();
+        rigidbody_.ResetAcceleration();
+        animator_.UpdateAnimationState("Idle", set_drawable_function);
+        return;
+    }
 
     glm::vec2 input_velocity = {0, 0};
     if (Util::Input::IsKeyPressed(Util::Keycode::A) || Util::Input::IsKeyPressed(Util::Keycode::LEFT)) {

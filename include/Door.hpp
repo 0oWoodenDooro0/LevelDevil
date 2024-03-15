@@ -16,8 +16,7 @@
 
 class Door : public Util::GameObject {
 public:
-    enum State
-    {
+    enum State {
         Idle,
         Delay,
         StageClear
@@ -31,17 +30,12 @@ public:
 
     [[nodiscard]] inline glm::vec2 GetSize() const { return m_Drawable->GetSize(); }
 
-    [[nodiscard]] inline Collider GetCollider() const { return { GetPosition(), GetSize()}; }
+    [[nodiscard]] inline Collider GetCollider() const { return {GetPosition(), GetSize()}; }
 
-    bool GetifClear() { return isclear_; }
-
-    bool SetifClear(bool isclear) { isclear_ = isclear; }
-
-    void Update(std::shared_ptr<Character> character_);
+    void Update(const std::shared_ptr<Character> &character_);
 
 private:
     Animator animator_;
-    bool isclear_=false;
     float timer_ = 1;
     State current_state_ = State::Idle;
 };
