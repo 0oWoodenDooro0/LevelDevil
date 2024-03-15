@@ -10,6 +10,7 @@ set(SRC_FILES
     Collider.cpp
     SoundEffect.cpp
     AudioManager.cpp
+    Button.cpp
 )
 
 set(INCLUDE_FILES
@@ -24,6 +25,7 @@ set(INCLUDE_FILES
     Collider.hpp
     SoundEffect.hpp
     AudioManager.hpp
+    Button.hpp
 )
 
 set(TEST_FILES
