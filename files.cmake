@@ -11,6 +11,7 @@ set(SRC_FILES
     Door.cpp
     SoundEffect.cpp
     AudioManager.cpp
+    Button.cpp
 )
 
 set(INCLUDE_FILES
@@ -26,6 +27,7 @@ set(INCLUDE_FILES
     Door.hpp
     SoundEffect.hpp
     AudioManager.hpp
+    Button.hpp
 )
 
 set(TEST_FILES
