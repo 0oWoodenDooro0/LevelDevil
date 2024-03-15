@@ -14,6 +14,8 @@ class CollisionHandler {
 public:
     static bool CheckCollision(Collider collider, Collider other);
 
+    static bool IsCollide(glm::vec2 position, Collider collider) ;
+
     static glm::vec2 SweepTest(Collider collider, Collider other, glm::vec2 velocity);
 };
 
