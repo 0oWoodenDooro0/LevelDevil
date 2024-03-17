@@ -19,6 +19,11 @@ public:
         END,
     };
 
+    enum class Level{
+        LEVEL_SELECT,
+        LEVEL_1
+    };
+
     [[nodiscard]] State GetCurrentState() const { return current_state_; }
 
     void Start();
@@ -27,22 +32,26 @@ public:
 
     void End(); // NOLINT(readability-convert-member-functions-to-static)
 
+    void LoadLevel();
+
+    void UpdateLevel();
+
 private:
     State current_state_ = State::START;
-    unsigned int level_ = 0;
+    Level current_level_ = Level::LEVEL_SELECT;
 
     Util::Root root_;
 
-    AudioManager audio_maganer_;
-    std::shared_ptr<Background> background_;
+    AudioManager audio_maganer_ = AudioManager();
+    std::shared_ptr<Background> background_ = std::make_shared<Background>();
 
     std::vector<std::shared_ptr<DoorButton>> door_buttons_;
     std::vector<std::shared_ptr<Sprite>> button_hovers_;
 
     std::vector<std::shared_ptr<Sprite>> walls_;
     std::vector<std::shared_ptr<Spike>> spikes_;
-    std::shared_ptr<Door> door_;
-    std::shared_ptr<Character> character_;
+    std::shared_ptr<Door> door_ = std::make_shared<Door>();
+    std::shared_ptr<Character> character_ = std::make_shared<Character>(audio_maganer_);
 };
 
 #endif

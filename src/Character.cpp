@@ -11,6 +11,7 @@
 #include "Util/Input.hpp"
 
 Character::Character(AudioManager audioManager) : Util::GameObject(), audioManager_(std::move(audioManager)) {
+    SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/image/character/idle/man_idle.png"));
     SetZIndex(1);
     animator_.SetAnimationStates(
             {{"Idle",      std::make_unique<Util::Image>(RESOURCE_DIR"/image/character/idle/man_idle.png")},

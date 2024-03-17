@@ -9,10 +9,6 @@
 void App::Start() {
     LOG_TRACE("Start");
 
-    audio_maganer_ = AudioManager();
-
-    background_ = std::make_shared<Background>();
-
     std::array<glm::vec2, 15> door_positions = {glm::vec2(-728, 4), glm::vec2(-580, -72), glm::vec2(-404, -8),
                                                 glm::vec2(-236, -44), glm::vec2(-332, -184), glm::vec2(-284, -344),
                                                 glm::vec2(-84, -324), glm::vec2(24, -192), glm::vec2(0, -28),
@@ -24,6 +20,7 @@ void App::Start() {
         auto door_button = std::make_shared<DoorButton>(
                 std::make_shared<Util::Image>(RESOURCE_DIR"/image/ui/unlock_door.png"));
         door_button->SetPosition(door_positions[i]);
+        door_button->SetVisible(false);
 
         auto button_hover = std::make_shared<Sprite>(std::make_shared<Util::Animation>(
                 std::vector<std::string>{(RESOURCE_DIR"/image/ui/door_hover1.png"),
@@ -39,8 +36,20 @@ void App::Start() {
 
         door_button->AddChild(button_hover);
 
-        background_->AddChild(door_button);
+        root_.AddChild(door_button);
     }
+
+    for (int i = 0; i < 10; ++i) {
+        auto wall = std::make_shared<Sprite>(std::make_shared<Util::Image>(RESOURCE_DIR"/image/wall/test_wall.png"));
+        wall->SetVisible(false);
+        walls_.push_back(wall);
+        root_.AddChild(wall);
+    }
+
+    root_.AddChild(character_);
+    root_.AddChild(door_);
+
+    LoadLevel();
 
     root_.AddChild(background_);
 
@@ -51,13 +60,7 @@ void App::Update() {
 
     audio_maganer_.Update();
 
-    for (int i = 0; i < int(door_buttons_.size()); ++i) {
-        door_buttons_[i]->Update();
-        if (door_buttons_[i]->GetState() == Button::State::Click) {
-            level_ = i + 1;
-            LOG_DEBUG("{}", level_);
-        }
-    }
+    UpdateLevel();
 
     /*
      * Do not touch the code below as they serve the purpose for
@@ -71,4 +74,63 @@ void App::Update() {
 
 void App::End() { // NOLINT(this method will mutate members in the future)
     LOG_TRACE("End");
+}
+
+void App::LoadLevel() {
+    for (const auto &door_button: door_buttons_) {
+        door_button->SetVisible(false);
+        door_button->OnIdle();
+    }
+    for (const auto &wall: walls_) {
+        wall->SetVisible(false);
+    }
+    character_->SetVisible(false);
+    door_->SetVisible(false);
+    switch (current_level_) {
+        case Level::LEVEL_SELECT:
+            for (const auto &door_button: door_buttons_) {
+                door_button->SetVisible(true);
+                door_button->OnIdle();
+            }
+            break;
+        case Level::LEVEL_1:
+            background_->SetDrawable(
+                    std::make_shared<Util::Image>(RESOURCE_DIR"/image/background/test_background.png"));
+            character_->SetPosition({0, 0});
+            character_->SetVisible(true);
+            door_->SetPosition({128, -136});
+            door_->SetVisible(true);
+            for (int i = 0; i < 9; ++i) {
+                walls_[i]->SetVisible(true);
+            }
+            walls_[0]->SetPosition({0, -200});
+            walls_[1]->SetPosition({64, -200});
+            walls_[2]->SetPosition({-64, -200});
+            walls_[3]->SetPosition({-128, -200});
+            walls_[4]->SetPosition({128, -200});
+            walls_[5]->SetPosition({-192, -200});
+            walls_[6]->SetPosition({192, -200});
+            walls_[7]->SetPosition({-192, -136});
+            walls_[8]->SetPosition({192, -136});
+            walls_[9]->SetPosition({192, -72});
+            break;
+    }
+}
+
+void App::UpdateLevel() {
+    switch (current_level_) {
+        case Level::LEVEL_SELECT:
+            for (int i = 0; i < int(door_buttons_.size()); ++i) {
+                door_buttons_[i]->Update();
+                if (door_buttons_[i]->GetState() == Button::State::Click) {
+                    current_level_ = Level::LEVEL_1;
+                    LoadLevel();
+                }
+            }
+            break;
+        case Level::LEVEL_1:
+            character_->Update(walls_);
+            door_->Update(character_);
+            break;
+    }
 }

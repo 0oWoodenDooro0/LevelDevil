@@ -21,13 +21,7 @@ class Character : public Util::GameObject {
 public:
     explicit Character(AudioManager audioManager);
 
-    Character(const Character &) = delete;
-
-    Character(Character &&) = delete;
-
-    Character &operator=(const Character &) = delete;
-
-    Character &operator=(Character &&) = delete;
+    inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }
 
     [[nodiscard]] inline glm::vec2 GetPosition() const { return m_Transform.translation; }
 
