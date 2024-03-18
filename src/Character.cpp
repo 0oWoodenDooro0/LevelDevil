@@ -97,6 +97,14 @@ void Character::Update(const std::vector<std::shared_ptr<Sprite>> &walls) {
     rigidbody_.Update(GetCollider(), walls, translate);
 }
 
+void Character::Enable() {
+    SetVisible(true);
+}
+
+void Character::Disable() {
+    SetVisible(false);
+}
+
 bool Character::GroundCheck(const std::vector<std::shared_ptr<Sprite>> &others) const {
     for (const auto &other: others) {
         if (CollisionHandler::CheckCollision(
@@ -109,5 +117,5 @@ bool Character::GroundCheck(const std::vector<std::shared_ptr<Sprite>> &others) 
 }
 
 void Character::Dead() {
-    SetVisible(false);
+    Disable();
 }

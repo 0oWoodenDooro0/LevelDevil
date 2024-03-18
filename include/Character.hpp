@@ -16,8 +16,9 @@
 #include "Collider.hpp"
 #include "SoundEffect.hpp"
 #include "AudioManager.hpp"
+#include "Behaviour.hpp"
 
-class Character : public Util::GameObject {
+class Character : public Util::GameObject, public Behaviour{
 public:
     explicit Character(AudioManager audioManager);
 
@@ -28,6 +29,10 @@ public:
     [[nodiscard]] inline Collider GetCollider() const { return {GetPosition() - glm::vec2(2, 6), {36, 52}}; }
 
     void Update(const std::vector<std::shared_ptr<Sprite>> &walls);
+
+    void Enable() override;
+
+    void Disable() override;
 
     [[nodiscard]] bool GroundCheck(const std::vector<std::shared_ptr<Sprite>> &others) const;
 

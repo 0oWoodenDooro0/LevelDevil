@@ -30,6 +30,7 @@ set(INCLUDE_FILES
     Button.hpp
     Sprite.hpp
     DoorButton.hpp
+    Behaviour.hpp
 )
 
 set(TEST_FILES
