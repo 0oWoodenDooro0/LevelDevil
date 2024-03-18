@@ -9,6 +9,7 @@
 #include "Util/GameObject.hpp"
 #include "Animator.hpp"
 #include "Collider.hpp"
+#include "Util/Image.hpp"
 
 class Button : public Util::GameObject {
 public:
@@ -18,8 +19,10 @@ public:
         Click
     };
 
-    explicit Button(const std::shared_ptr<Core::Drawable> &idle, const std::shared_ptr<Core::Drawable> &hover,
-                    const std::shared_ptr<Core::Drawable> &click, float z_index);
+    explicit Button(const std::shared_ptr<Core::Drawable> &idle,
+                    const std::shared_ptr<Core::Drawable> &hover,
+                    const std::shared_ptr<Core::Drawable> &click,
+                    float z_index = 10);
 
     inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }
 
@@ -35,11 +38,11 @@ public:
 
     void Update();
 
-    virtual void OnClick() = 0;
+    virtual void OnClick() {};
 
-    virtual void OnHover() = 0;
+    virtual void OnHover() {};
 
-    virtual void OnIdle() = 0;
+    virtual void OnIdle() {};
 
 private:
     Animator animator_;

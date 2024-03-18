@@ -11,7 +11,6 @@
 #include "Util/Image.hpp"
 #include "Util/Animation.hpp"
 #include "Util/SFX.hpp"
-#include "Wall.hpp"
 #include "Animator.hpp"
 #include "Rigidbody.hpp"
 #include "Collider.hpp"
@@ -22,21 +21,15 @@ class Character : public Util::GameObject {
 public:
     explicit Character(AudioManager audioManager);
 
-    Character(const Character &) = delete;
-
-    Character(Character &&) = delete;
-
-    Character &operator=(const Character &) = delete;
-
-    Character &operator=(Character &&) = delete;
+    inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }
 
     [[nodiscard]] inline glm::vec2 GetPosition() const { return m_Transform.translation; }
 
     [[nodiscard]] inline Collider GetCollider() const { return {GetPosition() - glm::vec2(2, 6), {36, 52}}; }
 
-    void Update(const std::vector<std::shared_ptr<Wall>> &walls);
+    void Update(const std::vector<std::shared_ptr<Sprite>> &walls);
 
-    [[nodiscard]] bool GroundCheck(const std::vector<std::shared_ptr<Wall>> &others) const;
+    [[nodiscard]] bool GroundCheck(const std::vector<std::shared_ptr<Sprite>> &others) const;
 
     void Dead();
 

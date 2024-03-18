@@ -11,6 +11,7 @@
 #include "Util/Input.hpp"
 
 Character::Character(AudioManager audioManager) : Util::GameObject(), audioManager_(std::move(audioManager)) {
+    SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/image/character/idle/man_idle.png"));
     SetZIndex(1);
     animator_.SetAnimationStates(
             {{"Idle",      std::make_unique<Util::Image>(RESOURCE_DIR"/image/character/idle/man_idle.png")},
@@ -38,7 +39,7 @@ Character::Character(AudioManager audioManager) : Util::GameObject(), audioManag
                      true, 0)}});
 }
 
-void Character::Update(const std::vector<std::shared_ptr<Wall>> &walls) {
+void Character::Update(const std::vector<std::shared_ptr<Sprite>> &walls) {
     std::function<void(std::shared_ptr<Core::Drawable>)> set_drawable_function = [&](
             std::shared_ptr<Core::Drawable> drawable) { m_Drawable = std::move(drawable); };
     if (dead_or_clear_) {
@@ -96,7 +97,7 @@ void Character::Update(const std::vector<std::shared_ptr<Wall>> &walls) {
     rigidbody_.Update(GetCollider(), walls, translate);
 }
 
-bool Character::GroundCheck(const std::vector<std::shared_ptr<Wall>> &others) const {
+bool Character::GroundCheck(const std::vector<std::shared_ptr<Sprite>> &others) const {
     for (const auto &other: others) {
         if (CollisionHandler::CheckCollision(
                 Collider({GetCollider().center.x, GetCollider().bottom}, {GetCollider().size.x, 0.1}),
@@ -108,6 +109,5 @@ bool Character::GroundCheck(const std::vector<std::shared_ptr<Wall>> &others) co
 }
 
 void Character::Dead() {
-    //SetVisible(false);
-    dead_or_clear_ = true;
+    SetVisible(false);
 }

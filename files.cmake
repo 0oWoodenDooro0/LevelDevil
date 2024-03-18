@@ -2,7 +2,6 @@ set(SRC_FILES
     App.cpp
     Character.cpp
     Background.cpp
-    Wall.cpp
     CollisionHandler.cpp
     Animator.cpp
     Rigidbody.cpp
@@ -12,13 +11,14 @@ set(SRC_FILES
     SoundEffect.cpp
     AudioManager.cpp
     Button.cpp
+    Sprite.cpp
+    DoorButton.cpp
 )
 
 set(INCLUDE_FILES
     App.hpp
     Character.hpp
     Background.hpp
-    Wall.hpp
     CollisionHandler.hpp
     Animator.hpp
     Rigidbody.hpp
@@ -28,6 +28,8 @@ set(INCLUDE_FILES
     SoundEffect.hpp
     AudioManager.hpp
     Button.hpp
+    Sprite.hpp
+    DoorButton.hpp
 )
 
 set(TEST_FILES

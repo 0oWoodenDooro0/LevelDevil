@@ -6,10 +6,10 @@
 #include <memory>
 #include "Rigidbody.hpp"
 #include "CollisionHandler.hpp"
-#include "Wall.hpp"
 #include "Collider.hpp"
+#include "Sprite.hpp"
 
-void Rigidbody::Update(Collider collider, const std::vector<std::shared_ptr<Wall>> &walls,
+void Rigidbody::Update(Collider collider, const std::vector<std::shared_ptr<Sprite>> &walls,
                        const std::function<void(glm::vec2)> &translate) {
     SetVelocity(GetVelocity() + GetAcceleration());
     ResetAcceleration();
