@@ -12,7 +12,7 @@
 
 class Button : public Util::GameObject {
 public:
-    enum class State{
+    enum class State {
         Idle,
         Hover,
         Click
@@ -28,6 +28,8 @@ public:
     inline glm::vec2 GetSize() { return m_Drawable->GetSize(); }
 
     inline Collider GetCollider() { return {GetPosition(), GetSize()}; }
+
+    inline State GetState() { return current_state_; }
 
     void UpdateState(State state);
 
