@@ -12,8 +12,9 @@
 #include "Util/Animation.hpp"
 #include "Animator.hpp"
 #include "Character.hpp"
+#include "Behaviour.hpp"
 
-class Spike : public Util::GameObject {
+class Spike : public Util::GameObject, public Behaviour {
 public:
     explicit Spike(const std::string &image_path);
 
@@ -29,7 +30,11 @@ public:
         return {GetPosition() - glm::vec2(0, 21), GetSize() - glm::vec2(0, 42)};
     }
 
-    void Update(const std::shared_ptr<Character>& character_) const;
+    void Update(const std::shared_ptr<Character> &character_) const;
+
+    void Enable() override;
+
+    void Disable() override;
 
 private:
     std::string image_path_;

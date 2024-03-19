@@ -51,3 +51,11 @@ void Door::Update(const std::shared_ptr<Character> &character_) {
         current_state_ = State::Idle;
     }
 }
+
+void Door::Enable() {
+    SetVisible(true);
+}
+
+void Door::Disable() {
+    SetVisible(false);
+}

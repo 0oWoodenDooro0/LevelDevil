@@ -20,7 +20,7 @@ void App::Start() {
         auto door_button = std::make_shared<DoorButton>(
                 std::make_shared<Util::Image>(RESOURCE_DIR"/image/ui/unlock_door.png"));
         door_button->SetPosition(door_positions[i]);
-        door_button->SetVisible(false);
+        door_button->Disable();
 
         auto button_hover = std::make_shared<Sprite>(std::make_shared<Util::Animation>(
                 std::vector<std::string>{(RESOURCE_DIR"/image/ui/door_hover1.png"),
@@ -28,7 +28,7 @@ void App::Start() {
                                          (RESOURCE_DIR"/image/ui/door_hover3.png"),
                                          (RESOURCE_DIR"/image/ui/door_hover4.png")}, true, 200, true, 0), 11);
         button_hover->SetPosition(door_positions[i] + glm::vec2(0, 32));
-        button_hover->SetVisible(false);
+        button_hover->Disable();
 
         door_buttons_.push_back(door_button);
 
@@ -41,7 +41,7 @@ void App::Start() {
 
     for (int i = 0; i < 10; ++i) {
         auto wall = std::make_shared<Sprite>(std::make_shared<Util::Image>(RESOURCE_DIR"/image/wall/test_wall.png"));
-        wall->SetVisible(false);
+        wall->Disable();
         walls_.push_back(wall);
         root_.AddChild(wall);
     }
@@ -78,30 +78,28 @@ void App::End() { // NOLINT(this method will mutate members in the future)
 
 void App::LoadLevel() {
     for (const auto &door_button: door_buttons_) {
-        door_button->SetVisible(false);
-        door_button->OnIdle();
+        door_button->Disable();
     }
     for (const auto &wall: walls_) {
-        wall->SetVisible(false);
+        wall->Disable();
     }
-    character_->SetVisible(false);
-    door_->SetVisible(false);
+    character_->Disable();
+    door_->Disable();
     switch (current_level_) {
         case Level::LEVEL_SELECT:
             for (const auto &door_button: door_buttons_) {
-                door_button->SetVisible(true);
-                door_button->OnIdle();
+                door_button->Enable();
             }
             break;
         case Level::LEVEL_1:
             background_->SetDrawable(
                     std::make_shared<Util::Image>(RESOURCE_DIR"/image/background/test_background.png"));
             character_->SetPosition({0, 0});
-            character_->SetVisible(true);
+            character_->Enable();
             door_->SetPosition({128, -136});
-            door_->SetVisible(true);
+            door_->Enable();
             for (int i = 0; i < 9; ++i) {
-                walls_[i]->SetVisible(true);
+                walls_[i]->Enable();
             }
             walls_[0]->SetPosition({0, -200});
             walls_[1]->SetPosition({64, -200});
