@@ -19,12 +19,14 @@ public:
         END,
     };
 
-    enum class Level{
+    enum class Level {
         LEVEL_SELECT,
         LEVEL_1
     };
 
-    [[nodiscard]] State GetCurrentState() const { return current_state_; }
+    [[nodiscard]] inline State GetCurrentState() const { return current_state_; }
+
+    inline void SetCurrentLevel(Level level) { current_level_ = level; }
 
     void Start();
 

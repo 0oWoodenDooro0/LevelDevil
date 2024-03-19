@@ -123,7 +123,7 @@ void App::UpdateLevel() {
             for (int i = 0; i < int(door_buttons_.size()); ++i) {
                 door_buttons_[i]->Update();
                 if (door_buttons_[i]->GetState() == Button::State::Click) {
-                    current_level_ = Level::LEVEL_1;
+                    SetCurrentLevel(Level::LEVEL_1);
                     LoadLevel();
                 }
             }
