@@ -4,5 +4,5 @@
 
 #include "Background.hpp"
 
-Background::Background() : GameObject(
-        std::make_unique<Util::Image>(RESOURCE_DIR"/image/background/level_select.png"), -10) {}
+Background::Background(const std::string& path) : GameObject(
+        std::make_unique<Util::Image>(path), -10) {}
