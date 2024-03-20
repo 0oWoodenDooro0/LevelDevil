@@ -11,7 +11,7 @@
 
 class Background : public Util::GameObject {
 public:
-    explicit Background(const std::string& path);
+    Background();
 };
 
 #endif //LEVELDEVIL_BACKGROUND_HPP
