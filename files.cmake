@@ -13,8 +13,6 @@ set(SRC_FILES
     Button.cpp
     Sprite.cpp
     DoorButton.cpp
-    LevelSelect.cpp
-    Level1.cpp
 )
 
 set(INCLUDE_FILES
@@ -27,16 +25,12 @@ set(INCLUDE_FILES
     Spike.hpp
     Collider.hpp
     Door.hpp
-    ILevel.hpp
     SoundEffect.hpp
     AudioManager.hpp
     Button.hpp
     Sprite.hpp
     DoorButton.hpp
     Behaviour.hpp
-    LevelSelect.hpp
-    Level.hpp
-    Level1.hpp
 )
 
 set(TEST_FILES

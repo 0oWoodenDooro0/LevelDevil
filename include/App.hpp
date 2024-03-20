@@ -2,9 +2,14 @@
 #define APP_HPP
 
 #include "pch.hpp" // IWYU pragma: export
-#include "ILevel.hpp"
-#include "LevelSelect.hpp"
-#include "Level.hpp"
+#include "Character.hpp"
+#include "Util/Root.hpp"
+#include "Background.hpp"
+#include "Spike.hpp"
+#include "Door.hpp"
+#include "AudioManager.hpp"
+#include "Sprite.hpp"
+#include "DoorButton.hpp"
 
 class App {
 public:
@@ -14,9 +19,14 @@ public:
         END,
     };
 
+    enum class Level {
+        LEVEL_SELECT,
+        LEVEL_1
+    };
+
     [[nodiscard]] inline State GetCurrentState() const { return current_state_; }
 
-    void UpdateCurrentLevelState(Level::State level_state);
+    inline void SetCurrentLevel(Level level) { current_level_ = level; }
 
     void Start();
 
@@ -24,11 +34,26 @@ public:
 
     void End(); // NOLINT(readability-convert-member-functions-to-static)
 
+    void LoadLevel();
+
+    void UpdateLevel();
+
 private:
     State current_state_ = State::START;
-    Level::State current_level_state_ = Level::State::LEVEL_SELECT;
+    Level current_level_ = Level::LEVEL_SELECT;
 
-    std::unique_ptr<ILevel> level_ = nullptr;
+    Util::Root root_;
+
+    AudioManager audio_maganer_ = AudioManager();
+    std::shared_ptr<Background> background_ = std::make_shared<Background>();
+
+    std::vector<std::shared_ptr<DoorButton>> door_buttons_;
+    std::vector<std::shared_ptr<Sprite>> button_hovers_;
+
+    std::vector<std::shared_ptr<Sprite>> walls_;
+    std::vector<std::shared_ptr<Spike>> spikes_;
+    std::shared_ptr<Door> door_ = std::make_shared<Door>();
+    std::shared_ptr<Character> character_ = std::make_shared<Character>(audio_maganer_);
 };
 
 #endif
