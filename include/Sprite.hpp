@@ -9,9 +9,9 @@
 #include <string>
 #include "Util/GameObject.hpp"
 #include "Collider.hpp"
-#include "Behaviour.hpp"
+#include "IBehaviour.hpp"
 
-class Sprite : public Util::GameObject, public Behaviour {
+class Sprite : public Util::GameObject, public IBehaviour {
 public:
     explicit Sprite(const std::shared_ptr<Core::Drawable> &drawable, float z_index = 0);
 

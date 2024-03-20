@@ -12,9 +12,9 @@
 #include "Util/Animation.hpp"
 #include "Animator.hpp"
 #include "Character.hpp"
-#include "Behaviour.hpp"
+#include "IBehaviour.hpp"
 
-class Spike : public Util::GameObject, public Behaviour {
+class Spike : public Util::GameObject, public IBehaviour {
 public:
     explicit Spike(const std::string &image_path);
 
