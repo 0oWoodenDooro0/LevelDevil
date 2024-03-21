@@ -2,8 +2,8 @@
 // Created by User on 2024/3/21.
 //
 
-#ifndef LEVELDEVIL_BOUNCE_HPP
-#define LEVELDEVIL_BOUNCE_HPP
+#ifndef LEVELDEVIL_SPRING_HPP
+#define LEVELDEVIL_SPRING_HPP
 
 #include <string>
 #include <glm/vec2.hpp>
@@ -14,14 +14,14 @@
 #include "Character.hpp"
 #include "IBehaviour.hpp"
 
-class Bounce : public Util::GameObject, public IBehaviour {
+class Spring : public Util::GameObject, public IBehaviour {
 public:
     enum State {
         Up,
         Down
     };
 
-    explicit Bounce();
+    explicit Spring();
 
     inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }
 
@@ -45,4 +45,4 @@ private:
     State current_state_ = State::Down;
 };
 
-#endif //LEVELDEVIL_BOUNCE_HPP
+#endif //LEVELDEVIL_SPRING_HPP

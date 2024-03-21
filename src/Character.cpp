@@ -120,6 +120,6 @@ void Character::Dead() {
     Disable();
 }
 
-void Character::Bouns() {
+void Character::Bounce() {
     rigidbody_.SetVelocity({ rigidbody_.GetVelocity().x,700 });
 }

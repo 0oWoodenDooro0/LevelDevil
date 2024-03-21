@@ -38,7 +38,7 @@ public:
 
     void Dead();
 
-    void Bouns();
+    void Bounce();
 
 private:
     Animator animator_;

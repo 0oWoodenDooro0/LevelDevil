@@ -2,7 +2,7 @@
 // Created by User on 2024/3/21.
 //
 
-#include "Bounce.hpp"
+#include "Spring.hpp"
 
 #include <utility>
 #include <glm/vec2.hpp>
@@ -13,16 +13,16 @@
 #include "Util/Input.hpp"
 #include "Character.hpp"
 
-Bounce::Bounce() {
+Spring::Spring() {
     SetZIndex(0);
-    m_Drawable = std::make_unique<Util::Image>(RESOURCE_DIR"/image/component/bounceDown.png");
+    m_Drawable = std::make_unique<Util::Image>(RESOURCE_DIR"/image/component/springDown.png");
     animator_.SetAnimationStates(
-        { {"Down",       std::make_unique<Util::Image>(RESOURCE_DIR"/image/component/bounceDown.png")},
-         {"Up",      std::make_unique<Util::Image>(RESOURCE_DIR"/image/component/bounceUp.png")} 
+        { {"Down",       std::make_unique<Util::Image>(RESOURCE_DIR"/image/component/springDown.png")},
+         {"Up",      std::make_unique<Util::Image>(RESOURCE_DIR"/image/component/springUp.png")} 
         });
 }
 
-void Bounce::Update(const std::shared_ptr<Character>& character_) {
+void Spring::Update(const std::shared_ptr<Character>& character_) {
     std::function<void(std::shared_ptr<Core::Drawable>)> set_drawable_function = [&](
         std::shared_ptr<Core::Drawable> drawable) { m_Drawable = std::move(drawable); };
     if (current_state_ == State::Up) {
@@ -35,17 +35,17 @@ void Bounce::Update(const std::shared_ptr<Character>& character_) {
     if (CollisionHandler::CheckCollision(character_->GetCollider(), GetCollider())) {
         animator_.UpdateAnimationState("Up", set_drawable_function);
         current_state_ = State::Up;
-        character_->Bouns();
+        character_->Bounce();
         timer_ = 0.5;
     }
         
         
 }
 
-void Bounce::Enable() {
+void Spring::Enable() {
     SetVisible(true);
 }
 
-void Bounce::Disable() {
+void Spring::Disable() {
     SetVisible(false);
 }

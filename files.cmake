@@ -12,8 +12,8 @@ set(SRC_FILES
     Rigidbody.cpp
     SoundEffect.cpp
     Spike.cpp
+    Spring.cpp
     Sprite.cpp
-    Bounce.cpp
 )
 
 set(INCLUDE_FILES
@@ -31,8 +31,8 @@ set(INCLUDE_FILES
     Rigidbody.hpp
     SoundEffect.hpp
     Spike.hpp
+    Spring.hpp
     Sprite.hpp
-    Bounce.hpp
 )
 
 set(TEST_FILES
