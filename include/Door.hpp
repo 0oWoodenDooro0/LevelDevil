@@ -14,7 +14,7 @@
 #include "Character.hpp"
 #include "Collider.hpp"
 
-class Door : public Util::GameObject, public Behaviour {
+class Door : public Util::GameObject, public IBehaviour {
 public:
     enum State {
         Idle,

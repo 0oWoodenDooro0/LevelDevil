@@ -16,9 +16,9 @@
 #include "Collider.hpp"
 #include "SoundEffect.hpp"
 #include "AudioManager.hpp"
-#include "Behaviour.hpp"
+#include "IBehaviour.hpp"
 
-class Character : public Util::GameObject, public Behaviour{
+class Character : public Util::GameObject, public IBehaviour{
 public:
     explicit Character(AudioManager audioManager);
 
