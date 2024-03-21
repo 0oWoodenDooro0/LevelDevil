@@ -9,10 +9,11 @@
 #include <string>
 #include "Util/GameObject.hpp"
 #include "Collider.hpp"
+#include "IBehaviour.hpp"
 
-class Sprite : public Util::GameObject {
+class Sprite : public Util::GameObject, public IBehaviour {
 public:
-    explicit Sprite(const std::shared_ptr<Core::Drawable>& drawable, float z_index = 0);
+    explicit Sprite(const std::shared_ptr<Core::Drawable> &drawable, float z_index = 0);
 
     inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }
 
@@ -21,6 +22,10 @@ public:
     inline glm::vec2 GetSize() { return m_Drawable->GetSize(); }
 
     inline Collider GetCollider() { return {GetPosition(), GetSize()}; }
+
+    void Enable() override;
+
+    void Disable() override;
 };
 
 

@@ -41,3 +41,13 @@ void Button::Update() {
         UpdateState(State::Idle);
     }
 }
+
+void Button::Enable() {
+    SetVisible(true);
+    UpdateState(State::Idle);
+}
+
+void Button::Disable() {
+    SetVisible(false);
+    UpdateState(State::Idle);
+}

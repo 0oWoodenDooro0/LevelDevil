@@ -14,7 +14,7 @@
 #include "Character.hpp"
 #include "Collider.hpp"
 
-class Door : public Util::GameObject {
+class Door : public Util::GameObject, public IBehaviour {
 public:
     enum State {
         Idle,
@@ -33,6 +33,10 @@ public:
     [[nodiscard]] inline Collider GetCollider() const { return {GetPosition(), GetSize()}; }
 
     void Update(const std::shared_ptr<Character> &character_);
+
+    void Enable() override;
+
+    void Disable() override;
 
 private:
     Animator animator_;

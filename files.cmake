@@ -1,35 +1,36 @@
 set(SRC_FILES
-    App.cpp
-    Character.cpp
-    Background.cpp
-    CollisionHandler.cpp
     Animator.cpp
-    Rigidbody.cpp
-    Spike.cpp
-    Collider.cpp
-    Door.cpp
-    SoundEffect.cpp
+    App.cpp
     AudioManager.cpp
+    Background.cpp
     Button.cpp
-    Sprite.cpp
+    Character.cpp
+    Collider.cpp
+    CollisionHandler.cpp
+    Door.cpp
     DoorButton.cpp
+    Rigidbody.cpp
+    SoundEffect.cpp
+    Spike.cpp
+    Sprite.cpp
 )
 
 set(INCLUDE_FILES
-    App.hpp
-    Character.hpp
-    Background.hpp
-    CollisionHandler.hpp
     Animator.hpp
-    Rigidbody.hpp
-    Spike.hpp
-    Collider.hpp
-    Door.hpp
-    SoundEffect.hpp
+    App.hpp
     AudioManager.hpp
+    Background.hpp
     Button.hpp
-    Sprite.hpp
+    Character.hpp
+    Collider.hpp
+    CollisionHandler.hpp
+    Door.hpp
     DoorButton.hpp
+    IBehaviour.hpp
+    Rigidbody.hpp
+    SoundEffect.hpp
+    Spike.hpp
+    Sprite.hpp
 )
 
 set(TEST_FILES

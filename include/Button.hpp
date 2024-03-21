@@ -10,8 +10,9 @@
 #include "Animator.hpp"
 #include "Collider.hpp"
 #include "Util/Image.hpp"
+#include "IBehaviour.hpp"
 
-class Button : public Util::GameObject {
+class Button : public Util::GameObject, public IBehaviour {
 public:
     enum class State {
         Idle,
@@ -37,6 +38,10 @@ public:
     void UpdateState(State state);
 
     void Update();
+
+    void Enable() override;
+
+    void Disable() override;
 
     virtual void OnClick() {};
 
