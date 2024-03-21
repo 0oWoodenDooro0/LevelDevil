@@ -17,16 +17,15 @@ Spring::Spring() {
     SetZIndex(0);
     m_Drawable = std::make_unique<Util::Image>(RESOURCE_DIR"/image/component/springDown.png");
     animator_.SetAnimationStates(
-        { {"Down",       std::make_unique<Util::Image>(RESOURCE_DIR"/image/component/springDown.png")},
-         {"Up",      std::make_unique<Util::Image>(RESOURCE_DIR"/image/component/springUp.png")} 
-        });
+            {{"Down", std::make_unique<Util::Image>(RESOURCE_DIR"/image/component/springDown.png")},
+             {"Up",   std::make_unique<Util::Image>(RESOURCE_DIR"/image/component/springUp.png")}});
 }
 
-void Spring::Update(const std::shared_ptr<Character>& character_) {
+void Spring::Update(const std::shared_ptr<Character> &character_) {
     std::function<void(std::shared_ptr<Core::Drawable>)> set_drawable_function = [&](
-        std::shared_ptr<Core::Drawable> drawable) { m_Drawable = std::move(drawable); };
+            std::shared_ptr<Core::Drawable> drawable) { m_Drawable = std::move(drawable); };
     if (current_state_ == State::Up) {
-        timer_ -= Util::Time::GetDeltaTime();
+        timer_ -= float(Util::Time::GetDeltaTime());
         if (timer_ <= 0) {
             animator_.UpdateAnimationState("Down", set_drawable_function);
             current_state_ = State::Down;
@@ -38,8 +37,6 @@ void Spring::Update(const std::shared_ptr<Character>& character_) {
         character_->Bounce();
         timer_ = 0.5;
     }
-        
-        
 }
 
 void Spring::Enable() {
