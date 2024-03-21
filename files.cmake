@@ -12,6 +12,7 @@ set(SRC_FILES
     Rigidbody.cpp
     SoundEffect.cpp
     Spike.cpp
+    Spring.cpp
     Sprite.cpp
 )
 
@@ -30,6 +31,7 @@ set(INCLUDE_FILES
     Rigidbody.hpp
     SoundEffect.hpp
     Spike.hpp
+    Spring.hpp
     Sprite.hpp
 )
 
