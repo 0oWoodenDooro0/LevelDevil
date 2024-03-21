@@ -119,3 +119,7 @@ bool Character::GroundCheck(const std::vector<std::shared_ptr<Sprite>> &others) 
 void Character::Dead() {
     Disable();
 }
+
+void Character::Bouns() {
+    rigidbody_.SetVelocity({ rigidbody_.GetVelocity().x,700 });
+}

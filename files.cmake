@@ -13,6 +13,7 @@ set(SRC_FILES
     SoundEffect.cpp
     Spike.cpp
     Sprite.cpp
+    Bounce.cpp
 )
 
 set(INCLUDE_FILES
@@ -31,6 +32,7 @@ set(INCLUDE_FILES
     SoundEffect.hpp
     Spike.hpp
     Sprite.hpp
+    Bounce.hpp
 )
 
 set(TEST_FILES

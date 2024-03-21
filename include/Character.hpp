@@ -38,6 +38,8 @@ public:
 
     void Dead();
 
+    void Bouns();
+
 private:
     Animator animator_;
     Rigidbody rigidbody_;
