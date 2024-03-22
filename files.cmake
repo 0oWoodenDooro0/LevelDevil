@@ -16,6 +16,7 @@ set(SRC_FILES
     Spike.cpp
     Spring.cpp
     Sprite.cpp
+    TriggerCollider.cpp
 )
 
 set(INCLUDE_FILES
@@ -39,6 +40,7 @@ set(INCLUDE_FILES
     Spike.hpp
     Spring.hpp
     Sprite.hpp
+    TriggerCollider.hpp
 )
 
 set(TEST_FILES
