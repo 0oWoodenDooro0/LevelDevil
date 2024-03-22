@@ -13,6 +13,8 @@
 #include "Animator.hpp"
 #include "Character.hpp"
 #include "IBehaviour.hpp"
+#include "AudioManager.hpp"
+#include "SoundEffect.hpp"
 
 class Spike : public Util::GameObject, public IBehaviour {
 public:
@@ -38,6 +40,7 @@ public:
 
 private:
     std::string image_path_;
+    AudioManager audiomanager_;
 };
 
 #endif //LEVELDEVIL_SPIKE_HPP

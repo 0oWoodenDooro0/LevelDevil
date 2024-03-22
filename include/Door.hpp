@@ -13,6 +13,8 @@
 #include "Animator.hpp"
 #include "Character.hpp"
 #include "Collider.hpp"
+#include "AudioManager.hpp"
+#include "SoundEffect.hpp"
 
 class Door : public Util::GameObject, public IBehaviour {
 public:
@@ -39,9 +41,11 @@ public:
     void Disable() override;
 
 private:
+    AudioManager audiomanager_;
     Animator animator_;
     float timer_ = 0.5;
     State current_state_ = State::Idle;
+    bool enabled_ = true;
 };
 
 #endif //LEVELDEVIL_DOOR_HPP

@@ -27,6 +27,7 @@ void Button::UpdateState(Button::State state) {
             break;
         case State::Click:
             OnClick();
+            audiomanager_.Play(AudioManager::SFX::Button);
             break;
     }
 }

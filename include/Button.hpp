@@ -11,6 +11,8 @@
 #include "Collider.hpp"
 #include "Util/Image.hpp"
 #include "IBehaviour.hpp"
+#include "AudioManager.hpp"
+#include "SoundEffect.hpp"
 
 class Button : public Util::GameObject, public IBehaviour {
 public:
@@ -50,6 +52,7 @@ public:
     virtual void OnIdle() {};
 
 private:
+    AudioManager audiomanager_;
     Animator animator_;
     State current_state_ = State::Idle;
 };

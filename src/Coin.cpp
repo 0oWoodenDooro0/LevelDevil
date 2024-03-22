@@ -25,6 +25,7 @@ void Coin::SetImage(const std::string &image_path) {
 void Coin::Update(const std::shared_ptr<Character> &character_) {
     if (!enabled_)return;
     if (CollisionHandler::CheckCollision(character_->GetCollider(), GetCollider())){
+        audiomanager_.Play(AudioManager::SFX::Coin);
         Disable();
     }
 }
