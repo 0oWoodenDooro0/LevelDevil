@@ -1,0 +1,43 @@
+//
+// Created by User on 2024/3/22.
+//
+
+#ifndef LEVELDEVIL_TRIGGERCOLLIDER_HPP
+#define LEVELDEVIL_TRIGGERCOLLIDER_HPP
+
+#include "Util/GameObject.hpp"
+#include "glm/vec2.hpp"
+#include "Collider.hpp"
+
+class TriggerCollider : public Util::GameObject {
+public:
+    enum class State {
+        Idle,
+        Trigger
+    };
+
+    TriggerCollider() = default;
+
+    inline glm::vec2 GetPosition() { return m_Transform.translation; }
+
+    inline glm::vec2 GetSize() { return size_; }
+
+    inline Collider GetCollider() { return {GetPosition(), GetSize()}; }
+
+    inline State GetState() { return current_state_; }
+
+    inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }
+
+    inline void SetSize(glm::vec2 size) { size_ = size; }
+
+    void UpdateState(TriggerCollider::State state);
+
+    void Update(glm::vec2 position);
+
+private:
+    State current_state_ = State::Idle;
+    glm::vec2 size_ = {0, 0};
+};
+
+
+#endif //LEVELDEVIL_TRIGGERCOLLIDER_HPP
