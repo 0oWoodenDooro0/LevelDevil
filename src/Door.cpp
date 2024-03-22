@@ -43,7 +43,7 @@ void Door::Update(const std::shared_ptr<Character> &character_) {
         return;
     }
     if (CollisionHandler::CheckCollision(character_->GetCollider(), GetCollider())) {
-        character_->Dead();
+        character_->LevelClear();
         animator_.UpdateAnimationState("Delay", set_drawable_function);
         current_state_ = State::Delay;
     } else {

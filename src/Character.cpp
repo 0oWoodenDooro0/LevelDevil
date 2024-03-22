@@ -39,26 +39,30 @@ Character::Character(AudioManager audioManager) : Util::GameObject(), audioManag
                      true, 0)}});
 }
 
+void Character::SetCheckPoint(glm::vec2 check_point) {
+    m_Transform.translation = check_point;
+    check_point_ = check_point;
+}
+
 void Character::Update(const std::vector<std::shared_ptr<Sprite>> &walls) {
-    std::function<void(std::shared_ptr<Core::Drawable>)> set_drawable_function = [&](
-            std::shared_ptr<Core::Drawable> drawable) { m_Drawable = std::move(drawable); };
-    if (dead_or_clear_) {
-        rigidbody_.ResetVelocity();
-        rigidbody_.ResetAcceleration();
-        animator_.UpdateAnimationState("Idle", set_drawable_function);
+    if (!enabled_) {
+        if (!level_clear_ && (isForwardPressed() || isBackwardPressed() || isJumpPressed())) {
+            Revive();
+        }
         return;
     }
 
     glm::vec2 input_velocity = {0, 0};
-    if (Util::Input::IsKeyPressed(Util::Keycode::A) || Util::Input::IsKeyPressed(Util::Keycode::LEFT)) {
-        input_velocity.x = -1;
-    } else if (Util::Input::IsKeyPressed(Util::Keycode::D) || Util::Input::IsKeyPressed(Util::Keycode::RIGHT)) {
+    if (isForwardPressed()) {
         input_velocity.x = 1;
+    } else if (isBackwardPressed()) {
+        input_velocity.x = -1;
     }
-    if (Util::Input::IsKeyDown(Util::Keycode::W) || Util::Input::IsKeyDown(Util::Keycode::SPACE) ||
-        Util::Input::IsKeyDown(Util::Keycode::UP)) {
+    if (isJumpPressed()) {
         input_velocity.y = 1;
     }
+    std::function<void(std::shared_ptr<Core::Drawable>)> set_drawable_function = [&](
+            const std::shared_ptr<Core::Drawable> &drawable) { this->SetDrawable(drawable); };
     auto isGrounded = GroundCheck(walls);
     if (!isGrounded) {
         rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, gravity_});
@@ -99,10 +103,12 @@ void Character::Update(const std::vector<std::shared_ptr<Sprite>> &walls) {
 
 void Character::Enable() {
     SetVisible(true);
+    enabled_ = true;
 }
 
 void Character::Disable() {
     SetVisible(false);
+    enabled_ = false;
 }
 
 bool Character::GroundCheck(const std::vector<std::shared_ptr<Sprite>> &others) const {
@@ -116,10 +122,38 @@ bool Character::GroundCheck(const std::vector<std::shared_ptr<Sprite>> &others) 
     return false;
 }
 
+bool Character::isForwardPressed() {
+    return Util::Input::IsKeyPressed(Util::Keycode::D) || Util::Input::IsKeyPressed(Util::Keycode::RIGHT);
+}
+
+bool Character::isBackwardPressed() {
+    return Util::Input::IsKeyPressed(Util::Keycode::A) || Util::Input::IsKeyPressed(Util::Keycode::LEFT);
+}
+
+bool Character::isJumpPressed() {
+    return Util::Input::IsKeyDown(Util::Keycode::W) || Util::Input::IsKeyDown(Util::Keycode::SPACE) ||
+           Util::Input::IsKeyDown(Util::Keycode::UP);
+}
+
+void Character::Revive() {
+    Enable();
+}
+
 void Character::Dead() {
     Disable();
+    rigidbody_.ResetVelocity();
+    rigidbody_.ResetAcceleration();
+    animator_.UpdateAnimationState("Idle", [&](const std::shared_ptr<Core::Drawable> &drawable) {
+        this->SetDrawable(drawable);
+    });
+    SetPosition(check_point_);
+}
+
+void Character::LevelClear() {
+    Disable();
+    level_clear_ = true;
 }
 
 void Character::Bounce() {
-    rigidbody_.SetVelocity({ rigidbody_.GetVelocity().x,700 });
+    rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, spring_height_});
 }
