@@ -35,7 +35,6 @@ void Door::Update(const std::shared_ptr<Character> &character_) {
     if (current_state_ == State::Delay) {
         if (timer_ <= 0) {
             animator_.UpdateAnimationState("StageClear", set_drawable_function);
-
             current_state_ = State::StageClear;
         } else {
             timer_ -= float(Util::Time::GetDeltaTime());

@@ -1,9 +1,9 @@
 //
-// Created by User on 2024/3/6.
+// Created by User on 2024/3/22.
 //
 
-#ifndef LEVELDEVIL_SPIKE_HPP
-#define LEVELDEVIL_SPIKE_HPP
+#ifndef LEVELDEVIL_COIN_HPP
+#define LEVELDEVIL_COIN_HPP
 
 #include <string>
 #include <glm/vec2.hpp>
@@ -14,9 +14,9 @@
 #include "Character.hpp"
 #include "IBehaviour.hpp"
 
-class Spike : public Util::GameObject, public IBehaviour {
+class Coin : public Util::GameObject, public IBehaviour {
 public:
-    explicit Spike(const std::string &image_path);
+    explicit Coin();
 
     void SetImage(const std::string &image_path);
 
@@ -27,7 +27,7 @@ public:
     [[nodiscard]] inline glm::vec2 GetSize() const { return m_Drawable->GetSize(); }
 
     [[nodiscard]] inline Collider GetCollider() const {
-        return {GetPosition() - glm::vec2(0, 21), GetSize() - glm::vec2(0, 42)};
+        return {GetPosition(), GetSize() - glm::vec2(42, 42)};
     }
 
     void Update(const std::shared_ptr<Character> &character_);
@@ -38,6 +38,7 @@ public:
 
 private:
     std::string image_path_;
+    bool enabled_ = true;
 };
 
-#endif //LEVELDEVIL_SPIKE_HPP
+#endif //LEVELDEVIL_COIN_HPP
