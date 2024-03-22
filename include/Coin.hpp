@@ -1,9 +1,9 @@
 //
-// Created by User on 2024/3/6.
+// Created by User on 2024/3/22.
 //
 
-#ifndef LEVELDEVIL_DOOR_HPP
-#define LEVELDEVIL_DOOR_HPP
+#ifndef LEVELDEVIL_COIN_HPP
+#define LEVELDEVIL_COIN_HPP
 
 #include <string>
 #include <glm/vec2.hpp>
@@ -12,17 +12,13 @@
 #include "Util/Animation.hpp"
 #include "Animator.hpp"
 #include "Character.hpp"
-#include "Collider.hpp"
+#include "IBehaviour.hpp"
 
-class Door : public Util::GameObject, public IBehaviour {
+class Coin : public Util::GameObject, public IBehaviour {
 public:
-    enum State {
-        Idle,
-        Delay,
-        StageClear
-    };
+    explicit Coin(const std::string& image_path);
 
-    explicit Door();
+    void SetImage(const std::string& image_path);
 
     inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }
 
@@ -30,19 +26,19 @@ public:
 
     [[nodiscard]] inline glm::vec2 GetSize() const { return m_Drawable->GetSize(); }
 
-    [[nodiscard]] inline Collider GetCollider() const { return {GetPosition(), GetSize()}; }
+    [[nodiscard]] inline Collider GetCollider() const {
+        return { GetPosition(), GetSize() - glm::vec2(42, 42) };
+    }
 
-    void Update(const std::shared_ptr<Character> &character_);
+    void Update(const std::shared_ptr<Character>& character_) const;
 
     void Enable() override;
 
     void Disable() override;
 
 private:
-    Animator animator_;
-    float timer_ = 0.5;
-    State current_state_ = State::Idle;
+    std::string image_path_;
     bool enable_ = true;
 };
 
-#endif //LEVELDEVIL_DOOR_HPP
+#endif //LEVELDEVIL_COIN_HPP

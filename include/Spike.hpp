@@ -40,4 +40,4 @@ private:
     std::string image_path_;
 };
 
-#endif //LEVELDEVIL_Spike_HPP
+#endif //LEVELDEVIL_SPIKE_HPP
