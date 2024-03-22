@@ -24,7 +24,7 @@ Door::Door() : Util::GameObject() {
                      std::vector<std::string>{(RESOURCE_DIR"/image/door/in_door2.png"),
                                               (RESOURCE_DIR"/image/door/in_door3.png"),
                                               (RESOURCE_DIR"/image/door/in_door4.png"),
-                                              (RESOURCE_DIR"/image/door/in_door5.png")}, true, 1000,
+                                              (RESOURCE_DIR"/image/door/in_door5.png")}, true, 50,
                      false, 0)}});
 }
 
