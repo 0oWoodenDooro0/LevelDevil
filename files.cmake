@@ -9,6 +9,8 @@ set(SRC_FILES
     CollisionHandler.cpp
     Door.cpp
     DoorButton.cpp
+    Level1.cpp
+    LevelSelect.cpp
     Rigidbody.cpp
     SoundEffect.cpp
     Spike.cpp
@@ -28,6 +30,10 @@ set(INCLUDE_FILES
     Door.hpp
     DoorButton.hpp
     IBehaviour.hpp
+    ILevel.hpp
+    Level.hpp
+    Level1.hpp
+    LevelSelect.hpp
     Rigidbody.hpp
     SoundEffect.hpp
     Spike.hpp

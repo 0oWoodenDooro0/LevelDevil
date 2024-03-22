@@ -30,10 +30,10 @@ public:
     [[nodiscard]] inline glm::vec2 GetSize() const { return m_Drawable->GetSize(); }
 
     [[nodiscard]] inline Collider GetCollider() const {
-        return { GetPosition() - glm::vec2(0, 21), GetSize() - glm::vec2(0, 42) };
+        return {GetPosition() - glm::vec2(0, 21), GetSize() - glm::vec2(0, 42)};
     }
 
-    void Update(const std::shared_ptr<Character>& character_);
+    void Update(const std::shared_ptr<Character> &character_);
 
     void Enable() override;
 
