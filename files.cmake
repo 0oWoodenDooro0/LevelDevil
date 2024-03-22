@@ -5,6 +5,7 @@ set(SRC_FILES
     Background.cpp
     Button.cpp
     Character.cpp
+    Coin.cpp
     Collider.cpp
     CollisionHandler.cpp
     Door.cpp
@@ -25,6 +26,7 @@ set(INCLUDE_FILES
     Background.hpp
     Button.hpp
     Character.hpp
+    Coin.hpp
     Collider.hpp
     CollisionHandler.hpp
     Door.hpp

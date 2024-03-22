@@ -52,11 +52,9 @@ void Door::Update(const std::shared_ptr<Character> &character_) {
 }
 
 void Door::Enable() {
-    enable_ = true;
     SetVisible(true);
 }
 
 void Door::Disable() {
-    enable_ = false;
     SetVisible(false);
 }

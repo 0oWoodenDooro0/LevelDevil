@@ -30,7 +30,7 @@ public:
         return { GetPosition(), GetSize() - glm::vec2(42, 42) };
     }
 
-    void Update(const std::shared_ptr<Character>& character_) const;
+    void Update(const std::shared_ptr<Character>& character_);
 
     void Enable() override;
 
