@@ -13,7 +13,7 @@ void Level1::Start() {
     background_ = std::make_shared<Background>(RESOURCE_DIR"/image/background/test_background.png");
     root_.AddChild(background_);
     character_ = std::make_shared<Character>(audio_maganer_);
-    character_->SetPosition({0, 0});
+    character_->SetCheckPoint({0, 0});
     root_.AddChild(character_);
     door_ = std::make_shared<Door>();
     door_->SetPosition({128, -136});
