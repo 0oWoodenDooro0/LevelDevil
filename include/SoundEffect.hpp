@@ -12,8 +12,11 @@
 class SoundEffect {
 public:
     explicit SoundEffect(const std::string &path, float cooldown = 0);
+
     void Play();
+
     void Update();
+
 private:
     Util::SFX sfx_ = Util::SFX("");
     float initial_cooldown_, cooldown_;

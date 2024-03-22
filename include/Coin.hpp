@@ -18,7 +18,7 @@ class Coin : public Util::GameObject, public IBehaviour {
 public:
     explicit Coin();
 
-    void SetImage(const std::string& image_path);
+    void SetImage(const std::string &image_path);
 
     inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }
 
@@ -27,10 +27,10 @@ public:
     [[nodiscard]] inline glm::vec2 GetSize() const { return m_Drawable->GetSize(); }
 
     [[nodiscard]] inline Collider GetCollider() const {
-        return { GetPosition(), GetSize() - glm::vec2(42, 42) };
+        return {GetPosition(), GetSize() - glm::vec2(42, 42)};
     }
 
-    void Update(const std::shared_ptr<Character>& character_);
+    void Update(const std::shared_ptr<Character> &character_);
 
     void Enable() override;
 

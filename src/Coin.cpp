@@ -17,23 +17,24 @@ Coin::Coin() {
     SetZIndex(0);
 }
 
-void Coin::SetImage(const std::string& image_path) {
+void Coin::SetImage(const std::string &image_path) {
     image_path_ = image_path;
     m_Drawable = std::make_shared<Util::Image>(image_path);
 }
 
-void Coin::Update(const std::shared_ptr<Character>& character_){
+void Coin::Update(const std::shared_ptr<Character> &character_) {
     if (!enabled_)return;
-    if (CollisionHandler::CheckCollision(character_->GetCollider(), GetCollider()))
+    if (CollisionHandler::CheckCollision(character_->GetCollider(), GetCollider())){
         Disable();
+    }
 }
 
 void Coin::Enable() {
-    enabled_ = true;
     SetVisible(true);
+    enabled_ = true;
 }
 
 void Coin::Disable() {
-    enabled_ = false;
     SetVisible(false);
+    enabled_ = false;
 }

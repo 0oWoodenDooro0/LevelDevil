@@ -8,11 +8,9 @@
 
 class IBehaviour {
 public:
-
     virtual void Enable() = 0;
 
     virtual void Disable() = 0;
-
 };
 
 
