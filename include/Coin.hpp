@@ -16,7 +16,7 @@
 
 class Coin : public Util::GameObject, public IBehaviour {
 public:
-    explicit Coin(const std::string& image_path);
+    explicit Coin();
 
     void SetImage(const std::string& image_path);
 
@@ -38,7 +38,7 @@ public:
 
 private:
     std::string image_path_;
-    bool enable_ = true;
+    bool enabled_ = true;
 };
 
 #endif //LEVELDEVIL_COIN_HPP

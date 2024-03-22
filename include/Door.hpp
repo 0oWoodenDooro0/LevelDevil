@@ -42,7 +42,6 @@ private:
     Animator animator_;
     float timer_ = 0.5;
     State current_state_ = State::Idle;
-    bool enable_ = true;
 };
 
 #endif //LEVELDEVIL_DOOR_HPP

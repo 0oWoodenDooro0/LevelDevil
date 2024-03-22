@@ -12,8 +12,8 @@
 #include "Util/Input.hpp"
 #include "Character.hpp"
 
-Coin::Coin(const std::string& image_path) {
-    SetImage(image_path);
+Coin::Coin() {
+    SetImage(std::make_unique<Util::Image>(RESOURCE_DIR"/image/component/coin.png"));
     SetZIndex(0);
 }
 
@@ -23,17 +23,17 @@ void Coin::SetImage(const std::string& image_path) {
 }
 
 void Coin::Update(const std::shared_ptr<Character>& character_) const {
-    if (enable_==false)return;
+    if (enabled_==false)return;
     if (CollisionHandler::CheckCollision(character_->GetCollider(), GetCollider()))
         Disable();
 }
 
 void Coin::Enable() {
-    enable_ = true;
+    enabled_ = true;
     SetVisible(true);
 }
 
 void Coin::Disable() {
-    enable_ = false;
+    enabled_ = false;
     SetVisible(false);
 }
