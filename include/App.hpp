@@ -10,7 +10,7 @@ public:
     enum class State {
         START,
         UPDATE,
-        END,
+        END
     };
 
     [[nodiscard]] inline State GetCurrentState() const { return current_state_; }

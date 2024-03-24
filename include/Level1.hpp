@@ -12,6 +12,9 @@
 #include "Level.hpp"
 #include "Background.hpp"
 #include "Util/Root.hpp"
+#include "MovableSprite.hpp"
+#include "Button.hpp"
+#include "EscButton.hpp"
 
 class Level1 : public ILevel {
 public:
@@ -30,7 +33,9 @@ private:
 
     AudioManager audio_maganer_;
     std::shared_ptr<Background> background_;
+    std::shared_ptr<EscButton> button_;
     std::vector<std::shared_ptr<Sprite>> walls_;
+    std::vector<std::shared_ptr<MovableSprite>> movable_walls_;
     std::shared_ptr<Door> door_;
     std::shared_ptr<Character> character_;
 };

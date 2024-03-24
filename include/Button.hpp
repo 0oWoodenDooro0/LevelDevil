@@ -43,11 +43,11 @@ public:
 
     void Disable() override;
 
-    virtual void OnClick() {};
+    virtual void OnClick();
 
-    virtual void OnHover() {};
+    virtual void OnHover();
 
-    virtual void OnIdle() {};
+    virtual void OnIdle();
 
 private:
     Animator animator_;
