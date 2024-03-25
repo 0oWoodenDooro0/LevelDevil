@@ -46,7 +46,7 @@ public:
 
     void Revive();
 
-    void Dead();
+    void Dead(AudioManager::SFX sfx);
 
     void LevelClear();
 
