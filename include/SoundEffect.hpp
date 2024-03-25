@@ -18,7 +18,7 @@ public:
     void Update();
 
 private:
-    Util::SFX sfx_ = Util::SFX("");
+    Util::SFX sfx_;
     float initial_cooldown_, cooldown_;
 };
 
