@@ -18,7 +18,7 @@
 
 class Coin : public Util::GameObject, public IBehaviour {
 public:
-    explicit Coin();
+    explicit Coin(AudioManager audiomanager);
 
     void SetImage(const std::string &image_path);
 

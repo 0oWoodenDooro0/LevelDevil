@@ -12,7 +12,7 @@
 #include "Util/Input.hpp"
 #include "Character.hpp"
 
-Coin::Coin() {
+Coin::Coin(AudioManager audiomanager) :audiomanager_(std::move(audiomanager)){
     SetImage(RESOURCE_DIR"/image/component/coin.png");
     SetZIndex(0);
 }

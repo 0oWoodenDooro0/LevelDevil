@@ -25,6 +25,7 @@ public:
     explicit Button(const std::shared_ptr<Core::Drawable> &idle,
                     const std::shared_ptr<Core::Drawable> &hover,
                     const std::shared_ptr<Core::Drawable> &click,
+                    AudioManager audiomanager,
                     float z_index = 10);
 
     inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }

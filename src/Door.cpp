@@ -14,7 +14,7 @@
 #include "Animator.hpp"
 #include "Util/Logger.hpp"
 
-Door::Door() : Util::GameObject() {
+Door::Door(AudioManager audiomanager) : Util::GameObject(),audiomanager_(std::move(audiomanager)){
     SetZIndex(0);
     m_Drawable = std::make_unique<Util::Image>(RESOURCE_DIR"/image/door/door.png");
     animator_.SetAnimationStates(
@@ -42,6 +42,7 @@ void Door::Update(const std::shared_ptr<Character> &character_) {
         else {
             timer_ -= float(Util::Time::GetDeltaTime());
         }
+        return;
     }
     if (current_state_ == State::Delay) {
         if (timer_ <= 0) {

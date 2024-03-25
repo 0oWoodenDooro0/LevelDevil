@@ -4,7 +4,8 @@
 
 #include "DoorButton.hpp"
 
-DoorButton::DoorButton(const std::shared_ptr<Core::Drawable> &idle): Button(idle, idle, idle) {
+DoorButton::DoorButton(const std::shared_ptr<Core::Drawable> &idle,AudioManager audiomanager)
+                        : Button(idle, idle, idle,audiomanager) {
 
 }
 

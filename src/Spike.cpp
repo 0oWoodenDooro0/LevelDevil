@@ -12,7 +12,7 @@
 #include "Util/Input.hpp"
 #include "Character.hpp"
 
-Spike::Spike(const std::string &image_path) {
+Spike::Spike(const std::string &image_path,AudioManager audiomanager) : audiomanager_(std::move(audiomanager)){
     SetImage(image_path);
     SetZIndex(0);
 }

@@ -18,7 +18,7 @@
 
 class Spike : public Util::GameObject, public IBehaviour {
 public:
-    explicit Spike(const std::string &image_path);
+    explicit Spike(const std::string &image_path,AudioManager audiomanager);
 
     void SetImage(const std::string &image_path);
 

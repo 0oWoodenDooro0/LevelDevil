@@ -24,7 +24,7 @@ public:
         StageClear
     };
 
-    explicit Door();
+    explicit Door(AudioManager audiomanager);
 
     inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }
 
