@@ -9,7 +9,7 @@
 #include "glm/vec2.hpp"
 #include "Collider.hpp"
 
-class TriggerCollider : public Util::GameObject {
+class TriggerCollider {
 public:
     enum class State {
         Idle,
@@ -18,7 +18,7 @@ public:
 
     TriggerCollider() = default;
 
-    inline glm::vec2 GetPosition() { return m_Transform.translation; }
+    inline glm::vec2 GetPosition() { return position_; }
 
     inline glm::vec2 GetSize() { return size_; }
 
@@ -26,7 +26,7 @@ public:
 
     inline State GetState() { return current_state_; }
 
-    inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }
+    inline void SetPosition(glm::vec2 position) { position_ = position; }
 
     inline void SetSize(glm::vec2 size) { size_ = size; }
 
@@ -36,6 +36,7 @@ public:
 
 private:
     State current_state_ = State::Idle;
+    glm::vec2 position_ = {0, 0};
     glm::vec2 size_ = {0, 0};
 };
 
