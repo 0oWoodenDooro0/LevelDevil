@@ -5,15 +5,13 @@
 #include "Spring.hpp"
 
 #include <utility>
-#include <glm/vec2.hpp>
 #include "Util/Image.hpp"
 #include "Util/Time.hpp"
 #include "Animator.hpp"
 #include "CollisionHandler.hpp"
-#include "Util/Input.hpp"
 #include "Character.hpp"
 
-Spring::Spring(AudioManager audiomanager) :audiomanager_(std::move(audiomanager)){
+Spring::Spring(AudioManager audiomanager) : audiomanager_(std::move(audiomanager)) {
     SetZIndex(0);
     m_Drawable = std::make_unique<Util::Image>(RESOURCE_DIR"/image/component/springDown.png");
     animator_.SetAnimationStates(

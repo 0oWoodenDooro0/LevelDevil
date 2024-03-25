@@ -5,14 +5,12 @@
 #include "Coin.hpp"
 
 #include <utility>
-#include <glm/vec2.hpp>
 #include "Util/Image.hpp"
 #include "Util/Time.hpp"
 #include "CollisionHandler.hpp"
-#include "Util/Input.hpp"
 #include "Character.hpp"
 
-Coin::Coin(AudioManager audiomanager) :audiomanager_(std::move(audiomanager)){
+Coin::Coin(AudioManager audiomanager) : audiomanager_(std::move(audiomanager)) {
     SetImage(RESOURCE_DIR"/image/component/coin.png");
     SetZIndex(0);
 }
@@ -24,7 +22,7 @@ void Coin::SetImage(const std::string &image_path) {
 
 void Coin::Update(const std::shared_ptr<Character> &character_) {
     if (!enabled_)return;
-    if (CollisionHandler::CheckCollision(character_->GetCollider(), GetCollider())){
+    if (CollisionHandler::CheckCollision(character_->GetCollider(), GetCollider())) {
         audiomanager_.Play(AudioManager::SFX::Coin);
         Disable();
     }

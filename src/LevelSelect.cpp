@@ -18,7 +18,7 @@ void LevelSelect::Start() {
                                                 glm::vec2(404, -364), glm::vec2(620, -372), glm::vec2(728, -260)};
     for (int i = 0; i < 15; ++i) {
         auto door_button = std::make_shared<DoorButton>(
-                std::make_shared<Util::Image>(RESOURCE_DIR"/image/ui/unlock_door.png"),audio_manager_);
+                std::make_shared<Util::Image>(RESOURCE_DIR"/image/ui/unlock_door.png"), audio_manager_);
         door_button->SetPosition(door_positions[i]);
         auto button_hover = std::make_shared<Sprite>(std::make_shared<Util::Animation>(
                 std::vector<std::string>{(RESOURCE_DIR"/image/ui/door_hover1.png"),

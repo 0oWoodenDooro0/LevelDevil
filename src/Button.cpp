@@ -8,7 +8,7 @@
 
 Button::Button(const std::shared_ptr<Core::Drawable> &idle, const std::shared_ptr<Core::Drawable> &hover,
                const std::shared_ptr<Core::Drawable> &click, AudioManager audiomanager, float z_index)
-                : Util::GameObject(),audiomanager_(std::move(audiomanager)) {
+        : Util::GameObject(), audiomanager_(std::move(audiomanager)) {
     SetDrawable(idle);
     SetZIndex(z_index);
     animator_.SetAnimationStates({{"Idle",  idle},

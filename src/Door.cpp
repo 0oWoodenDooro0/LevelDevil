@@ -5,16 +5,13 @@
 #include "Door.hpp"
 
 #include <utility>
-#include <glm/vec2.hpp>
 #include "Util/Image.hpp"
 #include "Util/Time.hpp"
 #include "CollisionHandler.hpp"
-#include "Util/Input.hpp"
 #include "Character.hpp"
 #include "Animator.hpp"
-#include "Util/Logger.hpp"
 
-Door::Door(AudioManager audiomanager) : Util::GameObject(),audiomanager_(std::move(audiomanager)){
+Door::Door(AudioManager audiomanager) : Util::GameObject(), audiomanager_(std::move(audiomanager)) {
     SetZIndex(0);
     m_Drawable = std::make_unique<Util::Image>(RESOURCE_DIR"/image/door/door.png");
     animator_.SetAnimationStates(
@@ -37,9 +34,8 @@ void Door::Update(const std::shared_ptr<Character> &character_) {
     if (current_state_ == State::StageClear) {
         if (timer_ <= 0) {
             audiomanager_.Play(AudioManager::SFX::StageClear);
-                Disable();
-        }
-        else {
+            Disable();
+        } else {
             timer_ -= float(Util::Time::GetDeltaTime());
         }
         return;
