@@ -10,6 +10,7 @@
 #include "Animator.hpp"
 #include "Collider.hpp"
 #include "Util/Image.hpp"
+#include "Util/SFX.hpp"
 #include "IBehaviour.hpp"
 #include "AudioManager.hpp"
 #include "SoundEffect.hpp"

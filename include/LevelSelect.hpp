@@ -13,6 +13,7 @@
 #include "Background.hpp"
 #include "Level.hpp"
 #include "Util/Root.hpp"
+#include "AudioManager.hpp"
 
 class LevelSelect : public ILevel {
 public:
