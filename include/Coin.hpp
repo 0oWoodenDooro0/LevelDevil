@@ -13,10 +13,12 @@
 #include "Animator.hpp"
 #include "Character.hpp"
 #include "IBehaviour.hpp"
+#include "AudioManager.hpp"
+#include "SoundEffect.hpp"
 
 class Coin : public Util::GameObject, public IBehaviour {
 public:
-    explicit Coin();
+    explicit Coin(AudioManager audiomanager);
 
     void SetImage(const std::string &image_path);
 
@@ -37,6 +39,7 @@ public:
     void Disable() override;
 
 private:
+    AudioManager audiomanager_;
     std::string image_path_;
     bool enabled_ = true;
 };

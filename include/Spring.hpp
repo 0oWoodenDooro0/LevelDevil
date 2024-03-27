@@ -21,7 +21,7 @@ public:
         Down
     };
 
-    explicit Spring();
+    explicit Spring(AudioManager audiomanager);
 
     inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }
 
@@ -41,6 +41,7 @@ public:
 
 private:
     Animator animator_;
+    AudioManager audiomanager_;
     float timer_ = 0.5;
     State current_state_ = State::Down;
 };

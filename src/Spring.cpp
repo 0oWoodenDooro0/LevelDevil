@@ -5,15 +5,13 @@
 #include "Spring.hpp"
 
 #include <utility>
-#include <glm/vec2.hpp>
 #include "Util/Image.hpp"
 #include "Util/Time.hpp"
 #include "Animator.hpp"
 #include "CollisionHandler.hpp"
-#include "Util/Input.hpp"
 #include "Character.hpp"
 
-Spring::Spring() {
+Spring::Spring(AudioManager audiomanager) : audiomanager_(std::move(audiomanager)) {
     SetZIndex(0);
     m_Drawable = std::make_unique<Util::Image>(RESOURCE_DIR"/image/component/springDown.png");
     animator_.SetAnimationStates(
@@ -33,6 +31,7 @@ void Spring::Update(const std::shared_ptr<Character> &character_) {
     }
     if (CollisionHandler::CheckCollision(character_->GetCollider(), GetCollider())) {
         animator_.UpdateAnimationState("Up", set_drawable_function);
+        audiomanager_.Play(AudioManager::SFX::Bounce);
         current_state_ = State::Up;
         character_->Bounce();
         timer_ = 0.5;

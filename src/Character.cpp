@@ -137,10 +137,12 @@ bool Character::isJumpPressed() {
 
 void Character::Revive() {
     Enable();
+    audioManager_.Play(AudioManager::SFX::Revive);
 }
 
-void Character::Dead() {
+void Character::Dead(AudioManager::SFX sfx) {
     Disable();
+    audioManager_.Play(sfx);
     rigidbody_.ResetVelocity();
     rigidbody_.ResetAcceleration();
     animator_.UpdateAnimationState("Idle", [&](const std::shared_ptr<Core::Drawable> &drawable) {
@@ -156,4 +158,5 @@ void Character::LevelClear() {
 
 void Character::Bounce() {
     rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, spring_height_});
+    audioManager_.Play(AudioManager::SFX::Bounce);
 }

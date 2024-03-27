@@ -10,7 +10,10 @@
 #include "Animator.hpp"
 #include "Collider.hpp"
 #include "Util/Image.hpp"
+#include "Util/SFX.hpp"
 #include "IBehaviour.hpp"
+#include "AudioManager.hpp"
+#include "SoundEffect.hpp"
 
 class Button : public Util::GameObject, public IBehaviour {
 public:
@@ -23,6 +26,7 @@ public:
     explicit Button(const std::shared_ptr<Core::Drawable> &idle,
                     const std::shared_ptr<Core::Drawable> &hover,
                     const std::shared_ptr<Core::Drawable> &click,
+                    AudioManager audiomanager,
                     float z_index = 10);
 
     inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }
@@ -50,6 +54,7 @@ public:
     virtual void OnIdle();
 
 private:
+    AudioManager audiomanager_;
     Animator animator_;
     State current_state_ = State::Idle;
 };
