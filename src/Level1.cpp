@@ -6,8 +6,8 @@
 
 #include <utility>
 
-Level1::Level1(std::function<void(Level::State)> set_level_state_function) : set_level_state_function_(
-        std::move(set_level_state_function)) {}
+Level1::Level1(AudioManager audio_manager, std::function<void(Level::State)> set_level_state_function)
+        : set_level_state_function_(std::move(set_level_state_function)), audio_maganer_(std::move(audio_manager)) {}
 
 void Level1::Start() {
     background_ = std::make_shared<Background>(RESOURCE_DIR"/image/level/level1/background.png");
@@ -46,12 +46,14 @@ void Level1::Start() {
     walls_[5]->SetPosition({256, -320});
 
     triggerColliders_.push_back(std::make_shared<TriggerCollider>(Collider({-200, 0}, {20, 1000})));
-    triggerColliders_.push_back(std::make_shared<TriggerCollider>(Collider({256, 0}, {20, 1000})));
+    triggerColliders_.push_back(std::make_shared<TriggerCollider>(Collider({275, 0}, {20, 1000})));
 }
 
 void Level1::Update() {
-    audio_maganer_.Update();
-
+    if (character_->GetPosition().y < -480) {
+        character_->Dead();
+        ResetLevel();
+    }
     button_->Update();
     if (button_->GetState() == Button::State::Click) {
         set_level_state_function_(Level::State::LEVEL_SELECT);
@@ -60,18 +62,6 @@ void Level1::Update() {
     character_->Update(walls_);
     door_->Update(character_);
 
-    triggerColliders_[0]->Update(character_->GetPosition());
-    triggerColliders_[1]->Update(character_->GetPosition());
-    if (triggerColliders_[0]->GetState() == TriggerCollider::State::Trigger) {
-        current_state_ = State::Move1;
-    }
-    if (triggerColliders_[1]->GetState() == TriggerCollider::State::Trigger) {
-        current_state_ = State::Move2;
-    }
-    if (character_->GetPosition().y < -480){
-        character_->Dead();
-        ResetLevel();
-    }
     switch (current_state_) {
         case State::Start:
             break;
@@ -81,8 +71,16 @@ void Level1::Update() {
         case State::Move2:
             movable_walls_[0]->SetPosition({1000, 1000});
             movable_walls_[0]->Disable();
-            movable_walls_[1]->Move({192, -320}, 250);
+            movable_walls_[1]->Move({192, -320}, 5);
             break;
+    }
+    triggerColliders_[0]->Update(character_->GetPosition());
+    triggerColliders_[1]->Update(character_->GetPosition());
+    if (triggerColliders_[0]->GetState() == TriggerCollider::State::Trigger) {
+        UpdateState(State::Move1);
+    }
+    if (triggerColliders_[1]->GetState() == TriggerCollider::State::Trigger) {
+        UpdateState(State::Move2);
     }
 
     root_.Update();
@@ -97,4 +95,24 @@ void Level1::ResetLevel() {
     movable_walls_[1]->SetPosition({256, -320});
     current_state_ = State::Start;
     movable_walls_[0]->Enable();
+}
+
+void Level1::UpdateState(Level1::State state) {
+    if (current_state_ == state)return;
+    switch (current_state_) {
+        case State::Start:
+            if (state == State::Move1){
+                current_state_ = state;
+                audio_maganer_.Play(AudioManager::SFX::WallTrap);
+            }
+            break;
+        case State::Move1:
+            if (state == State::Move2){
+                current_state_ = state;
+                audio_maganer_.Play(AudioManager::SFX::WallTrap);
+            }
+            break;
+        case State::Move2:
+            break;
+    }
 }

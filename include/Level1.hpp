@@ -25,7 +25,7 @@ public:
         Move2
     };
 
-    explicit Level1(std::function<void(Level::State)> set_level_state_function);
+    explicit Level1(AudioManager audio_manager, std::function<void(Level::State)> set_level_state_function);
 
     void Start() override;
 
@@ -34,6 +34,8 @@ public:
     void End() override;
 
     void ResetLevel();
+
+    void UpdateState(State state);
 
 private:
     Util::Root root_;
