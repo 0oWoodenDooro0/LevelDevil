@@ -30,19 +30,13 @@ public:
 
     [[nodiscard]] inline Collider GetCollider() const { return {GetPosition() - glm::vec2(2, 6), {32, 52}}; }
 
-    void Update(const std::vector<std::shared_ptr<Sprite>> &walls);
+    void Move(glm::vec2 input_velocity, const std::vector<std::shared_ptr<Sprite>> &walls);
 
     void Enable() override;
 
     void Disable() override;
 
     [[nodiscard]] bool GroundCheck(const std::vector<std::shared_ptr<Sprite>> &others) const;
-
-    static bool isForwardPressed();
-
-    static bool isBackwardPressed();
-
-    static bool isJumpPressed();
 
     void Revive();
 

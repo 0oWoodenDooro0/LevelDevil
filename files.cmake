@@ -11,6 +11,7 @@ set(SRC_FILES
     Door.cpp
     DoorButton.cpp
     EscButton.cpp
+    InputHandler.cpp
     Level1.cpp
     LevelSelect.cpp
     MovableSprite.cpp
@@ -37,6 +38,7 @@ set(INCLUDE_FILES
     EscButton.hpp
     IBehaviour.hpp
     ILevel.hpp
+    InputHandler.hpp
     Level.hpp
     Level1.hpp
     LevelSelect.hpp
