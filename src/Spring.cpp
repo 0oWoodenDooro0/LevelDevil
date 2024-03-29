@@ -11,7 +11,7 @@
 #include "CollisionHandler.hpp"
 #include "Character.hpp"
 
-Spring::Spring(AudioManager audiomanager) : audiomanager_(std::move(audiomanager)) {
+Spring::Spring(AudioManager audio_manager) : audio_manager_(std::move(audio_manager)) {
     SetZIndex(0);
     m_Drawable = std::make_unique<Util::Image>(RESOURCE_DIR"/image/component/springDown.png");
     animator_.SetAnimationStates(
@@ -31,7 +31,7 @@ void Spring::Update(const std::shared_ptr<Character> &character_) {
     }
     if (CollisionHandler::CheckCollision(character_->GetCollider(), GetCollider())) {
         animator_.UpdateAnimationState("Up", set_drawable_function);
-        audiomanager_.Play(AudioManager::SFX::Bounce);
+        audio_manager_.Play(AudioManager::SFX::Bounce);
         current_state_ = State::Up;
         character_->Bounce();
         timer_ = 0.5;

@@ -12,7 +12,7 @@ Level1::Level1(std::function<void(Level::State)> set_level_state_function) : set
 void Level1::Start() {
     background_ = std::make_shared<Background>(RESOURCE_DIR"/image/level/level1/background.png");
     root_.AddChild(background_);
-    button_ = std::make_shared<EscButton>();
+    button_ = std::make_shared<EscButton>(audio_maganer_);
     button_->SetPosition({-800, 416});
     root_.AddChild(button_);
     character_ = std::make_shared<Character>(audio_maganer_);
@@ -44,6 +44,9 @@ void Level1::Start() {
     }
     walls_[4]->SetPosition({-288, -320});
     walls_[5]->SetPosition({256, -320});
+
+    triggerColliders_.push_back(std::make_shared<TriggerCollider>(Collider({-200, 0}, {20, 1000})));
+    triggerColliders_.push_back(std::make_shared<TriggerCollider>(Collider({256, 0}, {20, 1000})));
 }
 
 void Level1::Update() {
@@ -56,6 +59,27 @@ void Level1::Update() {
 
     character_->Update(walls_);
     door_->Update(character_);
+
+    triggerColliders_[0]->Update(character_->GetPosition());
+    triggerColliders_[1]->Update(character_->GetPosition());
+    if (triggerColliders_[0]->GetState() == TriggerCollider::State::Trigger) {
+        current_state_ = State::Move1;
+    }
+    if (triggerColliders_[1]->GetState() == TriggerCollider::State::Trigger) {
+        current_state_ = State::Move2;
+    }
+    switch (current_state_) {
+        case State::Start:
+            break;
+        case State::Move1:
+            movable_walls_[0]->Move({480, -320}, 750);
+            break;
+        case State::Move2:
+            movable_walls_[0]->SetPosition({1000, 1000});
+            movable_walls_[0]->Disable();
+            movable_walls_[1]->Move({192, -320}, 250);
+            break;
+    }
 
     root_.Update();
 }

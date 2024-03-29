@@ -20,7 +20,7 @@
 
 class Character : public Util::GameObject, public IBehaviour {
 public:
-    explicit Character(AudioManager audioManager);
+    explicit Character(AudioManager audio_manager);
 
     inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }
 
@@ -28,7 +28,7 @@ public:
 
     [[nodiscard]] inline glm::vec2 GetPosition() const { return m_Transform.translation; }
 
-    [[nodiscard]] inline Collider GetCollider() const { return {GetPosition() - glm::vec2(2, 6), {36, 52}}; }
+    [[nodiscard]] inline Collider GetCollider() const { return {GetPosition() - glm::vec2(2, 6), {32, 52}}; }
 
     void Update(const std::vector<std::shared_ptr<Sprite>> &walls);
 
@@ -55,7 +55,7 @@ public:
 private:
     Animator animator_;
     Rigidbody rigidbody_;
-    AudioManager audioManager_;
+    AudioManager audio_manager_;
 
     glm::vec2 check_point_ = {0, 0};
     float move_speed_ = 350;

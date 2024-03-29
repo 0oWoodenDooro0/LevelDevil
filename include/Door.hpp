@@ -24,7 +24,7 @@ public:
         StageClear
     };
 
-    explicit Door(AudioManager audiomanager);
+    explicit Door(AudioManager audio_manager);
 
     inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }
 
@@ -41,7 +41,7 @@ public:
     void Disable() override;
 
 private:
-    AudioManager audiomanager_;
+    AudioManager audio_manager_;
     Animator animator_;
     float timer_ = 0.5;
     State current_state_ = State::Idle;

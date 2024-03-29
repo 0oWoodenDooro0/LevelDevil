@@ -10,7 +10,7 @@
 #include "CollisionHandler.hpp"
 #include "Character.hpp"
 
-Spike::Spike(const std::string &image_path, AudioManager audiomanager) : audiomanager_(std::move(audiomanager)) {
+Spike::Spike(const std::string &image_path, AudioManager audio_manager) : audio_manager_(std::move(audio_manager)) {
     SetImage(image_path);
     SetZIndex(0);
 }

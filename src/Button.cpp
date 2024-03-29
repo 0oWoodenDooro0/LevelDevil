@@ -7,8 +7,8 @@
 #include "CollisionHandler.hpp"
 
 Button::Button(const std::shared_ptr<Core::Drawable> &idle, const std::shared_ptr<Core::Drawable> &hover,
-               const std::shared_ptr<Core::Drawable> &click, AudioManager audiomanager, float z_index)
-        : Util::GameObject(), audiomanager_(std::move(audiomanager)) {
+               const std::shared_ptr<Core::Drawable> &click, AudioManager audio_manager, float z_index)
+        : Util::GameObject(), audio_manager_(std::move(audio_manager)) {
     SetDrawable(idle);
     SetZIndex(z_index);
     animator_.SetAnimationStates({{"Idle",  idle},
@@ -28,7 +28,7 @@ void Button::UpdateState(Button::State state) {
             break;
         case State::Click:
             OnClick();
-            audiomanager_.Play(AudioManager::SFX::Button);
+            audio_manager_.Play(AudioManager::SFX::Button);
             break;
     }
 }

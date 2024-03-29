@@ -10,7 +10,7 @@
 #include "CollisionHandler.hpp"
 #include "Util/Input.hpp"
 
-Character::Character(AudioManager audioManager) : Util::GameObject(), audioManager_(std::move(audioManager)) {
+Character::Character(AudioManager audio_manager) : Util::GameObject(), audio_manager_(std::move(audio_manager)) {
     SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/image/character/idle/man_idle.png"));
     SetZIndex(1);
     animator_.SetAnimationStates(
@@ -88,11 +88,11 @@ void Character::Update(const std::vector<std::shared_ptr<Sprite>> &walls) {
     }
     is_run_ = abs(input_velocity.x) > 0;
     if (is_run_ && isGrounded) {
-        audioManager_.Play(AudioManager::SFX::Run);
+        audio_manager_.Play(AudioManager::SFX::Run);
     }
     if (input_velocity.y > 0 && isGrounded) {
         rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, jump_height_});
-        audioManager_.Play(AudioManager::SFX::Jump);
+        audio_manager_.Play(AudioManager::SFX::Jump);
     }
     rigidbody_.SetVelocity(
             {float(move_speed_ * input_velocity.x * Util::Time::GetDeltaTime()), rigidbody_.GetVelocity().y});
@@ -137,12 +137,12 @@ bool Character::isJumpPressed() {
 
 void Character::Revive() {
     Enable();
-    audioManager_.Play(AudioManager::SFX::Revive);
+    audio_manager_.Play(AudioManager::SFX::Revive);
 }
 
 void Character::Dead(AudioManager::SFX sfx) {
     Disable();
-    audioManager_.Play(sfx);
+    audio_manager_.Play(sfx);
     rigidbody_.ResetVelocity();
     rigidbody_.ResetAcceleration();
     animator_.UpdateAnimationState("Idle", [&](const std::shared_ptr<Core::Drawable> &drawable) {
@@ -158,5 +158,5 @@ void Character::LevelClear() {
 
 void Character::Bounce() {
     rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, spring_height_});
-    audioManager_.Play(AudioManager::SFX::Bounce);
+    audio_manager_.Play(AudioManager::SFX::Bounce);
 }

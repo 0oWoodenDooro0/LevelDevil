@@ -26,6 +26,8 @@ public:
     void Enable() override;
 
     void Disable() override;
+
+    bool enabled = true;
 };
 
 

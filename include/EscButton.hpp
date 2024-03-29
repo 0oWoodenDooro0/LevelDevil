@@ -9,7 +9,7 @@
 
 class EscButton : public Button {
 public:
-    EscButton();
+    explicit EscButton(AudioManager audio_manager);
 };
 
 

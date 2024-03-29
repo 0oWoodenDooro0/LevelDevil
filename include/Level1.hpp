@@ -15,9 +15,16 @@
 #include "MovableSprite.hpp"
 #include "Button.hpp"
 #include "EscButton.hpp"
+#include "TriggerCollider.hpp"
 
 class Level1 : public ILevel {
 public:
+    enum class State{
+        Start,
+        Move1,
+        Move2
+    };
+
     explicit Level1(std::function<void(Level::State)> set_level_state_function);
 
     void Start() override;
@@ -28,6 +35,7 @@ public:
 
 private:
     Util::Root root_;
+    State current_state_ = State::Start;
 
     std::function<void(Level::State)> set_level_state_function_;
 
@@ -36,6 +44,7 @@ private:
     std::shared_ptr<EscButton> button_;
     std::vector<std::shared_ptr<Sprite>> walls_;
     std::vector<std::shared_ptr<MovableSprite>> movable_walls_;
+    std::vector<std::shared_ptr<TriggerCollider>> triggerColliders_;
     std::shared_ptr<Door> door_;
     std::shared_ptr<Character> character_;
 };
