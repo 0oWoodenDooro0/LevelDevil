@@ -68,6 +68,10 @@ void Level1::Update() {
     if (triggerColliders_[1]->GetState() == TriggerCollider::State::Trigger) {
         current_state_ = State::Move2;
     }
+    if (character_->GetPosition().y < -480){
+        character_->Dead();
+        ResetLevel();
+    }
     switch (current_state_) {
         case State::Start:
             break;
@@ -86,4 +90,11 @@ void Level1::Update() {
 
 void Level1::End() {
 
+}
+
+void Level1::ResetLevel() {
+    movable_walls_[0]->SetPosition({-288, -320});
+    movable_walls_[1]->SetPosition({256, -320});
+    current_state_ = State::Start;
+    movable_walls_[0]->Enable();
 }

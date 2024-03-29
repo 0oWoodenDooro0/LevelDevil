@@ -140,9 +140,9 @@ void Character::Revive() {
     audio_manager_.Play(AudioManager::SFX::Revive);
 }
 
-void Character::Dead(AudioManager::SFX sfx) {
+void Character::Dead() {
     Disable();
-    audio_manager_.Play(sfx);
+    audio_manager_.Play(AudioManager::SFX::Dead);
     rigidbody_.ResetVelocity();
     rigidbody_.ResetAcceleration();
     animator_.UpdateAnimationState("Idle", [&](const std::shared_ptr<Core::Drawable> &drawable) {

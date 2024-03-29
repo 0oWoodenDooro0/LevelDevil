@@ -33,6 +33,8 @@ public:
 
     void End() override;
 
+    void ResetLevel();
+
 private:
     Util::Root root_;
     State current_state_ = State::Start;
