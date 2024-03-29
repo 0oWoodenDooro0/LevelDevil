@@ -46,14 +46,6 @@ void Character::SetCheckPoint(glm::vec2 check_point) {
 }
 
 void Character::Move(glm::vec2 input_velocity, const std::vector<std::shared_ptr<Sprite>> &walls) {
-    if (!enabled_) {
-        if (!level_clear_ &&
-            (InputHandler::isForwardPressed() || InputHandler::isBackwardPressed() || InputHandler::isJumpPressed())) {
-            Revive();
-        }
-        return;
-    }
-
     std::function<void(std::shared_ptr<Core::Drawable>)> set_drawable_function = [&](
             const std::shared_ptr<Core::Drawable> &drawable) { this->SetDrawable(drawable); };
     auto isGrounded = GroundCheck(walls);
@@ -117,6 +109,7 @@ bool Character::GroundCheck(const std::vector<std::shared_ptr<Sprite>> &others) 
 
 void Character::Revive() {
     Enable();
+    UpdateState(State::Alive);
     audio_manager_.Play(AudioManager::SFX::Revive);
 }
 
@@ -139,4 +132,19 @@ void Character::LevelClear() {
 void Character::Bounce() {
     rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, spring_height_});
     audio_manager_.Play(AudioManager::SFX::Bounce);
+}
+
+void Character::UpdateState(Character::State state) {
+    if (current_state_ == state) return;
+    current_state_ = state;
+    switch (current_state_) {
+        case State::Alive:
+            break;
+        case State::Dead:
+            Dead();
+            break;
+        case State::LevelClear:
+            LevelClear();
+            break;
+    }
 }

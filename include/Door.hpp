@@ -34,6 +34,8 @@ public:
 
     [[nodiscard]] inline Collider GetCollider() const { return {GetPosition(), GetSize()}; }
 
+    [[nodiscard]] inline bool GetEnabled() const { return enabled_; }
+
     void Update(const std::shared_ptr<Character> &character_);
 
     void Enable() override;
@@ -41,10 +43,10 @@ public:
     void Disable() override;
 
 private:
+    State current_state_ = State::Idle;
     AudioManager audio_manager_;
     Animator animator_;
     float timer_ = 0.5;
-    State current_state_ = State::Idle;
     bool enabled_ = true;
 };
 

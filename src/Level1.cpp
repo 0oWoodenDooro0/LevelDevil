@@ -3,6 +3,7 @@
 //
 
 #include "Level1.hpp"
+#include "InputHandler.hpp"
 
 #include <utility>
 
@@ -50,17 +51,29 @@ void Level1::Start() {
 }
 
 void Level1::Update() {
-    if (character_->GetPosition().y < -480) {
-        character_->Dead();
-        ResetLevel();
+    if (character_->GetEnabled()) {
+        if (character_->GetPosition().y < -480) {
+            character_->UpdateState(Character::State::Dead);
+        }
+        auto input_vector = InputHandler::GetCharacterMoveVelocity();
+        character_->Move(input_vector, walls_);
+    } else {
+        if (character_->GetCurrentState() != Character::State::LevelClear &&
+            (InputHandler::isForwardPressed() || InputHandler::isBackwardPressed() || InputHandler::isJumpPressed())) {
+            character_->Revive();
+            ResetLevel();
+        }
     }
+
     button_->Update();
     if (button_->GetState() == Button::State::Click) {
         set_level_state_function_(Level::State::LEVEL_SELECT);
     }
 
-    character_->Update(walls_);
     door_->Update(character_);
+    if (!door_->GetEnabled()) {
+        set_level_state_function_(Level::State::LEVEL_SELECT);
+    }
 
     switch (current_state_) {
         case State::Start:
@@ -74,6 +87,7 @@ void Level1::Update() {
             movable_walls_[1]->Move({192, -320}, 5);
             break;
     }
+
     triggerColliders_[0]->Update(character_->GetPosition());
     triggerColliders_[1]->Update(character_->GetPosition());
     if (triggerColliders_[0]->GetState() == TriggerCollider::State::Trigger) {
@@ -101,13 +115,13 @@ void Level1::UpdateState(Level1::State state) {
     if (current_state_ == state)return;
     switch (current_state_) {
         case State::Start:
-            if (state == State::Move1){
+            if (state == State::Move1) {
                 current_state_ = state;
                 audio_maganer_.Play(AudioManager::SFX::WallTrap);
             }
             break;
         case State::Move1:
-            if (state == State::Move2){
+            if (state == State::Move2) {
                 current_state_ = state;
                 audio_maganer_.Play(AudioManager::SFX::WallTrap);
             }
