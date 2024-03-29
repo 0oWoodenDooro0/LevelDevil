@@ -11,6 +11,8 @@ set(SRC_FILES
     Door.cpp
     DoorButton.cpp
     Level1.cpp
+    Level2.cpp
+    LevelButton.cpp
     LevelSelect.cpp
     Rigidbody.cpp
     SoundEffect.cpp
@@ -36,6 +38,8 @@ set(INCLUDE_FILES
     ILevel.hpp
     Level.hpp
     Level1.hpp
+    Level2.hpp
+    LevelButton.hpp
     LevelSelect.hpp
     Rigidbody.hpp
     SoundEffect.hpp

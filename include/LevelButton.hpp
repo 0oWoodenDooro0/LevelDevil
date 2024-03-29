@@ -11,6 +11,8 @@
 #include "Util/Image.hpp"
 #include "Util/Animation.hpp"
 #include "Animator.hpp"
+#include "AudioManager.hpp"
+#include "SoundEffect.hpp"
 #include "Character.hpp"
 #include "IBehaviour.hpp"
 
@@ -21,7 +23,7 @@ public:
         Down
     };
 
-    explicit LevelButton();
+    explicit LevelButton(AudioManager audiomanager);
 
     inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }
 
@@ -41,6 +43,7 @@ public:
 
 private:
     Animator animator_;
+    AudioManager audiomanager_;
     float timer_ = 0.5;
     State current_state_ = State::Down;
 };
