@@ -11,6 +11,16 @@ Level1::Level1(AudioManager audio_manager, std::function<void(Level::State)> set
         : set_level_state_function_(std::move(set_level_state_function)), audio_maganer_(std::move(audio_manager)) {}
 
 void Level1::Start() {
+    auto top = std::make_shared<MovableSprite>(
+            std::make_shared<Util::Image>(RESOURCE_DIR"/image/ui/transition_top.png"), 20);
+    auto bottom = std::make_shared<MovableSprite>(
+            std::make_shared<Util::Image>(RESOURCE_DIR"/image/ui/transition_bottom.png"), 20);
+    top->SetPosition({0, 208});
+    bottom->SetPosition({0, -210});
+    transitions_.push_back(top);
+    transitions_.push_back(bottom);
+    root_.AddChild(top);
+    root_.AddChild(bottom);
     background_ = std::make_shared<Background>(RESOURCE_DIR"/image/level/level1/background.png");
     root_.AddChild(background_);
     button_ = std::make_shared<EscButton>(audio_maganer_);
@@ -67,15 +77,24 @@ void Level1::Update() {
 
     button_->Update();
     if (button_->GetState() == Button::State::Click) {
-        set_level_state_function_(Level::State::LEVEL_SELECT);
+        level_ = Level::State::LEVEL_SELECT;
     }
 
     door_->Update(character_);
     if (!door_->GetEnabled()) {
-        set_level_state_function_(Level::State::LEVEL_SELECT);
+        level_ = Level::State::LEVEL_SELECT;
+        UpdateCurrentState(State::Outro);
     }
 
     switch (current_state_) {
+        case State::Intro:
+            transitions_[0]->Move({0, 752}, 750);
+            transitions_[1]->Move({0, -750}, 750);
+            if (transitions_[0]->GetPosition() == glm::vec2{0, 752} &&
+                transitions_[1]->GetPosition() == glm::vec2{0, -750}) {
+                UpdateCurrentState(State::Start);
+            }
+            break;
         case State::Start:
             break;
         case State::Move1:
@@ -86,15 +105,23 @@ void Level1::Update() {
             movable_walls_[0]->Disable();
             movable_walls_[1]->Move({192, -320}, 5);
             break;
+        case State::Outro:
+            transitions_[0]->Move({0, 208}, 750);
+            transitions_[1]->Move({0, -210}, 750);
+            if (transitions_[0]->GetPosition() == glm::vec2{0, 208} &&
+                transitions_[1]->GetPosition() == glm::vec2{0, -210}) {
+                set_level_state_function_(level_);
+            }
+            break;
     }
 
     triggerColliders_[0]->Update(character_->GetPosition());
     triggerColliders_[1]->Update(character_->GetPosition());
     if (triggerColliders_[0]->GetState() == TriggerCollider::State::Trigger) {
-        UpdateState(State::Move1);
+        UpdateCurrentState(State::Move1);
     }
     if (triggerColliders_[1]->GetState() == TriggerCollider::State::Trigger) {
-        UpdateState(State::Move2);
+        UpdateCurrentState(State::Move2);
     }
 
     root_.Update();
@@ -111,9 +138,14 @@ void Level1::ResetLevel() {
     movable_walls_[0]->Enable();
 }
 
-void Level1::UpdateState(Level1::State state) {
+void Level1::UpdateCurrentState(State state) {
     if (current_state_ == state)return;
     switch (current_state_) {
+        case State::Intro:
+            if (state == State::Start) {
+                current_state_ = state;
+            }
+            break;
         case State::Start:
             if (state == State::Move1) {
                 current_state_ = state;
@@ -127,6 +159,11 @@ void Level1::UpdateState(Level1::State state) {
             }
             break;
         case State::Move2:
+            if (state == State::Outro) {
+                current_state_ = state;
+            }
+            break;
+        case State::Outro:
             break;
     }
 }
