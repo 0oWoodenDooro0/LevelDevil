@@ -84,7 +84,7 @@ void Level1::Update() {
         case State::Move2:
             movable_walls_[0]->SetPosition({1000, 1000});
             movable_walls_[0]->Disable();
-            movable_walls_[1]->Move({192, -320}, 5);
+            movable_walls_[1]->Move({192, -320}, 500);
             break;
     }
 

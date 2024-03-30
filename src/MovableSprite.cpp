@@ -13,10 +13,10 @@ void MovableSprite::Move(glm::vec2 target_position, float speed) {
     auto normalize = vector / hypot(vector.x, vector.y);
     if (hypot(vector.x, vector.y) != 0) {
         auto position = speed * float(Util::Time::GetDeltaTime()) * normalize;
-        if (abs(position.x) > abs(vector.x)) {
-            SetPosition(target_position);
-        } else {
+        if (abs(position.x) < abs(vector.x) || abs(position.y) < abs(vector.y)) {
             SetPosition(GetPosition() + position);
+        } else {
+            SetPosition(target_position);
         }
     }
 }
