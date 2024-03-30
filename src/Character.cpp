@@ -9,6 +9,7 @@
 #include "Util/Time.hpp"
 #include "CollisionHandler.hpp"
 #include "Util/Input.hpp"
+#include "InputHandler.hpp"
 
 Character::Character(AudioManager audio_manager) : Util::GameObject(), audio_manager_(std::move(audio_manager)) {
     SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/image/character/idle/man_idle.png"));
@@ -44,23 +45,7 @@ void Character::SetCheckPoint(glm::vec2 check_point) {
     check_point_ = check_point;
 }
 
-void Character::Update(const std::vector<std::shared_ptr<Sprite>> &walls) {
-    if (!enabled_) {
-        if (!level_clear_ && (isForwardPressed() || isBackwardPressed() || isJumpPressed())) {
-            Revive();
-        }
-        return;
-    }
-
-    glm::vec2 input_velocity = {0, 0};
-    if (isForwardPressed()) {
-        input_velocity.x = 1;
-    } else if (isBackwardPressed()) {
-        input_velocity.x = -1;
-    }
-    if (isJumpPressed()) {
-        input_velocity.y = 1;
-    }
+void Character::Move(glm::vec2 input_velocity, const std::vector<std::shared_ptr<Sprite>> &walls) {
     std::function<void(std::shared_ptr<Core::Drawable>)> set_drawable_function = [&](
             const std::shared_ptr<Core::Drawable> &drawable) { this->SetDrawable(drawable); };
     auto isGrounded = GroundCheck(walls);
@@ -122,21 +107,9 @@ bool Character::GroundCheck(const std::vector<std::shared_ptr<Sprite>> &others) 
     return false;
 }
 
-bool Character::isForwardPressed() {
-    return Util::Input::IsKeyPressed(Util::Keycode::D) || Util::Input::IsKeyPressed(Util::Keycode::RIGHT);
-}
-
-bool Character::isBackwardPressed() {
-    return Util::Input::IsKeyPressed(Util::Keycode::A) || Util::Input::IsKeyPressed(Util::Keycode::LEFT);
-}
-
-bool Character::isJumpPressed() {
-    return Util::Input::IsKeyDown(Util::Keycode::W) || Util::Input::IsKeyDown(Util::Keycode::SPACE) ||
-           Util::Input::IsKeyDown(Util::Keycode::UP);
-}
-
 void Character::Revive() {
     Enable();
+    UpdateState(State::Alive);
     audio_manager_.Play(AudioManager::SFX::Revive);
 }
 
@@ -159,4 +132,19 @@ void Character::LevelClear() {
 void Character::Bounce() {
     rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, spring_height_});
     audio_manager_.Play(AudioManager::SFX::Bounce);
+}
+
+void Character::UpdateState(Character::State state) {
+    if (current_state_ == state) return;
+    current_state_ = state;
+    switch (current_state_) {
+        case State::Alive:
+            break;
+        case State::Dead:
+            Dead();
+            break;
+        case State::LevelClear:
+            LevelClear();
+            break;
+    }
 }

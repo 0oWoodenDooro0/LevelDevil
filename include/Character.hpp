@@ -20,6 +20,12 @@
 
 class Character : public Util::GameObject, public IBehaviour {
 public:
+    enum class State {
+        Alive,
+        Dead,
+        LevelClear
+    };
+
     explicit Character(AudioManager audio_manager);
 
     inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }
@@ -30,19 +36,17 @@ public:
 
     [[nodiscard]] inline Collider GetCollider() const { return {GetPosition() - glm::vec2(2, 6), {32, 52}}; }
 
-    void Update(const std::vector<std::shared_ptr<Sprite>> &walls);
+    inline State GetCurrentState() { return current_state_; }
+
+    [[nodiscard]] inline bool GetEnabled() const { return enabled_; }
+
+    void Move(glm::vec2 input_velocity, const std::vector<std::shared_ptr<Sprite>> &walls);
 
     void Enable() override;
 
     void Disable() override;
 
     [[nodiscard]] bool GroundCheck(const std::vector<std::shared_ptr<Sprite>> &others) const;
-
-    static bool isForwardPressed();
-
-    static bool isBackwardPressed();
-
-    static bool isJumpPressed();
 
     void Revive();
 
@@ -52,7 +56,10 @@ public:
 
     void Bounce();
 
+    void UpdateState(State state);
+
 private:
+    State current_state_ = State::Alive;
     Animator animator_;
     Rigidbody rigidbody_;
     AudioManager audio_manager_;

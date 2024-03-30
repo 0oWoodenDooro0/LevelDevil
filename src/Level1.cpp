@@ -51,18 +51,29 @@ void Level1::Start() {
 }
 
 void Level1::Update() {
-    auto input_velocity = InputHandler::GetCharacterMoveVelocity();
-    if (character_->GetPosition().y < -480) {
-        character_->Dead();
-        ResetLevel();
+    if (character_->GetEnabled()) {
+        if (character_->GetPosition().y < -480) {
+            character_->UpdateState(Character::State::Dead);
+        }
+        auto input_vector = InputHandler::GetCharacterMoveVelocity();
+        character_->Move(input_vector, walls_);
+    } else {
+        if (character_->GetCurrentState() != Character::State::LevelClear &&
+            (InputHandler::isForwardPressed() || InputHandler::isBackwardPressed() || InputHandler::isJumpPressed())) {
+            character_->Revive();
+            ResetLevel();
+        }
     }
+
     button_->Update();
     if (button_->GetState() == Button::State::Click) {
         set_level_state_function_(Level::State::LEVEL_SELECT);
     }
 
-    character_->Move(input_velocity, walls_);
     door_->Update(character_);
+    if (!door_->GetEnabled()) {
+        set_level_state_function_(Level::State::LEVEL_SELECT);
+    }
 
     switch (current_state_) {
         case State::Start:
@@ -73,9 +84,10 @@ void Level1::Update() {
         case State::Move2:
             movable_walls_[0]->SetPosition({1000, 1000});
             movable_walls_[0]->Disable();
-            movable_walls_[1]->Move({192, -320}, 500);
+            movable_walls_[1]->Move({192, -320}, 5);
             break;
     }
+
     triggerColliders_[0]->Update(character_->GetPosition());
     triggerColliders_[1]->Update(character_->GetPosition());
     if (triggerColliders_[0]->GetState() == TriggerCollider::State::Trigger) {
