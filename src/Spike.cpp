@@ -10,7 +10,7 @@
 #include "CollisionHandler.hpp"
 #include "Character.hpp"
 
-Spike::Spike(const std::string &image_path, AudioManager audiomanager) : audiomanager_(std::move(audiomanager)) {
+Spike::Spike(const std::string &image_path, AudioManager audio_manager) : audio_manager_(std::move(audio_manager)) {
     SetImage(image_path);
     SetZIndex(0);
 }
@@ -22,7 +22,7 @@ void Spike::SetImage(const std::string &image_path) {
 
 void Spike::Update(const std::shared_ptr<Character> &character_) {
     if (CollisionHandler::CheckCollision(character_->GetCollider(), GetCollider()))
-        character_->Dead(AudioManager::SFX::Dead);
+        character_->UpdateState(Character::State::Dead);
 }
 
 void Spike::Enable() {

@@ -16,7 +16,7 @@ public:
         Trigger
     };
 
-    TriggerCollider() = default;
+    explicit TriggerCollider(Collider collider) : position_(collider.center), size_(collider.size) {};
 
     inline glm::vec2 GetPosition() { return position_; }
 

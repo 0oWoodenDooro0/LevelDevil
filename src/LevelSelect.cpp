@@ -3,12 +3,24 @@
 //
 
 #include "LevelSelect.hpp"
+
+#include <utility>
 #include "Util/Animation.hpp"
 
-LevelSelect::LevelSelect(std::function<void(Level::State)> set_level_state_function)
-        : set_level_state_function_(std::move(set_level_state_function)) {}
+LevelSelect::LevelSelect(AudioManager audio_manager, std::function<void(Level::State)> set_level_state_function)
+        : set_level_state_function_(std::move(set_level_state_function)), audio_manager_(std::move(audio_manager)) {}
 
 void LevelSelect::Start() {
+    auto top = std::make_shared<MovableSprite>(
+            std::make_shared<Util::Image>(RESOURCE_DIR"/image/ui/transition_top.png"), 20);
+    auto bottom = std::make_shared<MovableSprite>(
+            std::make_shared<Util::Image>(RESOURCE_DIR"/image/ui/transition_bottom.png"), 20);
+    top->SetPosition({0, 208});
+    bottom->SetPosition({0, -210});
+    transitions_.push_back(top);
+    transitions_.push_back(bottom);
+    root_.AddChild(top);
+    root_.AddChild(bottom);
     background_ = std::make_shared<Background>(RESOURCE_DIR"/image/background/level_select.png");
     root_.AddChild(background_);
     std::array<glm::vec2, 15> door_positions = {glm::vec2(-728, 4), glm::vec2(-580, -72), glm::vec2(-404, -8),
@@ -35,11 +47,32 @@ void LevelSelect::Start() {
 }
 
 void LevelSelect::Update() {
-    for (int i = 0; i < int(door_buttons_.size()); ++i) {
-        door_buttons_[i]->Update();
-        if (door_buttons_[i]->GetState() == Button::State::Click) {
-            set_level_state_function_(Level::State::LEVEL_1);
-        }
+    switch (current_state_) {
+        case State::Intro:
+            transitions_[0]->Move({0, 752}, 750);
+            transitions_[1]->Move({0, -750}, 750);
+            if (transitions_[0]->GetPosition() == glm::vec2{0, 752} &&
+                transitions_[1]->GetPosition() == glm::vec2{0, -750}) {
+                UpdateCurrentState(State::Start);
+            }
+            break;
+        case State::Start:
+            for (int i = 0; i < int(door_buttons_.size()); ++i) {
+                door_buttons_[i]->Update();
+                if (door_buttons_[i]->GetState() == Button::State::Click) {
+                    level_ = Level::State::LEVEL_1;
+                    UpdateCurrentState(State::Outro);
+                }
+            }
+            break;
+        case State::Outro:
+            transitions_[0]->Move({0, 208}, 750);
+            transitions_[1]->Move({0, -210}, 750);
+            if (transitions_[0]->GetPosition() == glm::vec2{0, 208} &&
+                transitions_[1]->GetPosition() == glm::vec2{0, -210}) {
+                set_level_state_function_(level_);
+            }
+            break;
     }
 
     root_.Update();
@@ -47,4 +80,18 @@ void LevelSelect::Update() {
 
 void LevelSelect::End() {
 
+}
+
+void LevelSelect::UpdateCurrentState(LevelSelect::State state) {
+    if (current_state_ == state) return;
+    switch (current_state_) {
+        case State::Intro:
+            if (state == State::Start)current_state_ = state;
+            break;
+        case State::Start:
+            if (state == State::Outro)current_state_ = state;
+            break;
+        case State::Outro:
+            break;
+    }
 }

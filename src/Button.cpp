@@ -7,8 +7,8 @@
 #include "CollisionHandler.hpp"
 
 Button::Button(const std::shared_ptr<Core::Drawable> &idle, const std::shared_ptr<Core::Drawable> &hover,
-               const std::shared_ptr<Core::Drawable> &click, AudioManager audiomanager, float z_index)
-        : Util::GameObject(), audiomanager_(std::move(audiomanager)) {
+               const std::shared_ptr<Core::Drawable> &click, AudioManager audio_manager, float z_index)
+        : Util::GameObject(), audio_manager_(std::move(audio_manager)) {
     SetDrawable(idle);
     SetZIndex(z_index);
     animator_.SetAnimationStates({{"Idle",  idle},
@@ -28,7 +28,7 @@ void Button::UpdateState(Button::State state) {
             break;
         case State::Click:
             OnClick();
-            audiomanager_.Play(AudioManager::SFX::Button);
+            audio_manager_.Play(AudioManager::SFX::Button);
             break;
     }
 }
@@ -36,7 +36,7 @@ void Button::UpdateState(Button::State state) {
 void Button::Update() {
     if (CollisionHandler::IsCollide(Util::Input::GetCursorPosition(), GetCollider())) {
         UpdateState(State::Hover);
-        if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
+        if (Util::Input::IsKeyPressed(Util::Keycode::MOUSE_LB)) {
             UpdateState(State::Click);
         }
     } else {
@@ -52,4 +52,22 @@ void Button::Enable() {
 void Button::Disable() {
     SetVisible(false);
     UpdateState(State::Idle);
+}
+
+void Button::OnClick() {
+    animator_.UpdateAnimationState("Click", [this](const std::shared_ptr<Core::Drawable> &drawable) {
+        this->SetDrawable(drawable);
+    });
+}
+
+void Button::OnHover() {
+    animator_.UpdateAnimationState("Hover", [this](const std::shared_ptr<Core::Drawable> &drawable) {
+        this->SetDrawable(drawable);
+    });
+}
+
+void Button::OnIdle() {
+    animator_.UpdateAnimationState("Idle", [this](const std::shared_ptr<Core::Drawable> &drawable) {
+        this->SetDrawable(drawable);
+    });
 }

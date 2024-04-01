@@ -9,8 +9,9 @@
 #include "Util/Time.hpp"
 #include "CollisionHandler.hpp"
 #include "Util/Input.hpp"
+#include "InputHandler.hpp"
 
-Character::Character(AudioManager audioManager) : Util::GameObject(), audioManager_(std::move(audioManager)) {
+Character::Character(AudioManager audio_manager) : Util::GameObject(), audio_manager_(std::move(audio_manager)) {
     SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/image/character/idle/man_idle.png"));
     SetZIndex(1);
     animator_.SetAnimationStates(
@@ -44,23 +45,7 @@ void Character::SetCheckPoint(glm::vec2 check_point) {
     check_point_ = check_point;
 }
 
-void Character::Update(const std::vector<std::shared_ptr<Sprite>> &walls) {
-    if (!enabled_) {
-        if (!level_clear_ && (isForwardPressed() || isBackwardPressed() || isJumpPressed())) {
-            Revive();
-        }
-        return;
-    }
-
-    glm::vec2 input_velocity = {0, 0};
-    if (isForwardPressed()) {
-        input_velocity.x = 1;
-    } else if (isBackwardPressed()) {
-        input_velocity.x = -1;
-    }
-    if (isJumpPressed()) {
-        input_velocity.y = 1;
-    }
+void Character::Move(glm::vec2 input_velocity, const std::vector<std::shared_ptr<Sprite>> &walls) {
     std::function<void(std::shared_ptr<Core::Drawable>)> set_drawable_function = [&](
             const std::shared_ptr<Core::Drawable> &drawable) { this->SetDrawable(drawable); };
     auto isGrounded = GroundCheck(walls);
@@ -88,11 +73,11 @@ void Character::Update(const std::vector<std::shared_ptr<Sprite>> &walls) {
     }
     is_run_ = abs(input_velocity.x) > 0;
     if (is_run_ && isGrounded) {
-        audioManager_.Play(AudioManager::SFX::Run);
+        audio_manager_.Play(AudioManager::SFX::Run);
     }
     if (input_velocity.y > 0 && isGrounded) {
         rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, jump_height_});
-        audioManager_.Play(AudioManager::SFX::Jump);
+        audio_manager_.Play(AudioManager::SFX::Jump);
     }
     rigidbody_.SetVelocity(
             {float(move_speed_ * input_velocity.x * Util::Time::GetDeltaTime()), rigidbody_.GetVelocity().y});
@@ -122,27 +107,15 @@ bool Character::GroundCheck(const std::vector<std::shared_ptr<Sprite>> &others) 
     return false;
 }
 
-bool Character::isForwardPressed() {
-    return Util::Input::IsKeyPressed(Util::Keycode::D) || Util::Input::IsKeyPressed(Util::Keycode::RIGHT);
-}
-
-bool Character::isBackwardPressed() {
-    return Util::Input::IsKeyPressed(Util::Keycode::A) || Util::Input::IsKeyPressed(Util::Keycode::LEFT);
-}
-
-bool Character::isJumpPressed() {
-    return Util::Input::IsKeyDown(Util::Keycode::W) || Util::Input::IsKeyDown(Util::Keycode::SPACE) ||
-           Util::Input::IsKeyDown(Util::Keycode::UP);
-}
-
 void Character::Revive() {
     Enable();
-    audioManager_.Play(AudioManager::SFX::Revive);
+    UpdateState(State::Alive);
+    audio_manager_.Play(AudioManager::SFX::Revive);
 }
 
-void Character::Dead(AudioManager::SFX sfx) {
+void Character::Dead() {
     Disable();
-    audioManager_.Play(sfx);
+    audio_manager_.Play(AudioManager::SFX::Dead);
     rigidbody_.ResetVelocity();
     rigidbody_.ResetAcceleration();
     animator_.UpdateAnimationState("Idle", [&](const std::shared_ptr<Core::Drawable> &drawable) {
@@ -158,5 +131,20 @@ void Character::LevelClear() {
 
 void Character::Bounce() {
     rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, spring_height_});
-    audioManager_.Play(AudioManager::SFX::Bounce);
+    audio_manager_.Play(AudioManager::SFX::Bounce);
+}
+
+void Character::UpdateState(Character::State state) {
+    if (current_state_ == state) return;
+    current_state_ = state;
+    switch (current_state_) {
+        case State::Alive:
+            break;
+        case State::Dead:
+            Dead();
+            break;
+        case State::LevelClear:
+            LevelClear();
+            break;
+    }
 }
