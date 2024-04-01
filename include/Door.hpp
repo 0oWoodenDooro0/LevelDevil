@@ -21,7 +21,7 @@ public:
     enum State {
         Idle,
         Delay,
-        StageClear
+        CloseDoor
     };
 
     explicit Door(AudioManager audio_manager);
