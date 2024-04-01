@@ -18,7 +18,7 @@
 
 class Spike : public Util::GameObject, public IBehaviour {
 public:
-    explicit Spike(const std::string &image_path, AudioManager audiomanager);
+    explicit Spike(const std::string &image_path, AudioManager audio_manager);
 
     void SetImage(const std::string &image_path);
 
@@ -40,7 +40,7 @@ public:
 
 private:
     std::string image_path_;
-    AudioManager audiomanager_;
+    AudioManager audio_manager_;
 };
 
 #endif //LEVELDEVIL_SPIKE_HPP

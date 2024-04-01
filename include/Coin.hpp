@@ -18,7 +18,7 @@
 
 class Coin : public Util::GameObject, public IBehaviour {
 public:
-    explicit Coin(AudioManager audiomanager);
+    explicit Coin(AudioManager audio_manager);
 
     void SetImage(const std::string &image_path);
 
@@ -39,7 +39,7 @@ public:
     void Disable() override;
 
 private:
-    AudioManager audiomanager_;
+    AudioManager audio_manager_;
     std::string image_path_;
     bool enabled_ = true;
 };

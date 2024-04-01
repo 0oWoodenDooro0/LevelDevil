@@ -6,8 +6,8 @@
 
 #include <utility>
 
-DoorButton::DoorButton(const std::shared_ptr<Core::Drawable> &idle, AudioManager audiomanager)
-        : Button(idle, idle, idle, std::move(audiomanager)) {}
+DoorButton::DoorButton(const std::shared_ptr<Core::Drawable> &idle, AudioManager audio_manager)
+        : Button(idle, idle, idle, std::move(audio_manager)) {}
 
 void DoorButton::OnIdle() {
     for (const auto &child: m_Children) {

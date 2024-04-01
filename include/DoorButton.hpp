@@ -10,7 +10,7 @@
 
 class DoorButton : public Button {
 public:
-    explicit DoorButton(const std::shared_ptr<Core::Drawable> &idle, AudioManager audiomanager);
+    explicit DoorButton(const std::shared_ptr<Core::Drawable> &idle, AudioManager audio_manager);
 
     void OnIdle() override;
 

@@ -3,10 +3,12 @@
 //
 
 #include "LevelSelect.hpp"
+
+#include <utility>
 #include "Util/Animation.hpp"
 
-LevelSelect::LevelSelect(std::function<void(Level::State)> set_level_state_function)
-        : set_level_state_function_(std::move(set_level_state_function)) {}
+LevelSelect::LevelSelect(AudioManager audio_manager, std::function<void(Level::State)> set_level_state_function)
+        : set_level_state_function_(std::move(set_level_state_function)), audio_manager_(std::move(audio_manager)) {}
 
 void LevelSelect::Start() {
     background_ = std::make_shared<Background>(RESOURCE_DIR"/image/background/level_select.png");

@@ -11,7 +11,7 @@
 #include "Character.hpp"
 #include "Animator.hpp"
 
-Door::Door(AudioManager audiomanager) : Util::GameObject(), audiomanager_(std::move(audiomanager)) {
+Door::Door(AudioManager audio_manager) : Util::GameObject(), audio_manager_(std::move(audio_manager)) {
     SetZIndex(0);
     m_Drawable = std::make_unique<Util::Image>(RESOURCE_DIR"/image/door/door.png");
     animator_.SetAnimationStates(
@@ -33,7 +33,7 @@ void Door::Update(const std::shared_ptr<Character> &character_) {
             std::shared_ptr<Core::Drawable> drawable) { m_Drawable = std::move(drawable); };
     if (current_state_ == State::StageClear) {
         if (timer_ <= 0) {
-            audiomanager_.Play(AudioManager::SFX::StageClear);
+            audio_manager_.Play(AudioManager::SFX::StageClear);
             Disable();
         } else {
             timer_ -= float(Util::Time::GetDeltaTime());
@@ -45,17 +45,17 @@ void Door::Update(const std::shared_ptr<Character> &character_) {
             animator_.UpdateAnimationState("StageClear", set_drawable_function);
             current_state_ = State::StageClear;
             timer_ = 0.25;
-            audiomanager_.Play(AudioManager::SFX::Door);
         } else {
             timer_ -= float(Util::Time::GetDeltaTime());
         }
         return;
     }
     if (CollisionHandler::CheckCollision(character_->GetCollider(), GetCollider())) {
-        character_->LevelClear();
+        character_->UpdateState(Character::State::LevelClear);
         animator_.UpdateAnimationState("Delay", set_drawable_function);
         current_state_ = State::Delay;
         timer_ = 0.5;
+        audio_manager_.Play(AudioManager::SFX::Door);
     } else {
         animator_.UpdateAnimationState("Idle", set_drawable_function);
         current_state_ = State::Idle;

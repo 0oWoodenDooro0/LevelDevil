@@ -17,7 +17,7 @@
 
 class LevelSelect : public ILevel {
 public:
-    explicit LevelSelect(std::function<void(Level::State)> set_level_state_function);
+    explicit LevelSelect(AudioManager audio_manager, std::function<void(Level::State)> set_level_state_function);
 
     void Start() override;
 
