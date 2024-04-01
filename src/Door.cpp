@@ -17,7 +17,7 @@ Door::Door(AudioManager audio_manager) : Util::GameObject(), audio_manager_(std:
     animator_.SetAnimationStates(
             {{"Idle",       std::make_unique<Util::Image>(RESOURCE_DIR"/image/door/door.png")},
              {"Delay",      std::make_unique<Util::Image>(RESOURCE_DIR"/image/door/in_door1.png")},
-             {"StageClear", std::make_unique<Util::Animation>(
+             {"CloseDoor", std::make_unique<Util::Animation>(
                      std::vector<std::string>{(RESOURCE_DIR"/image/door/in_door2.png"),
                                               (RESOURCE_DIR"/image/door/in_door3.png"),
                                               (RESOURCE_DIR"/image/door/in_door4.png"),
@@ -31,7 +31,7 @@ void Door::Update(const std::shared_ptr<Character> &character_) {
     }
     std::function<void(std::shared_ptr<Core::Drawable>)> set_drawable_function = [&](
             std::shared_ptr<Core::Drawable> drawable) { m_Drawable = std::move(drawable); };
-    if (current_state_ == State::StageClear) {
+    if (current_state_ == State::CloseDoor) {
         if (timer_ <= 0) {
             audio_manager_.Play(AudioManager::SFX::StageClear);
             Disable();
@@ -42,8 +42,8 @@ void Door::Update(const std::shared_ptr<Character> &character_) {
     }
     if (current_state_ == State::Delay) {
         if (timer_ <= 0) {
-            animator_.UpdateAnimationState("StageClear", set_drawable_function);
-            current_state_ = State::StageClear;
+            animator_.UpdateAnimationState("CloseDoor", set_drawable_function);
+            current_state_ = State::CloseDoor;
             timer_ = 0.25;
         } else {
             timer_ -= float(Util::Time::GetDeltaTime());
