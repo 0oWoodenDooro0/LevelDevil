@@ -14,10 +14,19 @@
 #include "Level.hpp"
 #include "Util/Root.hpp"
 #include "AudioManager.hpp"
+#include "MovableSprite.hpp"
 
 class LevelSelect : public ILevel {
 public:
+    enum class State {
+        Intro,
+        Start,
+        Outro
+    };
+
     explicit LevelSelect(AudioManager audio_manager, std::function<void(Level::State)> set_level_state_function);
+
+    inline State GetState() { return current_state_; }
 
     void Start() override;
 
@@ -25,12 +34,17 @@ public:
 
     void End() override;
 
+    void UpdateCurrentState(State state);
+
 private:
     Util::Root root_;
+    State current_state_ = State::Intro;
+    Level::State level_ = Level::State::LEVEL_SELECT;
 
     std::function<void(Level::State)> set_level_state_function_;
 
     AudioManager audio_manager_;
+    std::vector<std::shared_ptr<MovableSprite>> transitions_;
     std::shared_ptr<Background> background_;
     std::vector<std::shared_ptr<DoorButton>> door_buttons_;
     std::vector<std::shared_ptr<Sprite>> button_hovers_;

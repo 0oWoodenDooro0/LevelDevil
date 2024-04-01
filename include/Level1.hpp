@@ -20,9 +20,11 @@
 class Level1 : public ILevel {
 public:
     enum class State{
+        Intro,
         Start,
         Move1,
-        Move2
+        Move2,
+        Outro
     };
 
     explicit Level1(AudioManager audio_manager, std::function<void(Level::State)> set_level_state_function);
@@ -35,15 +37,17 @@ public:
 
     void ResetLevel();
 
-    void UpdateState(State state);
+    void UpdateCurrentState(State state);
 
 private:
     Util::Root root_;
-    State current_state_ = State::Start;
+    State current_state_ = State::Intro;
+    Level::State level_ =Level::State::LEVEL_1;
 
     std::function<void(Level::State)> set_level_state_function_;
 
     AudioManager audio_maganer_;
+    std::vector<std::shared_ptr<MovableSprite>> transitions_;
     std::shared_ptr<Background> background_;
     std::shared_ptr<EscButton> button_;
     std::vector<std::shared_ptr<Sprite>> walls_;
