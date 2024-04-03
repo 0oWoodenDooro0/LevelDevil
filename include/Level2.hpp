@@ -11,6 +11,7 @@
 #include "Background.hpp"
 #include "Util/Root.hpp"
 #include "MovableSprite.hpp"
+#include "Spike.hpp"
 #include "Button.hpp"
 #include "EscButton.hpp"
 #include "TriggerCollider.hpp"
@@ -18,31 +19,37 @@
 class Level2 : public ILevel {
 public:
     enum class State {
+        Intro,
         Start,
-        Move1,
-        Move2
+        Spike,
+        Outro
     };
 
-    explicit Level2(std::function<void(Level::State)> set_level_state_function);
+    explicit Level2(AudioManager audio_manager, std::function<void(Level::State)> set_level_state_function);
 
     void Start() override;
+
     void Update() override;
 
     void End() override;
 
     void ResetLevel();
 
+    void UpdateCurrentState(State state);
+
 private:
     Util::Root root_;
-    State current_state_ = State::Start;
+    State current_state_ = State::Intro;
+    Level::State level_ = Level::State::LEVEL_2;
 
     std::function<void(Level::State)> set_level_state_function_;
 
     AudioManager audio_maganer_;
+    std::vector<std::shared_ptr<MovableSprite>> transitions_;
     std::shared_ptr<Background> background_;
     std::shared_ptr<EscButton> button_;
     std::vector<std::shared_ptr<Sprite>> walls_;
-    std::vector<std::shared_ptr<MovableSprite>> movable_walls_;
+    std::vector<std::shared_ptr<Spike>> spikes_;
     std::vector<std::shared_ptr<TriggerCollider>> triggerColliders_;
     std::shared_ptr<Door> door_;
     std::shared_ptr<Character> character_;
