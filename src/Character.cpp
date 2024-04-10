@@ -8,7 +8,6 @@
 #include "Util/Image.hpp"
 #include "Util/Time.hpp"
 #include "CollisionHandler.hpp"
-#include "Util/Input.hpp"
 #include "InputHandler.hpp"
 
 Character::Character(AudioManager audio_manager) : Util::GameObject(), audio_manager_(std::move(audio_manager)) {
