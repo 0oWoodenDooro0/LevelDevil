@@ -109,6 +109,7 @@ bool Character::GroundCheck(const std::vector<std::shared_ptr<Sprite>> &others) 
 
 void Character::Revive() {
     Enable();
+    SetPosition(check_point_);
     UpdateState(State::Alive);
     audio_manager_.Play(AudioManager::SFX::Revive);
 }
@@ -121,7 +122,6 @@ void Character::Dead() {
     animator_.UpdateAnimationState("Idle", [&](const std::shared_ptr<Core::Drawable> &drawable) {
         this->SetDrawable(drawable);
     });
-    SetPosition(check_point_);
 }
 
 void Character::LevelClear() {

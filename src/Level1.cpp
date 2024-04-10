@@ -27,7 +27,7 @@ void Level1::Start() {
     button_->SetPosition({-800, 416});
     root_.AddChild(button_);
     character_ = std::make_shared<Character>(audio_maganer_);
-    character_->SetCheckPoint({-576, -127});
+    character_->SetCheckPoint({-576, -128});
     root_.AddChild(character_);
     door_ = std::make_shared<Door>(audio_maganer_);
     door_->SetPosition({576, -128});
