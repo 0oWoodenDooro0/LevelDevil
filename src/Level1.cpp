@@ -78,6 +78,7 @@ void Level1::Update() {
     button_->Update();
     if (button_->GetState() == Button::State::Click) {
         level_ = Level::State::LEVEL_SELECT;
+        UpdateCurrentState(State::Outro);
     }
 
     door_->Update(character_);
@@ -96,9 +97,17 @@ void Level1::Update() {
             }
             break;
         case State::Start:
+            triggerColliders_[0]->Update(character_->GetPosition());
+            if (triggerColliders_[0]->GetState() == TriggerCollider::State::Trigger) {
+                UpdateCurrentState(State::Move1);
+            }
             break;
         case State::Move1:
             movable_walls_[0]->Move({480, -320}, 750);
+            triggerColliders_[1]->Update(character_->GetPosition());
+            if (triggerColliders_[1]->GetState() == TriggerCollider::State::Trigger) {
+                UpdateCurrentState(State::Move2);
+            }
             break;
         case State::Move2:
             movable_walls_[0]->SetPosition({1000, 1000});
@@ -115,14 +124,6 @@ void Level1::Update() {
             break;
     }
 
-    triggerColliders_[0]->Update(character_->GetPosition());
-    triggerColliders_[1]->Update(character_->GetPosition());
-    if (triggerColliders_[0]->GetState() == TriggerCollider::State::Trigger) {
-        UpdateCurrentState(State::Move1);
-    }
-    if (triggerColliders_[1]->GetState() == TriggerCollider::State::Trigger) {
-        UpdateCurrentState(State::Move2);
-    }
 
     root_.Update();
 }
@@ -145,17 +146,26 @@ void Level1::UpdateCurrentState(State state) {
             if (state == State::Start) {
                 current_state_ = state;
             }
+            else if (state == State::Outro) {
+                current_state_ = state;
+            }
             break;
         case State::Start:
             if (state == State::Move1) {
                 current_state_ = state;
                 audio_maganer_.Play(AudioManager::SFX::WallTrap);
             }
+            else if (state == State::Outro) {
+                current_state_ = state;
+            }
             break;
         case State::Move1:
             if (state == State::Move2) {
                 current_state_ = state;
                 audio_maganer_.Play(AudioManager::SFX::WallTrap);
+            }
+            else if (state == State::Outro) {
+                current_state_ = state;
             }
             break;
         case State::Move2:
