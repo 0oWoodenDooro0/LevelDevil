@@ -60,19 +60,18 @@ void LevelSelect::Update() {
             for (int i = 0; i < int(door_buttons_.size()); ++i) {
                 door_buttons_[i]->Update();
                 if (door_buttons_[i]->GetState() == Button::State::Click) {
-                    switch (i)
-                    {
-                    case 0:
-                        level_ = Level::State::LEVEL_1;
-                        break;
-                    case 1:
-                        level_ = Level::State::LEVEL_2;
-                        break;
-                    default:
-                        level_ = Level::State::LEVEL_2;
-                        break;
+                    switch (i) {
+                        case 0:
+                            level_ = Level::State::LEVEL_1;
+                            break;
+                        case 1:
+                            level_ = Level::State::LEVEL_2;
+                            break;
+                        default:
+                            level_ = Level::State::LEVEL_2;
+                            break;
                     }
-                    
+
                     UpdateCurrentState(State::Outro);
                 }
             }
