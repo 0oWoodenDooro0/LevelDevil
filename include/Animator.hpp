@@ -10,13 +10,17 @@
 #include <memory>
 #include <map>
 #include "Core/Drawable.hpp"
+#include <functional>
 
 class Animator {
 public:
     Animator() = default;
+
     void SetAnimationStates(std::map<std::string, std::shared_ptr<Core::Drawable>> states);
+
     void UpdateAnimationState(const std::string &animation_state_name,
                               const std::function<void(std::shared_ptr<Core::Drawable>)> &set_drawable);
+
 private:
     std::string current_animation_state_;
     std::map<std::string, std::shared_ptr<Core::Drawable>> animation_states_;
