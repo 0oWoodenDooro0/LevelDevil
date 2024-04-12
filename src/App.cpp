@@ -4,6 +4,7 @@
 #include "Util/Logger.hpp"
 #include "Level1.hpp"
 #include "LevelSelect.hpp"
+#include "Level2.hpp"
 
 void App::UpdateCurrentLevelState(Level::State level_state) {
     auto set_level_state_function = [&](Level::State level_state) { current_level_state_ = level_state; };
@@ -13,6 +14,9 @@ void App::UpdateCurrentLevelState(Level::State level_state) {
             break;
         case Level::State::LEVEL_1:
             level_ = std::make_unique<Level1>(audio_manager_, set_level_state_function);
+            break;
+        case Level::State::LEVEL_2:
+            level_ = std::make_unique<Level2>(audio_manager_, set_level_state_function);
             break;
     }
     level_->Start();

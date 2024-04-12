@@ -23,3 +23,11 @@ LevelButton::LevelButton(AudioManager audiomanager) :Util::GameObject(), audioma
 void LevelButton::Update(const std::shared_ptr<Character>& character_) {
 
 }
+
+void LevelButton::Enable() {
+
+}
+
+void LevelButton::Disable() {
+
+}
