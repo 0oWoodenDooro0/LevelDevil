@@ -55,6 +55,7 @@ void Level2::Start() {
         spikes_.push_back(spike);
         root_.AddChild(spike);
         spike->SetPosition({ -640 + i * 64,-64 });
+        spike->Disable();
     }
 }
 

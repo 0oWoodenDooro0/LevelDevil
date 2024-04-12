@@ -27,6 +27,7 @@ void Spike::Update(const std::shared_ptr<Character> &character_) {
 
 void Spike::Enable() {
     SetVisible(true);
+    
 }
 
 void Spike::Disable() {
