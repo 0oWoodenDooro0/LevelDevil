@@ -75,7 +75,8 @@ void Level2::Update() {
     }
     button_->Update();
     if (button_->GetState() == Button::State::Click) {
-        set_level_state_function_(Level::State::LEVEL_SELECT);
+        level_ = Level::State::LEVEL_SELECT;
+        UpdateCurrentState(State::Outro);
     }
 
     door_->Update(character_);
@@ -106,7 +107,6 @@ void Level2::Update() {
         }
         break;
     }
-    audio_maganer_.Update();
     root_.Update();
 }
 
@@ -128,14 +128,23 @@ void Level2::UpdateCurrentState(State state) {
         if (state == State::Start) {
             current_state_ = state;
         }
+        else if (state == State::Outro) {
+            current_state_ = state;
+        }
         break;
     case State::Start:
         if (state == State::Spike) {
             current_state_ = state;
         }
+        else if (state == State::Outro) {
+            current_state_ = state;
+        }
         break;
     case State::Spike:
         if (state == State::Outro) {
+            current_state_ = state;
+        }
+        else if (state == State::Outro) {
             current_state_ = state;
         }
         break;
