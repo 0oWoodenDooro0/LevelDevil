@@ -9,7 +9,8 @@ class Level {
 public:
     enum class State {
         LEVEL_SELECT,
-        LEVEL_1
+        LEVEL_1,
+        LEVEL_2
     };
 };
 

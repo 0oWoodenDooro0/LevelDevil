@@ -46,7 +46,7 @@ private:
     State current_state_ = State::Idle;
     AudioManager audio_manager_;
     Animator animator_;
-    float timer_ = 0.5;
+    float timer_ = 0.4;
     bool enabled_ = true;
 };
 

@@ -13,6 +13,8 @@ set(SRC_FILES
     EscButton.cpp
     InputHandler.cpp
     Level1.cpp
+    Level2.cpp
+    LevelButton.cpp
     LevelSelect.cpp
     MovableSprite.cpp
     Rigidbody.cpp
@@ -41,6 +43,8 @@ set(INCLUDE_FILES
     InputHandler.hpp
     Level.hpp
     Level1.hpp
+    Level2.hpp
+    LevelButton.hpp
     LevelSelect.hpp
     MovableSprite.hpp
     Rigidbody.hpp

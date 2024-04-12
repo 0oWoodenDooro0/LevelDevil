@@ -54,7 +54,7 @@ void Door::Update(const std::shared_ptr<Character> &character_) {
         character_->UpdateState(Character::State::LevelClear);
         animator_.UpdateAnimationState("Delay", set_drawable_function);
         current_state_ = State::Delay;
-        timer_ = 0.5;
+        timer_ = 0.4;
         audio_manager_.Play(AudioManager::SFX::Door);
     } else {
         animator_.UpdateAnimationState("Idle", set_drawable_function);
