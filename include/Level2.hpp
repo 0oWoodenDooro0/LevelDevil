@@ -3,6 +3,7 @@
 //
 #ifndef LEVELDEVIL_LEVEL2_HPP
 #define LEVELDEVIL_LEVEL2_HPP
+
 #include "ILevel.hpp"
 #include "AudioManager.hpp"
 #include "Door.hpp"
@@ -59,4 +60,5 @@ private:
     float timer_;
     int spike_num_ = 0;
 };
+
 #endif //LEVELDEVIL_LEVEL2_HPP
