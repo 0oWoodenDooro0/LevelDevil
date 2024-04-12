@@ -8,7 +8,7 @@
 #include <utility>
 
 Level1::Level1(AudioManager audio_manager, std::function<void(Level::State)> set_level_state_function)
-        : set_level_state_function_(std::move(set_level_state_function)), audio_maganer_(std::move(audio_manager)) {}
+        : set_level_state_function_(std::move(set_level_state_function)), audio_manager_(std::move(audio_manager)) {}
 
 void Level1::Start() {
     auto top = std::make_shared<MovableSprite>(
@@ -23,13 +23,13 @@ void Level1::Start() {
     root_.AddChild(bottom);
     background_ = std::make_shared<Background>(RESOURCE_DIR"/image/level/level1/background.png");
     root_.AddChild(background_);
-    button_ = std::make_shared<EscButton>(audio_maganer_);
+    button_ = std::make_shared<EscButton>(audio_manager_);
     button_->SetPosition({-800, 416});
     root_.AddChild(button_);
-    character_ = std::make_shared<Character>(audio_maganer_);
+    character_ = std::make_shared<Character>(audio_manager_);
     character_->SetCheckPoint({-576, -128});
     root_.AddChild(character_);
-    door_ = std::make_shared<Door>(audio_maganer_);
+    door_ = std::make_shared<Door>(audio_manager_);
     door_->SetPosition({576, -128});
     root_.AddChild(door_);
     auto wall_image = std::vector<std::string>{RESOURCE_DIR"/image/level/level1/top.png",
@@ -153,7 +153,7 @@ void Level1::UpdateCurrentState(State state) {
         case State::Start:
             if (state == State::Move1) {
                 current_state_ = state;
-                audio_maganer_.Play(AudioManager::SFX::WallTrap);
+                audio_manager_.Play(AudioManager::SFX::WallTrap);
             }
             else if (state == State::Outro) {
                 current_state_ = state;
@@ -162,7 +162,7 @@ void Level1::UpdateCurrentState(State state) {
         case State::Move1:
             if (state == State::Move2) {
                 current_state_ = state;
-                audio_maganer_.Play(AudioManager::SFX::WallTrap);
+                audio_manager_.Play(AudioManager::SFX::WallTrap);
             }
             else if (state == State::Outro) {
                 current_state_ = state;
