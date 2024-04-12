@@ -39,6 +39,7 @@ public:
     void Disable() override;
 
 private:
+    bool enable_ = true;
     std::string image_path_;
     AudioManager audio_manager_;
 };

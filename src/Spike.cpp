@@ -21,15 +21,19 @@ void Spike::SetImage(const std::string &image_path) {
 }
 
 void Spike::Update(const std::shared_ptr<Character> &character_) {
+    if (!enable_)
+        return;
     if (CollisionHandler::CheckCollision(character_->GetCollider(), GetCollider()))
         character_->UpdateState(Character::State::Dead);
 }
 
 void Spike::Enable() {
     SetVisible(true);
-    
+    enable_ = true;
+    audio_manager_.Play(AudioManager::SFX::Trap);
 }
 
 void Spike::Disable() {
     SetVisible(false);
+    enable_ = false;
 }

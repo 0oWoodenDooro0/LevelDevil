@@ -3,6 +3,7 @@
 //
 #include "Level2.hpp"
 #include "InputHandler.hpp"
+#include "Util/Time.hpp"
 
 #include <utility>
 
@@ -57,6 +58,8 @@ void Level2::Start() {
         spike->SetPosition({ -640 + i * 64,-64 });
         spike->Disable();
     }
+
+    triggerColliders_.push_back(std::make_shared<TriggerCollider>(Collider({ 128, 0 }, { 20, 1000 })));
 }
 
 void Level2::Update() {
@@ -85,6 +88,11 @@ void Level2::Update() {
         UpdateCurrentState(State::Outro);
     }
 
+    for each (auto spike in spikes_)
+    {
+        spike->Update(character_);
+    }
+
     switch (current_state_) {
         case State::Intro:
             transitions_[0]->Move({0, 752}, 750);
@@ -95,8 +103,19 @@ void Level2::Update() {
             }
             break;
         case State::Start:
+            triggerColliders_[0]->Update(character_->GetPosition());
+            if (triggerColliders_[0]->GetState() == TriggerCollider::State::Trigger) {
+                UpdateCurrentState(State::Spike);
+                LOG_DEBUG("act");
+                spike_num_ = 0;
+                timer_ = 0.1;
+            }
             break;
         case State::Spike:
+            if (spike_num_<26)
+            {
+                spike_act();
+            }
             break;
         case State::Outro:
             transitions_[0]->Move({0, 208}, 750);
@@ -141,11 +160,26 @@ void Level2::UpdateCurrentState(State state) {
         case State::Spike:
             if (state == State::Outro) {
                 current_state_ = state;
-            } else if (state == State::Outro) {
-                current_state_ = state;
             }
             break;
         case State::Outro:
             break;
+    }
+}
+
+void Level2::spike_act() {
+    timer_ -= float(Util::Time::GetDeltaTime());
+    if (timer_<=0)
+    {
+        if (spike_num_<22)
+        {
+            spikes_[spike_num_]->Enable();
+        }
+        if (spike_num_>3)
+        {
+            spikes_[spike_num_ - 4]->Disable();
+        }
+        timer_ = 0.1;
+        spike_num_++;
     }
 }

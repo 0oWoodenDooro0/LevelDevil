@@ -46,7 +46,7 @@ private:
             {SFX::Revive,     std::make_shared<SoundEffect>(RESOURCE_DIR"/sound/revive.mp3", 0.1)},
             {SFX::Saw,        std::make_shared<SoundEffect>(RESOURCE_DIR"/sound/saw.mp3", 0.1)},
             {SFX::StageClear, std::make_shared<SoundEffect>(RESOURCE_DIR"/sound/stageclear.mp3", 0.1)},
-            {SFX::Trap,       std::make_shared<SoundEffect>(RESOURCE_DIR"/sound/trap.mp3", 0.1)},
+            {SFX::Trap,       std::make_shared<SoundEffect>(RESOURCE_DIR"/sound/trap.mp3", -1)},
             {SFX::WallTrap,   std::make_shared<SoundEffect>(RESOURCE_DIR"/sound/wall trap.mp3", 0.1)}
     };
 };
