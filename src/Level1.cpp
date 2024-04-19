@@ -4,6 +4,8 @@
 
 #include "Level1.hpp"
 #include "InputHandler.hpp"
+#include "Util/Time.hpp"
+#include "EasingFunction.hpp"
 
 #include <utility>
 
@@ -88,12 +90,14 @@ void Level1::Update() {
 
     switch (current_state_) {
         case State::Intro:
-            transitions_[0]->Move({0, 752}, 750);
-            transitions_[1]->Move({0, -750}, 750);
-            if (transitions_[0]->GetPosition() == glm::vec2{0, 752} &&
-                transitions_[1]->GetPosition() == glm::vec2{0, -750}) {
+            if (transition_timer_ < 1) {
+                transition_timer_ += Util::Time::GetDeltaTimeMs() * transition_delta_time_multiple;
+            } else {
+                transition_timer_ = 1;
                 UpdateCurrentState(State::Start);
             }
+            transitions_[0]->SetPosition({0, int(208 + EasingFunction::EaseInCubic(transition_timer_) * 544)});
+            transitions_[1]->SetPosition({0, int(-210 - EasingFunction::EaseInCubic(transition_timer_) * 540)});
             break;
         case State::Start:
             triggerColliders_[0]->Update(character_->GetPosition());
@@ -114,12 +118,17 @@ void Level1::Update() {
             movable_walls_[1]->Move({192, -320}, 500);
             break;
         case State::Outro:
-            transitions_[0]->Move({0, 208}, 750);
-            transitions_[1]->Move({0, -210}, 750);
-            if (transitions_[0]->GetPosition() == glm::vec2{0, 208} &&
-                transitions_[1]->GetPosition() == glm::vec2{0, -210}) {
-                set_level_state_function_(level_);
+            if (transition_timer_ < 1) {
+                transition_timer_ += Util::Time::GetDeltaTimeMs() * transition_delta_time_multiple;
+            } else {
+                transition_timer_ = 1;
+                transition_end_timer += Util::Time::GetDeltaTimeMs();
+                if (transition_end_timer >= transition_end_delay_) {
+                    set_level_state_function_(level_);
+                }
             }
+            transitions_[0]->SetPosition({0, int(752 - EasingFunction::EaseOutCubic(transition_timer_) * 544)});
+            transitions_[1]->SetPosition({0, int(-750 + EasingFunction::EaseOutCubic(transition_timer_) * 540)});
             break;
     }
 
@@ -146,6 +155,7 @@ void Level1::UpdateCurrentState(State state) {
                 current_state_ = state;
             } else if (state == State::Outro) {
                 current_state_ = state;
+                transition_timer_ = 0;
             }
             break;
         case State::Start:
@@ -154,6 +164,7 @@ void Level1::UpdateCurrentState(State state) {
                 audio_manager_.Play(AudioManager::SFX::WallTrap);
             } else if (state == State::Outro) {
                 current_state_ = state;
+                transition_timer_ = 0;
             }
             break;
         case State::Move1:
@@ -162,11 +173,13 @@ void Level1::UpdateCurrentState(State state) {
                 audio_manager_.Play(AudioManager::SFX::WallTrap);
             } else if (state == State::Outro) {
                 current_state_ = state;
+                transition_timer_ = 0;
             }
             break;
         case State::Move2:
             if (state == State::Outro) {
                 current_state_ = state;
+                transition_timer_ = 0;
             }
             break;
         case State::Outro:

@@ -37,6 +37,7 @@ set(INCLUDE_FILES
     CollisionHandler.hpp
     Door.hpp
     DoorButton.hpp
+    EasingFunction.hpp
     EscButton.hpp
     IBehaviour.hpp
     ILevel.hpp

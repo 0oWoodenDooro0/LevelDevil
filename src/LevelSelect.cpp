@@ -6,6 +6,8 @@
 
 #include <utility>
 #include "Util/Animation.hpp"
+#include "Util/Time.hpp"
+#include "EasingFunction.hpp"
 
 LevelSelect::LevelSelect(AudioManager audio_manager, std::function<void(Level::State)> set_level_state_function)
         : set_level_state_function_(std::move(set_level_state_function)), audio_manager_(std::move(audio_manager)) {}
@@ -49,12 +51,14 @@ void LevelSelect::Start() {
 void LevelSelect::Update() {
     switch (current_state_) {
         case State::Intro:
-            transitions_[0]->Move({0, 752}, 750);
-            transitions_[1]->Move({0, -750}, 750);
-            if (transitions_[0]->GetPosition() == glm::vec2{0, 752} &&
-                transitions_[1]->GetPosition() == glm::vec2{0, -750}) {
+            if (transition_timer_ < 1) {
+                transition_timer_ += Util::Time::GetDeltaTimeMs() * transition_delta_time_multiple;
+            } else {
+                transition_timer_ = 1;
                 UpdateCurrentState(State::Start);
             }
+            transitions_[0]->SetPosition({0, int(208 + EasingFunction::EaseInCubic(transition_timer_) * 544)});
+            transitions_[1]->SetPosition({0, int(-210 - EasingFunction::EaseInCubic(transition_timer_) * 540)});
             break;
         case State::Start:
             for (int i = 0; i < int(door_buttons_.size()); ++i) {
@@ -77,12 +81,17 @@ void LevelSelect::Update() {
             }
             break;
         case State::Outro:
-            transitions_[0]->Move({0, 208}, 750);
-            transitions_[1]->Move({0, -210}, 750);
-            if (transitions_[0]->GetPosition() == glm::vec2{0, 208} &&
-                transitions_[1]->GetPosition() == glm::vec2{0, -210}) {
-                set_level_state_function_(level_);
+            if (transition_timer_ < 1) {
+                transition_timer_ += Util::Time::GetDeltaTimeMs() * transition_delta_time_multiple;
+            } else {
+                transition_timer_ = 1;
+                transition_end_timer += Util::Time::GetDeltaTimeMs();
+                if (transition_end_timer >= transition_end_delay_) {
+                    set_level_state_function_(level_);
+                }
             }
+            transitions_[0]->SetPosition({0, int(752 - EasingFunction::EaseOutCubic(transition_timer_) * 544)});
+            transitions_[1]->SetPosition({0, int(-750 + EasingFunction::EaseOutCubic(transition_timer_) * 540)});
             break;
     }
 
@@ -100,7 +109,10 @@ void LevelSelect::UpdateCurrentState(LevelSelect::State state) {
             if (state == State::Start)current_state_ = state;
             break;
         case State::Start:
-            if (state == State::Outro)current_state_ = state;
+            if (state == State::Outro) {
+                current_state_ = state;
+                transition_timer_ = 0;
+            }
             break;
         case State::Outro:
             break;

@@ -43,8 +43,13 @@ private:
 
     std::function<void(Level::State)> set_level_state_function_;
 
-    AudioManager audio_manager_;
     std::vector<std::shared_ptr<MovableSprite>> transitions_;
+    float transition_timer_ = 0;
+    float transition_delta_time_multiple = 0.003;
+    float transition_end_timer = 0;
+    float transition_end_delay_ = 300;
+
+    AudioManager audio_manager_;
     std::shared_ptr<Background> background_;
     std::vector<std::shared_ptr<DoorButton>> door_buttons_;
     std::vector<std::shared_ptr<Sprite>> button_hovers_;
