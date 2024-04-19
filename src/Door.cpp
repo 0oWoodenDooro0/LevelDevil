@@ -15,8 +15,8 @@ Door::Door(AudioManager audio_manager) : Util::GameObject(), audio_manager_(std:
     SetZIndex(0);
     m_Drawable = std::make_unique<Util::Image>(RESOURCE_DIR"/image/door/door.png");
     animator_.SetAnimationStates(
-            {{"Idle",       std::make_unique<Util::Image>(RESOURCE_DIR"/image/door/door.png")},
-             {"Delay",      std::make_unique<Util::Image>(RESOURCE_DIR"/image/door/in_door1.png")},
+            {{"Idle",      std::make_unique<Util::Image>(RESOURCE_DIR"/image/door/door.png")},
+             {"Delay",     std::make_unique<Util::Image>(RESOURCE_DIR"/image/door/in_door1.png")},
              {"CloseDoor", std::make_unique<Util::Animation>(
                      std::vector<std::string>{(RESOURCE_DIR"/image/door/in_door2.png"),
                                               (RESOURCE_DIR"/image/door/in_door3.png"),
