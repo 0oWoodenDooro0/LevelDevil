@@ -36,7 +36,7 @@ void Door::Update(const std::shared_ptr<Character> &character_) {
             audio_manager_.Play(AudioManager::SFX::StageClear);
             Disable();
         } else {
-            timer_ -= float(Util::Time::GetDeltaTime());
+            timer_ -= Util::Time::GetDeltaTimeMs();
         }
         return;
     }
@@ -44,9 +44,9 @@ void Door::Update(const std::shared_ptr<Character> &character_) {
         if (timer_ <= 0) {
             animator_.UpdateAnimationState("CloseDoor", set_drawable_function);
             current_state_ = State::CloseDoor;
-            timer_ = 0.25;
+            timer_ = 250;
         } else {
-            timer_ -= float(Util::Time::GetDeltaTime());
+            timer_ -= Util::Time::GetDeltaTimeMs();
         }
         return;
     }
@@ -54,7 +54,7 @@ void Door::Update(const std::shared_ptr<Character> &character_) {
         character_->UpdateState(Character::State::LevelClear);
         animator_.UpdateAnimationState("Delay", set_drawable_function);
         current_state_ = State::Delay;
-        timer_ = 0.4;
+        timer_ = 400;
         audio_manager_.Play(AudioManager::SFX::Door);
     } else {
         animator_.UpdateAnimationState("Idle", set_drawable_function);

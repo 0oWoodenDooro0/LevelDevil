@@ -42,7 +42,7 @@ public:
 private:
     Animator animator_;
     AudioManager audio_manager_;
-    float timer_ = 0.5;
+    float timer_ = 500;
     State current_state_ = State::Down;
 };
 
