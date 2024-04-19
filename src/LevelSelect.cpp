@@ -35,10 +35,10 @@ void LevelSelect::Start() {
                 std::make_shared<Util::Image>(RESOURCE_DIR"/image/ui/unlock_door.png"), audio_manager_);
         door_button->SetPosition(door_positions[i]);
         auto button_hover = std::make_shared<Sprite>(std::make_shared<Util::Animation>(
-                std::vector<std::string>{(RESOURCE_DIR"/image/ui/door_hover1.png"),
-                                         (RESOURCE_DIR"/image/ui/door_hover2.png"),
-                                         (RESOURCE_DIR"/image/ui/door_hover3.png"),
-                                         (RESOURCE_DIR"/image/ui/door_hover4.png")}, true, 200, true, 0), 11);
+                std::vector<std::string>{RESOURCE_DIR"/image/ui/door_hover1.png",
+                                         RESOURCE_DIR"/image/ui/door_hover2.png",
+                                         RESOURCE_DIR"/image/ui/door_hover3.png",
+                                         RESOURCE_DIR"/image/ui/door_hover4.png"}, true, 200, true, 0), 11);
         button_hover->SetPosition(door_positions[i] + glm::vec2(0, 32));
         button_hover->SetVisible(false);
         door_buttons_.push_back(door_button);

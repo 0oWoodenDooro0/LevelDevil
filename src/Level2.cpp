@@ -113,9 +113,7 @@ void Level2::Update() {
             }
             break;
         case State::Spike1:
-            if (spike_num_ < 26) {
-                spike1_act();
-            }
+            if (spike_num_ < 26) spike1_act();
             triggerColliders_[1]->Update(character_->GetPosition());
             if (triggerColliders_[1]->GetState() == TriggerCollider::State::Trigger) {
                 UpdateCurrentState(State::Spike2);
@@ -124,9 +122,7 @@ void Level2::Update() {
             }
             break;
         case State::Spike2:
-            if (spike_num_ >= 0) {
-                spike2_act();
-            }
+            if (spike_num_ >= 0) spike2_act();
             break;
         case State::Outro:
             if (transition_timer_ < 1) {

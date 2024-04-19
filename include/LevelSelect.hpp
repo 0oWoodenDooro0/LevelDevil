@@ -26,8 +26,6 @@ public:
 
     explicit LevelSelect(AudioManager audio_manager, std::function<void(Level::State)> set_level_state_function);
 
-    inline State GetState() { return current_state_; }
-
     void Start() override;
 
     void Update() override;
@@ -45,7 +43,7 @@ private:
 
     std::vector<std::shared_ptr<MovableSprite>> transitions_;
     float transition_timer_ = 0;
-    float transition_delta_time_multiple = 0.003;
+    float transition_delta_time_multiple = 0.003f;
     float transition_end_timer = 0;
     float transition_end_delay_ = 300;
 
