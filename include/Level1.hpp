@@ -11,7 +11,7 @@
 #include "Character.hpp"
 #include "Level.hpp"
 #include "Background.hpp"
-#include "Util/Root.hpp"
+#include "Util/Renderer.hpp"
 #include "MovableSprite.hpp"
 #include "Button.hpp"
 #include "EscButton.hpp"
@@ -19,7 +19,7 @@
 
 class Level1 : public ILevel {
 public:
-    enum class State{
+    enum class State {
         Intro,
         Start,
         Move1,
@@ -40,9 +40,9 @@ public:
     void UpdateCurrentState(State state);
 
 private:
-    Util::Root root_;
+    Util::Renderer root_;
     State current_state_ = State::Intro;
-    Level::State level_ =Level::State::LEVEL_1;
+    Level::State level_ = Level::State::LEVEL_1;
 
     std::function<void(Level::State)> set_level_state_function_;
 

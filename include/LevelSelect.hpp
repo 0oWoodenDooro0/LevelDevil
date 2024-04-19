@@ -12,7 +12,7 @@
 #include "Sprite.hpp"
 #include "Background.hpp"
 #include "Level.hpp"
-#include "Util/Root.hpp"
+#include "Util/Renderer.hpp"
 #include "AudioManager.hpp"
 #include "MovableSprite.hpp"
 
@@ -37,7 +37,7 @@ public:
     void UpdateCurrentState(State state);
 
 private:
-    Util::Root root_;
+    Util::Renderer root_;
     State current_state_ = State::Intro;
     Level::State level_ = Level::State::LEVEL_SELECT;
 

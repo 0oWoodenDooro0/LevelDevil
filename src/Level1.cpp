@@ -68,8 +68,7 @@ void Level1::Update() {
         auto input_vector = InputHandler::GetCharacterMoveVelocity();
         character_->Move(input_vector, walls_);
     } else {
-        if (character_->GetCurrentState() != Character::State::LevelClear &&
-            (InputHandler::isForwardPressed() || InputHandler::isBackwardPressed() || InputHandler::isJumpPressed())) {
+        if (character_->GetCurrentState() != Character::State::LevelClear && InputHandler::isRevivePressed()) {
             character_->Revive();
             ResetLevel();
         }
@@ -145,8 +144,7 @@ void Level1::UpdateCurrentState(State state) {
         case State::Intro:
             if (state == State::Start) {
                 current_state_ = state;
-            }
-            else if (state == State::Outro) {
+            } else if (state == State::Outro) {
                 current_state_ = state;
             }
             break;
@@ -154,8 +152,7 @@ void Level1::UpdateCurrentState(State state) {
             if (state == State::Move1) {
                 current_state_ = state;
                 audio_manager_.Play(AudioManager::SFX::WallTrap);
-            }
-            else if (state == State::Outro) {
+            } else if (state == State::Outro) {
                 current_state_ = state;
             }
             break;
@@ -163,8 +160,7 @@ void Level1::UpdateCurrentState(State state) {
             if (state == State::Move2) {
                 current_state_ = state;
                 audio_manager_.Play(AudioManager::SFX::WallTrap);
-            }
-            else if (state == State::Outro) {
+            } else if (state == State::Outro) {
                 current_state_ = state;
             }
             break;
