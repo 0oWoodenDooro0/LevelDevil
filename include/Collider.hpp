@@ -10,8 +10,13 @@
 class Collider {
 public:
     Collider(glm::vec2 position, glm::vec2 _size);
-    glm::vec2 center{}, size{};
-    float top, bottom, left, right;
+
+    glm::vec2 center{};
+    glm::vec2 size{};
+    float top;
+    float bottom;
+    float left;
+    float right;
 };
 
 

@@ -19,7 +19,8 @@ public:
 
 private:
     Util::SFX sfx_;
-    float initial_cooldown_, cooldown_;
+    float initial_cooldown_;
+    float cooldown_;
 };
 
 
