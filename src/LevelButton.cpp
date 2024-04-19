@@ -19,13 +19,13 @@ LevelButton::LevelButton(AudioManager audiomanager) : Util::GameObject(), audiom
 }
 
 void LevelButton::Update(const std::shared_ptr<Character> &character_) {
-
+    /*TODO*/
 }
 
 void LevelButton::Enable() {
-
+    /*TODO*/
 }
 
 void LevelButton::Disable() {
-
+    /*TODO*/
 }
