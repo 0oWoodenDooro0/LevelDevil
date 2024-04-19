@@ -3,13 +3,14 @@
 //
 #ifndef LEVELDEVIL_LEVEL2_HPP
 #define LEVELDEVIL_LEVEL2_HPP
+
 #include "ILevel.hpp"
 #include "AudioManager.hpp"
 #include "Door.hpp"
 #include "Character.hpp"
 #include "Level.hpp"
 #include "Background.hpp"
-#include "Util/Root.hpp"
+#include "Util/Renderer.hpp"
 #include "MovableSprite.hpp"
 #include "Spike.hpp"
 #include "Button.hpp"
@@ -38,7 +39,7 @@ public:
     void UpdateCurrentState(State state);
 
 private:
-    Util::Root root_;
+    Util::Renderer root_;
     State current_state_ = State::Intro;
     Level::State level_ = Level::State::LEVEL_2;
 
@@ -54,4 +55,5 @@ private:
     std::shared_ptr<Door> door_;
     std::shared_ptr<Character> character_;
 };
+
 #endif //LEVELDEVIL_LEVEL2_HPP
