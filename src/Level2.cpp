@@ -4,7 +4,6 @@
 #include "Level2.hpp"
 #include "InputHandler.hpp"
 #include "Util/Time.hpp"
-#include "Util/Logger.hpp"
 
 #include <utility>
 
