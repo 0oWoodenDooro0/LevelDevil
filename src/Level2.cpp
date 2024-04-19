@@ -56,7 +56,7 @@ void Level2::Start() {
         auto spike = std::make_shared<Spike>(spike_image, audio_maganer_);
         spikes_.push_back(spike);
         root_.AddChild(spike);
-        spike->SetPosition({ -640 + i * 64,-64 });
+        spike->SetPosition({-640 + i * 64, -64});
         spike->Disable();
     }
 
@@ -89,8 +89,7 @@ void Level2::Update() {
         UpdateCurrentState(State::Outro);
     }
 
-    for each (auto spike in spikes_)
-    {
+    for (const auto &spike: spikes_) {
         spike->Update(character_);
     }
 
@@ -196,8 +195,7 @@ void Level2::spike1_act() {
         {
             spikes_[spike_num_]->Enable();
         }
-        if (spike_num_>3)
-        {
+        if (spike_num_ > 3) {
             spikes_[spike_num_ - 4]->Disable();
         }
         timer_ = 110;
