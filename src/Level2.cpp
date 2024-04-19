@@ -3,6 +3,7 @@
 //
 #include "Level2.hpp"
 #include "InputHandler.hpp"
+#include "Util/Time.hpp"
 
 #include <utility>
 
@@ -55,7 +56,11 @@ void Level2::Start() {
         spikes_.push_back(spike);
         root_.AddChild(spike);
         spike->SetPosition({-640 + i * 64, -64});
+        spike->Disable();
     }
+
+    triggerColliders_.push_back(std::make_shared<TriggerCollider>(Collider({128, 0}, {20, 1000})));
+    triggerColliders_.push_back(std::make_shared<TriggerCollider>(Collider({-192, 0}, {20, 1000})));
 }
 
 void Level2::Update() {
@@ -66,8 +71,7 @@ void Level2::Update() {
         auto input_vector = InputHandler::GetCharacterMoveVelocity();
         character_->Move(input_vector, walls_);
     } else {
-        if (character_->GetCurrentState() != Character::State::LevelClear &&
-            (InputHandler::isForwardPressed() || InputHandler::isBackwardPressed() || InputHandler::isJumpPressed())) {
+        if (character_->GetCurrentState() != Character::State::LevelClear && InputHandler::isRevivePressed()) {
             character_->Revive();
             ResetLevel();
         }
@@ -84,6 +88,10 @@ void Level2::Update() {
         UpdateCurrentState(State::Outro);
     }
 
+    for (const auto &spike: spikes_) {
+        spike->Update(character_);
+    }
+
     switch (current_state_) {
         case State::Intro:
             transitions_[0]->Move({0, 752}, 750);
@@ -94,8 +102,28 @@ void Level2::Update() {
             }
             break;
         case State::Start:
+            triggerColliders_[0]->Update(character_->GetPosition());
+            if (triggerColliders_[0]->GetState() == TriggerCollider::State::Trigger) {
+                UpdateCurrentState(State::Spike1);
+                spike_num_ = 0;
+                timer_ = 110;
+            }
             break;
-        case State::Spike:
+        case State::Spike1:
+            if (spike_num_ < 26) {
+                spike1_act();
+            }
+            triggerColliders_[1]->Update(character_->GetPosition());
+            if (triggerColliders_[1]->GetState() == TriggerCollider::State::Trigger) {
+                UpdateCurrentState(State::Spike2);
+                spike_num_ = 21;
+                timer_ = 70;
+            }
+            break;
+        case State::Spike2:
+            if (spike_num_ >= 0) {
+                spike2_act();
+            }
             break;
         case State::Outro:
             transitions_[0]->Move({0, 208}, 750);
@@ -131,20 +159,51 @@ void Level2::UpdateCurrentState(State state) {
             }
             break;
         case State::Start:
-            if (state == State::Spike) {
+            if (state == State::Spike1) {
                 current_state_ = state;
             } else if (state == State::Outro) {
                 current_state_ = state;
             }
             break;
-        case State::Spike:
+        case State::Spike1:
+            if (state == State::Spike2) {
+                current_state_ = state;
+            }
             if (state == State::Outro) {
                 current_state_ = state;
-            } else if (state == State::Outro) {
+            }
+            break;
+        case State::Spike2:
+            if (state == State::Outro) {
                 current_state_ = state;
             }
             break;
         case State::Outro:
             break;
+    }
+}
+
+void Level2::spike1_act() {
+    timer_ -= float(Util::Time::GetDeltaTimeMs());
+    if (timer_ <= 0) {
+        if (spike_num_ < 22) {
+            spikes_[spike_num_]->Enable();
+        }
+        if (spike_num_ > 3) {
+            spikes_[spike_num_ - 4]->Disable();
+        }
+        timer_ = 110;
+        spike_num_++;
+    }
+}
+
+void Level2::spike2_act() {
+    timer_ -= float(Util::Time::GetDeltaTimeMs());
+    if (timer_ <= 0) {
+        if (spike_num_ >= 0) {
+            spikes_[spike_num_]->Enable();
+        }
+        timer_ = 70;
+        spike_num_--;
     }
 }

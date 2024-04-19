@@ -16,13 +16,15 @@
 #include "Button.hpp"
 #include "EscButton.hpp"
 #include "TriggerCollider.hpp"
+#include "Util/Time.hpp"
 
 class Level2 : public ILevel {
 public:
     enum class State {
         Intro,
         Start,
-        Spike,
+        Spike1,
+        Spike2,
         Outro
     };
 
@@ -37,6 +39,10 @@ public:
     void ResetLevel();
 
     void UpdateCurrentState(State state);
+
+    void spike1_act();
+
+    void spike2_act();
 
 private:
     Util::Renderer root_;
@@ -54,6 +60,8 @@ private:
     std::vector<std::shared_ptr<TriggerCollider>> triggerColliders_;
     std::shared_ptr<Door> door_;
     std::shared_ptr<Character> character_;
+    float timer_;
+    int spike_num_ = 0;
 };
 
 #endif //LEVELDEVIL_LEVEL2_HPP
