@@ -23,7 +23,8 @@ public:
     enum class State {
         Intro,
         Start,
-        Spike,
+        Spike1,
+        Spike2,
         Outro
     };
 
@@ -39,7 +40,9 @@ public:
 
     void UpdateCurrentState(State state);
 
-    void spike_act();
+    void spike1_act();
+
+    void spike2_act();
 
 private:
     Util::Renderer root_;
