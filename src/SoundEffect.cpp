@@ -16,5 +16,5 @@ void SoundEffect::Play() {
 }
 
 void SoundEffect::Update() {
-    cooldown_ -= float(Util::Time::GetDeltaTime());
+    cooldown_ -= Util::Time::GetDeltaTimeMs();
 }

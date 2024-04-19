@@ -23,7 +23,7 @@ void Spring::Update(const std::shared_ptr<Character> &character_) {
     std::function<void(std::shared_ptr<Core::Drawable>)> set_drawable_function = [&](
             std::shared_ptr<Core::Drawable> drawable) { m_Drawable = std::move(drawable); };
     if (current_state_ == State::Up) {
-        timer_ -= float(Util::Time::GetDeltaTime());
+        timer_ -= Util::Time::GetDeltaTimeMs();
         if (timer_ <= 0) {
             animator_.UpdateAnimationState("Down", set_drawable_function);
             current_state_ = State::Down;
@@ -34,7 +34,7 @@ void Spring::Update(const std::shared_ptr<Character> &character_) {
         audio_manager_.Play(AudioManager::SFX::Bounce);
         current_state_ = State::Up;
         character_->Bounce();
-        timer_ = 0.5;
+        timer_ = 500;
     }
 }
 
