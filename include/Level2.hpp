@@ -51,7 +51,7 @@ private:
 
     std::function<void(Level::State)> set_level_state_function_;
 
-    AudioManager audio_maganer_;
+    AudioManager audio_manager_;
     std::vector<std::shared_ptr<MovableSprite>> transitions_;
     std::shared_ptr<Background> background_;
     std::shared_ptr<EscButton> button_;

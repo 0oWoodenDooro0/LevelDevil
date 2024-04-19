@@ -24,7 +24,8 @@ public:
         CloseDoor
     };
 
-    explicit Door(AudioManager audio_manager);
+    explicit Door(AudioManager audio_manager, const std::string& idle_path, const std::string& delay_path, const std::string& closedoor_path1,
+        const std::string& closedoor_path2, const std::string& closedoor_path3, const std::string& closedoor_path4);
 
     inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }
 
