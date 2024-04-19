@@ -59,8 +59,8 @@ void Level2::Start() {
         spike->Disable();
     }
 
-    triggerColliders_.push_back(std::make_shared<TriggerCollider>(Collider({ 128, 0 }, { 20, 1000 })));
-    triggerColliders_.push_back(std::make_shared<TriggerCollider>(Collider({ -192, 0 }, { 20, 1000 })));
+    triggerColliders_.push_back(std::make_shared<TriggerCollider>(Collider({128, 0}, {20, 1000})));
+    triggerColliders_.push_back(std::make_shared<TriggerCollider>(Collider({-192, 0}, {20, 1000})));
 }
 
 void Level2::Update() {
@@ -110,8 +110,7 @@ void Level2::Update() {
             }
             break;
         case State::Spike1:
-            if (spike_num_<26)
-            {
+            if (spike_num_ < 26) {
                 spike1_act();
             }
             triggerColliders_[1]->Update(character_->GetPosition());
@@ -122,8 +121,7 @@ void Level2::Update() {
             }
             break;
         case State::Spike2:
-            if (spike_num_ >= 0)
-            {
+            if (spike_num_ >= 0) {
                 spike2_act();
             }
             break;
@@ -187,10 +185,8 @@ void Level2::UpdateCurrentState(State state) {
 
 void Level2::spike1_act() {
     timer_ -= float(Util::Time::GetDeltaTimeMs());
-    if (timer_<=0)
-    {
-        if (spike_num_<22)
-        {
+    if (timer_ <= 0) {
+        if (spike_num_ < 22) {
             spikes_[spike_num_]->Enable();
         }
         if (spike_num_ > 3) {
@@ -203,10 +199,8 @@ void Level2::spike1_act() {
 
 void Level2::spike2_act() {
     timer_ -= float(Util::Time::GetDeltaTimeMs());
-    if (timer_ <= 0)
-    {
-        if (spike_num_ >= 0)
-        {
+    if (timer_ <= 0) {
+        if (spike_num_ >= 0) {
             spikes_[spike_num_]->Enable();
         }
         timer_ = 70;
