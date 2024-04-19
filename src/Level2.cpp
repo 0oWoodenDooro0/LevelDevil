@@ -117,7 +117,6 @@ void Level2::Update() {
             }
             triggerColliders_[1]->Update(character_->GetPosition());
             if (triggerColliders_[1]->GetState() == TriggerCollider::State::Trigger) {
-                LOG_DEBUG("2");
                 UpdateCurrentState(State::Spike2);
                 spike_num_ = 21;
                 timer_ = 70;
