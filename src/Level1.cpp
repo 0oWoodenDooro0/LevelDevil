@@ -127,10 +127,6 @@ void Level1::Update() {
     root_.Update();
 }
 
-void Level1::End() {
-
-}
-
 void Level1::ResetLevel() {
     movable_walls_[0]->SetPosition({-288, -320});
     movable_walls_[1]->SetPosition({256, -320});

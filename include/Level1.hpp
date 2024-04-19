@@ -33,8 +33,6 @@ public:
 
     void Update() override;
 
-    void End() override;
-
     void ResetLevel();
 
     void UpdateCurrentState(State state);
