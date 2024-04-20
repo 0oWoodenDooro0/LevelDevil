@@ -5,7 +5,8 @@
 #include "SoundEffect.hpp"
 #include "Util/Time.hpp"
 
-SoundEffect::SoundEffect(const std::string &path, float cooldown) : sfx_(Util::SFX(path)), initial_cooldown_(cooldown),
+SoundEffect::SoundEffect(const std::string &path, float cooldown) : sfx_(Util::SFX(path)),
+                                                                    initial_cooldown_(cooldown),
                                                                     cooldown_(cooldown) {}
 
 void SoundEffect::Play() {
