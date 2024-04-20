@@ -7,22 +7,13 @@
 #include <utility>
 #include "Util/Animation.hpp"
 #include "Util/Time.hpp"
-#include "EasingFunction.hpp"
 
 LevelSelect::LevelSelect(AudioManager audio_manager, std::function<void(Level::State)> set_level_state_function)
         : set_level_state_function_(std::move(set_level_state_function)), audio_manager_(std::move(audio_manager)) {}
 
 void LevelSelect::Start() {
-    auto top = std::make_shared<MovableSprite>(
-            std::make_shared<Util::Image>(RESOURCE_DIR"/image/ui/transition_top.png"), 20);
-    auto bottom = std::make_shared<MovableSprite>(
-            std::make_shared<Util::Image>(RESOURCE_DIR"/image/ui/transition_bottom.png"), 20);
-    top->SetPosition({0, 208});
-    bottom->SetPosition({0, -210});
-    transitions_.push_back(top);
-    transitions_.push_back(bottom);
-    root_.AddChild(top);
-    root_.AddChild(bottom);
+    root_.AddChild(transition_.GetTop());
+    root_.AddChild(transition_.GetBottom());
     background_ = std::make_shared<Background>(RESOURCE_DIR"/image/background/level_select.png");
     root_.AddChild(background_);
     std::array<glm::vec2, 15> door_positions = {glm::vec2(-728, 4), glm::vec2(-580, -72), glm::vec2(-404, -8),
@@ -51,14 +42,7 @@ void LevelSelect::Start() {
 void LevelSelect::Update() {
     switch (current_state_) {
         case State::Intro:
-            if (transition_timer_ < 1) {
-                transition_timer_ += Util::Time::GetDeltaTimeMs() * transition_delta_time_multiple;
-            } else {
-                transition_timer_ = 1;
-                UpdateCurrentState(State::Start);
-            }
-            transitions_[0]->SetPosition({0, int(208 + EasingFunction::EaseInCubic(transition_timer_) * 544)});
-            transitions_[1]->SetPosition({0, int(-210 - EasingFunction::EaseInCubic(transition_timer_) * 540)});
+            transition_.Intro([this]() { UpdateCurrentState(State::Start); });
             break;
         case State::Start:
             for (int i = 0; i < int(door_buttons_.size()); ++i) {
@@ -81,17 +65,7 @@ void LevelSelect::Update() {
             }
             break;
         case State::Outro:
-            if (transition_timer_ < 1) {
-                transition_timer_ += Util::Time::GetDeltaTimeMs() * transition_delta_time_multiple;
-            } else {
-                transition_timer_ = 1;
-                transition_end_timer += Util::Time::GetDeltaTimeMs();
-                if (transition_end_timer >= transition_end_delay_) {
-                    set_level_state_function_(level_);
-                }
-            }
-            transitions_[0]->SetPosition({0, int(752 - EasingFunction::EaseOutCubic(transition_timer_) * 544)});
-            transitions_[1]->SetPosition({0, int(-750 + EasingFunction::EaseOutCubic(transition_timer_) * 540)});
+            transition_.Outro([this]() { set_level_state_function_(level_); });
             break;
     }
 
@@ -111,7 +85,7 @@ void LevelSelect::UpdateCurrentState(LevelSelect::State state) {
         case State::Start:
             if (state == State::Outro) {
                 current_state_ = state;
-                transition_timer_ = 0;
+                transition_.ResetTimer();
             }
             break;
         case State::Outro:

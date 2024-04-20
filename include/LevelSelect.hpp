@@ -15,6 +15,7 @@
 #include "Util/Renderer.hpp"
 #include "AudioManager.hpp"
 #include "MovableSprite.hpp"
+#include "Transition.hpp"
 
 class LevelSelect : public ILevel {
 public:
@@ -41,13 +42,8 @@ private:
 
     std::function<void(Level::State)> set_level_state_function_;
 
-    std::vector<std::shared_ptr<MovableSprite>> transitions_;
-    float transition_timer_ = 0;
-    float transition_delta_time_multiple = 0.003f;
-    float transition_end_timer = 0;
-    float transition_end_delay_ = 300;
-
     AudioManager audio_manager_;
+    Transition transition_;
     std::shared_ptr<Background> background_;
     std::vector<std::shared_ptr<DoorButton>> door_buttons_;
     std::vector<std::shared_ptr<Sprite>> button_hovers_;

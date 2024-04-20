@@ -31,13 +31,13 @@ public:
 
     inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }
 
-    inline glm::vec2 GetPosition() { return m_Transform.translation; }
+    [[nodiscard]] inline glm::vec2 GetPosition() const { return m_Transform.translation; }
 
-    inline glm::vec2 GetSize() { return m_Drawable->GetSize(); }
+    [[nodiscard]] inline glm::vec2 GetSize() const { return m_Drawable->GetSize(); }
 
-    inline Collider GetCollider() { return {GetPosition(), GetSize()}; }
+    [[nodiscard]] inline Collider GetCollider() const { return {GetPosition(), GetSize()}; }
 
-    inline State GetState() { return current_state_; }
+    [[nodiscard]] inline State GetState() const { return current_state_; }
 
     void UpdateState(State state);
 

@@ -4,7 +4,6 @@
 #include "Level2.hpp"
 #include "InputHandler.hpp"
 #include "Util/Time.hpp"
-#include "EasingFunction.hpp"
 
 #include <utility>
 
@@ -12,16 +11,8 @@ Level2::Level2(AudioManager audio_manager, std::function<void(Level::State)> set
         : set_level_state_function_(std::move(set_level_state_function)), audio_maganer_(std::move(audio_manager)) {}
 
 void Level2::Start() {
-    auto top = std::make_shared<MovableSprite>(
-            std::make_shared<Util::Image>(RESOURCE_DIR"/image/ui/transition_top.png"), 20);
-    auto bottom = std::make_shared<MovableSprite>(
-            std::make_shared<Util::Image>(RESOURCE_DIR"/image/ui/transition_bottom.png"), 20);
-    top->SetPosition({0, 208});
-    bottom->SetPosition({0, -210});
-    transitions_.push_back(top);
-    transitions_.push_back(bottom);
-    root_.AddChild(top);
-    root_.AddChild(bottom);
+    root_.AddChild(transition_.GetTop());
+    root_.AddChild(transition_.GetBottom());
     background_ = std::make_shared<Background>(RESOURCE_DIR"/image/level/Level2/background.png");
     root_.AddChild(background_);
     button_ = std::make_shared<EscButton>(audio_maganer_);
@@ -95,14 +86,7 @@ void Level2::Update() {
 
     switch (current_state_) {
         case State::Intro:
-            if (transition_timer_ < 1) {
-                transition_timer_ += Util::Time::GetDeltaTimeMs() * transition_delta_time_multiple;
-            } else {
-                transition_timer_ = 1;
-                UpdateCurrentState(State::Start);
-            }
-            transitions_[0]->SetPosition({0, int(208 + EasingFunction::EaseInCubic(transition_timer_) * 544)});
-            transitions_[1]->SetPosition({0, int(-210 - EasingFunction::EaseInCubic(transition_timer_) * 540)});
+            transition_.Intro([this]() { UpdateCurrentState(State::Start); });
             break;
         case State::Start:
             triggerColliders_[0]->Update(character_->GetPosition());
@@ -125,17 +109,7 @@ void Level2::Update() {
             if (spike_num_ >= 0) spike2_act();
             break;
         case State::Outro:
-            if (transition_timer_ < 1) {
-                transition_timer_ += Util::Time::GetDeltaTimeMs() * transition_delta_time_multiple;
-            } else {
-                transition_timer_ = 1;
-                transition_end_timer += Util::Time::GetDeltaTimeMs();
-                if (transition_end_timer >= transition_end_delay_) {
-                    set_level_state_function_(level_);
-                }
-            }
-            transitions_[0]->SetPosition({0, int(752 - EasingFunction::EaseOutCubic(transition_timer_) * 544)});
-            transitions_[1]->SetPosition({0, int(-750 + EasingFunction::EaseOutCubic(transition_timer_) * 540)});
+            transition_.Outro([this]() { set_level_state_function_(level_); });
             break;
     }
     root_.Update();
@@ -160,7 +134,7 @@ void Level2::UpdateCurrentState(State state) {
                 current_state_ = state;
             } else if (state == State::Outro) {
                 current_state_ = state;
-                transition_timer_ = 0;
+                transition_.ResetTimer();
             }
             break;
         case State::Start:
@@ -168,7 +142,7 @@ void Level2::UpdateCurrentState(State state) {
                 current_state_ = state;
             } else if (state == State::Outro) {
                 current_state_ = state;
-                transition_timer_ = 0;
+                transition_.ResetTimer();
             }
             break;
         case State::Spike1:
@@ -177,13 +151,13 @@ void Level2::UpdateCurrentState(State state) {
             }
             if (state == State::Outro) {
                 current_state_ = state;
-                transition_timer_ = 0;
+                transition_.ResetTimer();
             }
             break;
         case State::Spike2:
             if (state == State::Outro) {
                 current_state_ = state;
-                transition_timer_ = 0;
+                transition_.ResetTimer();
             }
             break;
         case State::Outro:
