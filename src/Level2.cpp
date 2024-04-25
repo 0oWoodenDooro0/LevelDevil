@@ -11,16 +11,8 @@ Level2::Level2(AudioManager audio_manager, std::function<void(Level::State)> set
         : set_level_state_function_(std::move(set_level_state_function)), audio_maganer_(std::move(audio_manager)) {}
 
 void Level2::Start() {
-    auto top = std::make_shared<MovableSprite>(
-            std::make_shared<Util::Image>(RESOURCE_DIR"/image/ui/transition_top.png"), 20);
-    auto bottom = std::make_shared<MovableSprite>(
-            std::make_shared<Util::Image>(RESOURCE_DIR"/image/ui/transition_bottom.png"), 20);
-    top->SetPosition({0, 208});
-    bottom->SetPosition({0, -210});
-    transitions_.push_back(top);
-    transitions_.push_back(bottom);
-    root_.AddChild(top);
-    root_.AddChild(bottom);
+    root_.AddChild(transition_.GetTop());
+    root_.AddChild(transition_.GetBottom());
     background_ = std::make_shared<Background>(RESOURCE_DIR"/image/level/Level2/background.png");
     root_.AddChild(background_);
     button_ = std::make_shared<EscButton>(audio_maganer_);
@@ -94,12 +86,7 @@ void Level2::Update() {
 
     switch (current_state_) {
         case State::Intro:
-            transitions_[0]->Move({0, 752}, 750);
-            transitions_[1]->Move({0, -750}, 750);
-            if (transitions_[0]->GetPosition() == glm::vec2{0, 752} &&
-                transitions_[1]->GetPosition() == glm::vec2{0, -750}) {
-                UpdateCurrentState(State::Start);
-            }
+            transition_.Intro([this]() { UpdateCurrentState(State::Start); });
             break;
         case State::Start:
             triggerColliders_[0]->Update(character_->GetPosition());
@@ -110,9 +97,7 @@ void Level2::Update() {
             }
             break;
         case State::Spike1:
-            if (spike_num_ < 26) {
-                spike1_act();
-            }
+            if (spike_num_ < 26) spike1_act();
             triggerColliders_[1]->Update(character_->GetPosition());
             if (triggerColliders_[1]->GetState() == TriggerCollider::State::Trigger) {
                 UpdateCurrentState(State::Spike2);
@@ -121,17 +106,10 @@ void Level2::Update() {
             }
             break;
         case State::Spike2:
-            if (spike_num_ >= 0) {
-                spike2_act();
-            }
+            if (spike_num_ >= 0) spike2_act();
             break;
         case State::Outro:
-            transitions_[0]->Move({0, 208}, 750);
-            transitions_[1]->Move({0, -210}, 750);
-            if (transitions_[0]->GetPosition() == glm::vec2{0, 208} &&
-                transitions_[1]->GetPosition() == glm::vec2{0, -210}) {
-                set_level_state_function_(level_);
-            }
+            transition_.Outro([this]() { set_level_state_function_(level_); });
             break;
     }
     root_.Update();
@@ -156,6 +134,7 @@ void Level2::UpdateCurrentState(State state) {
                 current_state_ = state;
             } else if (state == State::Outro) {
                 current_state_ = state;
+                transition_.ResetTimer();
             }
             break;
         case State::Start:
@@ -163,6 +142,7 @@ void Level2::UpdateCurrentState(State state) {
                 current_state_ = state;
             } else if (state == State::Outro) {
                 current_state_ = state;
+                transition_.ResetTimer();
             }
             break;
         case State::Spike1:
@@ -171,11 +151,13 @@ void Level2::UpdateCurrentState(State state) {
             }
             if (state == State::Outro) {
                 current_state_ = state;
+                transition_.ResetTimer();
             }
             break;
         case State::Spike2:
             if (state == State::Outro) {
                 current_state_ = state;
+                transition_.ResetTimer();
             }
             break;
         case State::Outro:

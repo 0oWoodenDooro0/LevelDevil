@@ -17,6 +17,7 @@
 #include "EscButton.hpp"
 #include "TriggerCollider.hpp"
 #include "Util/Time.hpp"
+#include "Transition.hpp"
 
 class Level2 : public ILevel {
 public:
@@ -52,7 +53,7 @@ private:
     std::function<void(Level::State)> set_level_state_function_;
 
     AudioManager audio_maganer_;
-    std::vector<std::shared_ptr<MovableSprite>> transitions_;
+    Transition transition_;
     std::shared_ptr<Background> background_;
     std::shared_ptr<EscButton> button_;
     std::vector<std::shared_ptr<Sprite>> walls_;
@@ -60,7 +61,7 @@ private:
     std::vector<std::shared_ptr<TriggerCollider>> triggerColliders_;
     std::shared_ptr<Door> door_;
     std::shared_ptr<Character> character_;
-    float timer_;
+    float timer_ = 0;
     int spike_num_ = 0;
 };
 

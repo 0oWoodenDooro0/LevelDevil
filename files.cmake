@@ -22,6 +22,7 @@ set(SRC_FILES
     Spike.cpp
     Spring.cpp
     Sprite.cpp
+    Transition.cpp
     TriggerCollider.cpp
 )
 
@@ -37,6 +38,7 @@ set(INCLUDE_FILES
     CollisionHandler.hpp
     Door.hpp
     DoorButton.hpp
+    EasingFunction.hpp
     EscButton.hpp
     IBehaviour.hpp
     ILevel.hpp
@@ -52,6 +54,7 @@ set(INCLUDE_FILES
     Spike.hpp
     Spring.hpp
     Sprite.hpp
+    Transition.hpp
     TriggerCollider.hpp
 )
 

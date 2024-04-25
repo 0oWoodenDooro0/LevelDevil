@@ -15,6 +15,7 @@
 #include "Util/Renderer.hpp"
 #include "AudioManager.hpp"
 #include "MovableSprite.hpp"
+#include "Transition.hpp"
 
 class LevelSelect : public ILevel {
 public:
@@ -25,8 +26,6 @@ public:
     };
 
     explicit LevelSelect(AudioManager audio_manager, std::function<void(Level::State)> set_level_state_function);
-
-    inline State GetState() { return current_state_; }
 
     void Start() override;
 
@@ -44,7 +43,7 @@ private:
     std::function<void(Level::State)> set_level_state_function_;
 
     AudioManager audio_manager_;
-    std::vector<std::shared_ptr<MovableSprite>> transitions_;
+    Transition transition_;
     std::shared_ptr<Background> background_;
     std::vector<std::shared_ptr<DoorButton>> door_buttons_;
     std::vector<std::shared_ptr<Sprite>> button_hovers_;

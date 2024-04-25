@@ -16,6 +16,7 @@
 #include "Button.hpp"
 #include "EscButton.hpp"
 #include "TriggerCollider.hpp"
+#include "Transition.hpp"
 
 class Level1 : public ILevel {
 public:
@@ -47,7 +48,7 @@ private:
     std::function<void(Level::State)> set_level_state_function_;
 
     AudioManager audio_manager_;
-    std::vector<std::shared_ptr<MovableSprite>> transitions_;
+    Transition transition_;
     std::shared_ptr<Background> background_;
     std::shared_ptr<EscButton> button_;
     std::vector<std::shared_ptr<Sprite>> walls_;
