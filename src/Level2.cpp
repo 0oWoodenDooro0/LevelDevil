@@ -115,10 +115,6 @@ void Level2::Update() {
     root_.Update();
 }
 
-void Level2::End() {
-
-}
-
 void Level2::ResetLevel() {
     current_state_ = State::Start;
     for (int i = 0; i < 22; i++) {

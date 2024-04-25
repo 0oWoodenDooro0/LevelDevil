@@ -16,7 +16,7 @@
 
 class Spring : public Util::GameObject, public IBehaviour {
 public:
-    enum State {
+    enum class State {
         Up,
         Down
     };

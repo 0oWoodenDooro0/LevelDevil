@@ -72,10 +72,6 @@ void LevelSelect::Update() {
     root_.Update();
 }
 
-void LevelSelect::End() {
-
-}
-
 void LevelSelect::UpdateCurrentState(LevelSelect::State state) {
     if (current_state_ == state) return;
     switch (current_state_) {

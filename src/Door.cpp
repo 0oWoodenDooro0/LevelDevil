@@ -29,7 +29,7 @@ void Door::Update(const std::shared_ptr<Character> &character_) {
     if (!enabled_) {
         return;
     }
-    std::function<void(std::shared_ptr<Core::Drawable>)> set_drawable_function = [&](
+    std::function<void(std::shared_ptr<Core::Drawable>)> set_drawable_function = [this](
             std::shared_ptr<Core::Drawable> drawable) { m_Drawable = std::move(drawable); };
     if (current_state_ == State::CloseDoor) {
         if (timer_ <= 0) {

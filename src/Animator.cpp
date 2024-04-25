@@ -6,7 +6,7 @@
 
 #include <utility>
 
-void Animator::SetAnimationStates(std::map<std::string, std::shared_ptr<Core::Drawable>> states) {
+void Animator::SetAnimationStates(std::map<std::string, std::shared_ptr<Core::Drawable>, std::less<>> states) {
     animation_states_ = std::move(states);
 }
 

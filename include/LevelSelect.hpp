@@ -31,8 +31,6 @@ public:
 
     void Update() override;
 
-    void End() override;
-
     void UpdateCurrentState(State state);
 
 private:

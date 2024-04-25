@@ -18,7 +18,7 @@
 
 class LevelButton : public Util::GameObject, public IBehaviour {
 public:
-    enum State {
+    enum class State {
         Up,
         Down
     };
@@ -44,7 +44,6 @@ public:
 private:
     Animator animator_;
     AudioManager audiomanager_;
-    float timer_ = 0.5;
     State current_state_ = State::Down;
 };
 

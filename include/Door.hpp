@@ -18,7 +18,7 @@
 
 class Door : public Util::GameObject, public IBehaviour {
 public:
-    enum State {
+    enum class State {
         Idle,
         Delay,
         CloseDoor
