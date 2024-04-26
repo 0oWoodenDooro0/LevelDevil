@@ -22,13 +22,13 @@ void Level2::Start() {
     character_->SetCheckPoint({704, -64});
     root_.AddChild(character_);
 
-    std::vector<std::string> img_paths={(RESOURCE_DIR"/image/level/level2/door.png"),
-        (RESOURCE_DIR"/image/level/level2/in_door1.png"),
-        (RESOURCE_DIR"/image/level/level2/in_door2.png"),
-        (RESOURCE_DIR"/image/level/level2/in_door3.png"),
-        (RESOURCE_DIR"/image/level/level2/in_door4.png"),
-        (RESOURCE_DIR"/image/level/level2/in_door5.png")};
-    door_ = std::make_shared<Door>(audio_manager_,img_paths);
+    std::vector<std::string> img_paths = {RESOURCE_DIR"/image/level/level2/door.png",
+                                          RESOURCE_DIR"/image/level/level2/in_door1.png",
+                                          RESOURCE_DIR"/image/level/level2/in_door2.png",
+                                          RESOURCE_DIR"/image/level/level2/in_door3.png",
+                                          RESOURCE_DIR"/image/level/level2/in_door4.png",
+                                          RESOURCE_DIR"/image/level/level2/in_door5.png"};
+    door_ = std::make_shared<Door>(audio_manager_, img_paths);
     door_->SetPosition({-704, -64});
     root_.AddChild(door_);
     auto wall_image = std::vector<std::string>{RESOURCE_DIR"/image/level/Level2/hole.png",

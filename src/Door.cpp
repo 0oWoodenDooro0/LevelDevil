@@ -11,7 +11,8 @@
 #include "Character.hpp"
 #include "Animator.hpp"
 
-Door::Door(AudioManager audio_manager, std::vector<std::string> img_paths) : Util::GameObject(), audio_manager_(std::move(audio_manager)) {
+Door::Door(AudioManager audio_manager, std::vector<std::string> img_paths) : Util::GameObject(),
+                                                                             audio_manager_(std::move(audio_manager)) {
     SetZIndex(0);
     m_Drawable = std::make_unique<Util::Image>(img_paths[0]);
     animator_.SetAnimationStates(

@@ -23,12 +23,12 @@ void Level1::Start() {
     character_->SetCheckPoint({-576, -128});
     root_.AddChild(character_);
 
-    std::vector<std::string> img_paths = { (RESOURCE_DIR"/image/level/level1/door.png"),
-        (RESOURCE_DIR"/image/level/level1/in_door1.png"),
-        (RESOURCE_DIR"/image/level/level1/in_door2.png"),
-        (RESOURCE_DIR"/image/level/level1/in_door3.png"),
-        (RESOURCE_DIR"/image/level/level1/in_door4.png"),
-        (RESOURCE_DIR"/image/level/level1/in_door5.png") };
+    std::vector<std::string> img_paths = {RESOURCE_DIR"/image/level/level1/door.png",
+                                          RESOURCE_DIR"/image/level/level1/in_door1.png",
+                                          RESOURCE_DIR"/image/level/level1/in_door2.png",
+                                          RESOURCE_DIR"/image/level/level1/in_door3.png",
+                                          RESOURCE_DIR"/image/level/level1/in_door4.png",
+                                          RESOURCE_DIR"/image/level/level1/in_door5.png"};
     door_ = std::make_shared<Door>(audio_manager_, img_paths);
     door_->SetPosition({576, -128});
     root_.AddChild(door_);
@@ -109,7 +109,7 @@ void Level1::Update() {
             movable_walls_[1]->Move({192, -320}, 500);
             break;
         case State::Outro:
-            transition_.Outro([this](){set_level_state_function_(level_);});
+            transition_.Outro([this]() { set_level_state_function_(level_); });
             break;
     }
 
