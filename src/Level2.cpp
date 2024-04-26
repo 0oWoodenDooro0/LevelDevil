@@ -104,7 +104,7 @@ void Level2::Update() {
             }
             break;
         case State::Spike1:
-            if (spike_num_ < 26) Spike1_Act();
+            if (spike_num_ < 26) Spike1Act();
             triggerColliders_[1]->Update(character_->GetPosition());
             if (triggerColliders_[1]->GetState() == TriggerCollider::State::Trigger) {
                 UpdateCurrentState(State::Spike2);
@@ -113,7 +113,7 @@ void Level2::Update() {
             }
             break;
         case State::Spike2:
-            if (spike_num_ >= 0) Spike2_Act();
+            if (spike_num_ >= 0) Spike2Act();
             break;
         case State::Outro:
             transition_.Outro([this]() { set_level_state_function_(level_); });
@@ -168,7 +168,7 @@ void Level2::UpdateCurrentState(State state) {
     }
 }
 
-void Level2::Spike1_Act() {
+void Level2::Spike1Act() {
     timer_ -= float(Util::Time::GetDeltaTimeMs());
     if (timer_ <= 0) {
         if (spike_num_ < 22) {
@@ -182,7 +182,7 @@ void Level2::Spike1_Act() {
     }
 }
 
-void Level2::Spike2_Act() {
+void Level2::Spike2Act() {
     timer_ -= float(Util::Time::GetDeltaTimeMs());
     if (timer_ <= 0) {
         if (spike_num_ >= 0) {

@@ -39,9 +39,9 @@ public:
 
     void UpdateCurrentState(State state);
 
-    void Spike1_Act();
+    void Spike1Act();
 
-    void Spike2_Act();
+    void Spike2Act();
 
 private:
     Util::Renderer renderer_;
