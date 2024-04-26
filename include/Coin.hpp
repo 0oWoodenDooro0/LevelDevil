@@ -18,7 +18,7 @@
 
 class Coin : public Util::GameObject, public IBehaviour {
 public:
-    enum class State{
+    enum class State {
         Idle,
         Trigger
     };
@@ -36,6 +36,8 @@ public:
     [[nodiscard]] inline Collider GetCollider() const {
         return {GetPosition(), GetSize() - glm::vec2(42, 42)};
     }
+
+    [[nodiscard]] inline State GetState() const { return current_state_; }
 
     void Update(const std::shared_ptr<Character> &character_);
 
