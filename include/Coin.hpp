@@ -18,7 +18,12 @@
 
 class Coin : public Util::GameObject, public IBehaviour {
 public:
-    explicit Coin(AudioManager audio_manager);
+    enum class State{
+        Idle,
+        Trigger
+    };
+
+    explicit Coin(AudioManager audio_manager, const std::string &image_path = RESOURCE_DIR"/image/component/coin.png");
 
     void SetImage(const std::string &image_path);
 
@@ -39,6 +44,7 @@ public:
     void Disable() override;
 
 private:
+    State current_state_ = State::Idle;
     AudioManager audio_manager_;
     std::string image_path_;
     bool enabled_ = true;
