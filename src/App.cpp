@@ -5,9 +5,10 @@
 #include "Level1.hpp"
 #include "LevelSelect.hpp"
 #include "Level2.hpp"
+#include "Level4.hpp"
 
 void App::UpdateCurrentLevelState(Level::State level_state) {
-    auto set_level_state_function = [this](Level::State level_state) { current_level_state_ = level_state; };
+    auto set_level_state_function = [this](Level::State state) { current_level_state_ = state; };
     switch (level_state) {
         case Level::State::LEVEL_SELECT:
             level_ = std::make_unique<LevelSelect>(audio_manager_, set_level_state_function);
@@ -17,6 +18,9 @@ void App::UpdateCurrentLevelState(Level::State level_state) {
             break;
         case Level::State::LEVEL_2:
             level_ = std::make_unique<Level2>(audio_manager_, set_level_state_function);
+            break;
+        case Level::State::LEVEL_4:
+            level_ = std::make_unique<Level4>(audio_manager_, set_level_state_function);
             break;
     }
     level_->Start();
