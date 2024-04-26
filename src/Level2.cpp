@@ -61,8 +61,8 @@ void Level2::Start() {
 		spike->Disable();
 	}
 
-	triggerColliders_.push_back(std::make_shared<TriggerCollider>(Collider({ 128, 0 }, { 20, 1000 })));
-	triggerColliders_.push_back(std::make_shared<TriggerCollider>(Collider({ -192, 0 }, { 20, 1000 })));
+    triggerColliders_.push_back(std::make_shared<TriggerCollider>(Collider({128, 0}, {20, 1000})));
+    triggerColliders_.push_back(std::make_shared<TriggerCollider>(Collider({-192, 0}, {20, 1000})));
 }
 
 void Level2::Update() {
@@ -95,51 +95,49 @@ void Level2::Update() {
 		spike->Update(character_);
 	}
 
-	switch (current_state_) {
-	case State::Intro:
-		transitions_[0]->Move({ 0, 752 }, 750);
-		transitions_[1]->Move({ 0, -750 }, 750);
-		if (transitions_[0]->GetPosition() == glm::vec2{0, 752}&&
-			transitions_[1]->GetPosition() == glm::vec2{0, -750}) {
-			UpdateCurrentState(State::Start);
-		}
-		break;
-	case State::Start:
-		triggerColliders_[0]->Update(character_->GetPosition());
-		if (triggerColliders_[0]->GetState() == TriggerCollider::State::Trigger) {
-			UpdateCurrentState(State::Spike1);
-			spike_num_ = 0;
-			timer_ = 110;
-		}
-		break;
-	case State::Spike1:
-		if (spike_num_ < 26)
-		{
-			spike1_act();
-		}
-		triggerColliders_[1]->Update(character_->GetPosition());
-		if (triggerColliders_[1]->GetState() == TriggerCollider::State::Trigger) {
-			UpdateCurrentState(State::Spike2);
-			spike_num_ = 21;
-			timer_ = 70;
-		}
-		break;
-	case State::Spike2:
-		if (spike_num_ >= 0)
-		{
-			spike2_act();
-		}
-		break;
-	case State::Outro:
-		transitions_[0]->Move({ 0, 208 }, 750);
-		transitions_[1]->Move({ 0, -210 }, 750);
-		if (transitions_[0]->GetPosition() == glm::vec2{0, 208}&&
-			transitions_[1]->GetPosition() == glm::vec2{0, -210}) {
-			set_level_state_function_(level_);
-		}
-		break;
-	}
-	root_.Update();
+    switch (current_state_) {
+        case State::Intro:
+            transitions_[0]->Move({0, 752}, 750);
+            transitions_[1]->Move({0, -750}, 750);
+            if (transitions_[0]->GetPosition() == glm::vec2{0, 752} &&
+                transitions_[1]->GetPosition() == glm::vec2{0, -750}) {
+                UpdateCurrentState(State::Start);
+            }
+            break;
+        case State::Start:
+            triggerColliders_[0]->Update(character_->GetPosition());
+            if (triggerColliders_[0]->GetState() == TriggerCollider::State::Trigger) {
+                UpdateCurrentState(State::Spike1);
+                spike_num_ = 0;
+                timer_ = 110;
+            }
+            break;
+        case State::Spike1:
+            if (spike_num_ < 26) {
+                spike1_act();
+            }
+            triggerColliders_[1]->Update(character_->GetPosition());
+            if (triggerColliders_[1]->GetState() == TriggerCollider::State::Trigger) {
+                UpdateCurrentState(State::Spike2);
+                spike_num_ = 21;
+                timer_ = 70;
+            }
+            break;
+        case State::Spike2:
+            if (spike_num_ >= 0) {
+                spike2_act();
+            }
+            break;
+        case State::Outro:
+            transitions_[0]->Move({0, 208}, 750);
+            transitions_[1]->Move({0, -210}, 750);
+            if (transitions_[0]->GetPosition() == glm::vec2{0, 208} &&
+                transitions_[1]->GetPosition() == glm::vec2{0, -210}) {
+                set_level_state_function_(level_);
+            }
+            break;
+    }
+    root_.Update();
 }
 
 void Level2::End() {
@@ -191,30 +189,26 @@ void Level2::UpdateCurrentState(State state) {
 }
 
 void Level2::spike1_act() {
-	timer_ -= float(Util::Time::GetDeltaTimeMs());
-	if (timer_ <= 0)
-	{
-		if (spike_num_ < 22)
-		{
-			spikes_[spike_num_]->Enable();
-		}
-		if (spike_num_ > 3) {
-			spikes_[spike_num_ - 4]->Disable();
-		}
-		timer_ = 110;
-		spike_num_++;
-	}
+    timer_ -= float(Util::Time::GetDeltaTimeMs());
+    if (timer_ <= 0) {
+        if (spike_num_ < 22) {
+            spikes_[spike_num_]->Enable();
+        }
+        if (spike_num_ > 3) {
+            spikes_[spike_num_ - 4]->Disable();
+        }
+        timer_ = 110;
+        spike_num_++;
+    }
 }
 
 void Level2::spike2_act() {
-	timer_ -= float(Util::Time::GetDeltaTimeMs());
-	if (timer_ <= 0)
-	{
-		if (spike_num_ >= 0)
-		{
-			spikes_[spike_num_]->Enable();
-		}
-		timer_ = 70;
-		spike_num_--;
-	}
+    timer_ -= float(Util::Time::GetDeltaTimeMs());
+    if (timer_ <= 0) {
+        if (spike_num_ >= 0) {
+            spikes_[spike_num_]->Enable();
+        }
+        timer_ = 70;
+        spike_num_--;
+    }
 }
