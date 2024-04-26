@@ -11,17 +11,17 @@
 #include "Character.hpp"
 #include "Animator.hpp"
 
-Door::Door(AudioManager audio_manager) : Util::GameObject(), audio_manager_(std::move(audio_manager)) {
+Door::Door(AudioManager audio_manager, std::vector<std::string> img_paths) : Util::GameObject(), audio_manager_(std::move(audio_manager)) {
     SetZIndex(0);
-    m_Drawable = std::make_unique<Util::Image>(RESOURCE_DIR"/image/door/door.png");
+    m_Drawable = std::make_unique<Util::Image>(img_paths[0]);
     animator_.SetAnimationStates(
-            {{"Idle",      std::make_unique<Util::Image>(RESOURCE_DIR"/image/door/door.png")},
-             {"Delay",     std::make_unique<Util::Image>(RESOURCE_DIR"/image/door/in_door1.png")},
+            {{"Idle",      std::make_unique<Util::Image>(img_paths[0])},
+             {"Delay",     std::make_unique<Util::Image>(img_paths[1])},
              {"CloseDoor", std::make_unique<Util::Animation>(
-                     std::vector<std::string>{(RESOURCE_DIR"/image/door/in_door2.png"),
-                                              (RESOURCE_DIR"/image/door/in_door3.png"),
-                                              (RESOURCE_DIR"/image/door/in_door4.png"),
-                                              (RESOURCE_DIR"/image/door/in_door5.png")}, true, 50,
+                     std::vector<std::string>{(img_paths[2]),
+                                              (img_paths[3]),
+                                              (img_paths[4]),
+                                              (img_paths[5])}, true, 50,
                      false, 0)}});
 }
 

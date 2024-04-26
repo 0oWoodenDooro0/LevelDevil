@@ -8,20 +8,27 @@
 #include <utility>
 
 Level2::Level2(AudioManager audio_manager, std::function<void(Level::State)> set_level_state_function)
-        : set_level_state_function_(std::move(set_level_state_function)), audio_maganer_(std::move(audio_manager)) {}
+        : set_level_state_function_(std::move(set_level_state_function)), audio_manager_(std::move(audio_manager)) {}
 
 void Level2::Start() {
     root_.AddChild(transition_.GetTop());
     root_.AddChild(transition_.GetBottom());
     background_ = std::make_shared<Background>(RESOURCE_DIR"/image/level/Level2/background.png");
     root_.AddChild(background_);
-    button_ = std::make_shared<EscButton>(audio_maganer_);
+    button_ = std::make_shared<EscButton>(audio_manager_);
     button_->SetPosition({-800, 416});
     root_.AddChild(button_);
-    character_ = std::make_shared<Character>(audio_maganer_);
+    character_ = std::make_shared<Character>(audio_manager_);
     character_->SetCheckPoint({704, -64});
     root_.AddChild(character_);
-    door_ = std::make_shared<Door>(audio_maganer_);
+
+    std::vector<std::string> img_paths={(RESOURCE_DIR"/image/level/level2/door.png"),
+        (RESOURCE_DIR"/image/level/level2/in_door1.png"),
+        (RESOURCE_DIR"/image/level/level2/in_door2.png"),
+        (RESOURCE_DIR"/image/level/level2/in_door3.png"),
+        (RESOURCE_DIR"/image/level/level2/in_door4.png"),
+        (RESOURCE_DIR"/image/level/level2/in_door5.png")};
+    door_ = std::make_shared<Door>(audio_manager_,img_paths);
     door_->SetPosition({-704, -64});
     root_.AddChild(door_);
     auto wall_image = std::vector<std::string>{RESOURCE_DIR"/image/level/Level2/hole.png",
@@ -44,7 +51,7 @@ void Level2::Start() {
 
     auto spike_image = RESOURCE_DIR"/image/level/Level2/spike.png";
     for (int i = 0; i < 22; i++) {
-        auto spike = std::make_shared<Spike>(spike_image, audio_maganer_);
+        auto spike = std::make_shared<Spike>(spike_image, audio_manager_);
         spikes_.push_back(spike);
         root_.AddChild(spike);
         spike->SetPosition({-640 + i * 64, -64});
