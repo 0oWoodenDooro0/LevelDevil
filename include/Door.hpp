@@ -24,7 +24,7 @@ public:
         CloseDoor
     };
 
-    explicit Door(AudioManager audio_manager);
+    explicit Door(AudioManager audio_manager, std::vector<std::string> img_paths);
 
     inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }
 

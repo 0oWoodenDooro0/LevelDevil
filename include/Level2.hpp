@@ -50,7 +50,7 @@ private:
 
     std::function<void(Level::State)> set_level_state_function_;
 
-    AudioManager audio_maganer_;
+    AudioManager audio_manager_;
     Transition transition_;
     std::shared_ptr<Background> background_;
     std::shared_ptr<EscButton> button_;
