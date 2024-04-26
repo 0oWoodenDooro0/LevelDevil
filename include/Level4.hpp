@@ -38,6 +38,8 @@ public:
 
     void MoveCoins() const;
 
+    void ResetCoins() const;
+
 private:
     Util::Renderer renderer_;
     State current_state_ = State::Intro;

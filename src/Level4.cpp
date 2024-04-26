@@ -73,21 +73,7 @@ void Level4::Start() {
         coins_.push_back(coin);
         renderer_.AddChild(coin);
     }
-    coins_[0]->SetPosition({-768, -64});
-    coins_[1]->SetPosition({-576, 128});
-    coins_[2]->SetPosition({-256, 128});
-    coins_[3]->SetPosition({-64, -64});
-    coins_[4]->SetPosition({64, 128});
-    coins_[5]->SetPosition({320, -64});
-    coins_[6]->SetPosition({-896, -64});
-    coins_[7]->SetPosition({-896, 0});
-    coins_[8]->SetPosition({-896, 64});
-    coins_[9]->SetPosition({-896, 128});
-    coins_[10]->SetPosition({-896, 192});
-    coins_[11]->SetPosition({-896, 256});
-    coins_[12]->SetPosition({-896, 320});
-    coins_[13]->SetPosition({-896, 384});
-    coins_[14]->SetPosition({-896, 448});
+    ResetCoins();
 
     triggerColliders_.push_back(std::make_shared<TriggerCollider>(Collider({224, 128}, {64, 1000})));
 }
@@ -144,24 +130,7 @@ void Level4::Update() {
 }
 
 void Level4::ResetLevel() {
-    coins_[0]->SetPosition({-768, -64});
-    coins_[1]->SetPosition({-576, 128});
-    coins_[2]->SetPosition({-256, 128});
-    coins_[3]->SetPosition({-64, -64});
-    coins_[4]->SetPosition({64, 128});
-    coins_[5]->SetPosition({320, -64});
-    coins_[6]->SetPosition({-896, -64});
-    coins_[7]->SetPosition({-896, 0});
-    coins_[8]->SetPosition({-896, 64});
-    coins_[9]->SetPosition({-896, 128});
-    coins_[10]->SetPosition({-896, 192});
-    coins_[11]->SetPosition({-896, 256});
-    coins_[12]->SetPosition({-896, 320});
-    coins_[13]->SetPosition({-896, 384});
-    coins_[14]->SetPosition({-896, 448});
-    for (const auto& coin: coins_) {
-        coin->Enable();
-    }
+    ResetCoins();
     current_state_ = State::Start;
 }
 
@@ -198,5 +167,26 @@ void Level4::UpdateCurrentState(Level4::State state) {
 void Level4::MoveCoins() const {
     for (const auto &coin: coins_) {
         coin->SetPosition(coin->GetPosition() + coin_speed_ * (Util::Time::GetDeltaTimeMs() / 1000) * glm::vec2{1, 0});
+    }
+}
+
+void Level4::ResetCoins() const {
+    coins_[0]->SetPosition({-768, -64});
+    coins_[1]->SetPosition({-576, 128});
+    coins_[2]->SetPosition({-256, 128});
+    coins_[3]->SetPosition({-64, -64});
+    coins_[4]->SetPosition({64, 128});
+    coins_[5]->SetPosition({320, -64});
+    coins_[6]->SetPosition({-896, -64});
+    coins_[7]->SetPosition({-896, 0});
+    coins_[8]->SetPosition({-896, 64});
+    coins_[9]->SetPosition({-896, 128});
+    coins_[10]->SetPosition({-896, 192});
+    coins_[11]->SetPosition({-896, 256});
+    coins_[12]->SetPosition({-896, 320});
+    coins_[13]->SetPosition({-896, 384});
+    coins_[14]->SetPosition({-896, 448});
+    for (const auto& coin: coins_) {
+        coin->Enable();
     }
 }
