@@ -55,7 +55,7 @@ private:
     std::shared_ptr<Door> door_;
     std::shared_ptr<Character> character_;
 
-    float coin_speed_ = 100;
+    float coin_speed_ = 200;
 };
 
 

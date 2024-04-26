@@ -82,7 +82,7 @@ void Character::Move(glm::vec2 input_velocity, const std::vector<std::shared_ptr
             {move_speed_ * input_velocity.x * Util::Time::GetDeltaTimeMs() / 1000,
              rigidbody_.GetVelocity().y});
 
-    std::function<void(glm::vec2)> translate = [&](glm::vec2 position) { m_Transform.translation += position; };
+    std::function<void(glm::vec2)> translate = [this](glm::vec2 position) { m_Transform.translation += position; };
     rigidbody_.Update(GetCollider(), walls, translate);
 }
 
@@ -119,7 +119,7 @@ void Character::Dead() {
     audio_manager_.Play(AudioManager::SFX::Dead);
     rigidbody_.ResetVelocity();
     rigidbody_.ResetAcceleration();
-    animator_.UpdateAnimationState("Idle", [&](const std::shared_ptr<Core::Drawable> &drawable) {
+    animator_.UpdateAnimationState("Idle", [this](const std::shared_ptr<Core::Drawable> &drawable) {
         this->SetDrawable(drawable);
     });
 }

@@ -22,7 +22,13 @@ void Level4::Start() {
     character_ = std::make_shared<Character>(audio_manager_);
     character_->SetCheckPoint({-704, -64});
     renderer_.AddChild(character_);
-    door_ = std::make_shared<Door>(audio_manager_);
+    door_ = std::make_shared<Door>(audio_manager_,
+                                   std::vector<std::string>{RESOURCE_DIR"/image/level/level4/door.png",
+                                                            RESOURCE_DIR"/image/level/level4/in_door1.png",
+                                                            RESOURCE_DIR"/image/level/level4/in_door2.png",
+                                                            RESOURCE_DIR"/image/level/level4/in_door3.png",
+                                                            RESOURCE_DIR"/image/level/level4/in_door4.png",
+                                                            RESOURCE_DIR"/image/level/level4/in_door5.png",});
     door_->SetPosition({768, -64});
     renderer_.AddChild(door_);
     auto wall_images = std::vector<std::string>{RESOURCE_DIR"/image/level/level4/bottom.png",
@@ -62,7 +68,8 @@ void Level4::Start() {
     walls_[14]->SetPosition({640, 192});
 
     for (int i = 0; i < 15; ++i) {
-        auto coin = std::make_shared<Coin>(audio_manager_);
+        auto coin = std::make_shared<Coin>(audio_manager_,
+                                           std::string{RESOURCE_DIR"/image/level/level4/coin.png"});
         coins_.push_back(coin);
         renderer_.AddChild(coin);
     }
@@ -108,6 +115,13 @@ void Level4::Update() {
         UpdateCurrentState(State::Outro);
     }
 
+    for (const auto &coin: coins_) {
+        coin->Update(character_);
+        if (coin->GetState() == Coin::State::Trigger) {
+            character_->Dead();
+        }
+    }
+
     switch (current_state_) {
         case State::Intro:
             transition_.Intro([this]() { UpdateCurrentState(State::Start); });
@@ -116,6 +130,7 @@ void Level4::Update() {
             triggerColliders_[0]->Update(character_->GetPosition());
             if (triggerColliders_[0]->GetState() == TriggerCollider::State::Trigger) {
                 UpdateCurrentState(State::Coin);
+                audio_manager_.Play(AudioManager::SFX::WallTrap);
             }
             break;
         case State::Coin:
@@ -144,6 +159,9 @@ void Level4::ResetLevel() {
     coins_[12]->SetPosition({-896, 320});
     coins_[13]->SetPosition({-896, 384});
     coins_[14]->SetPosition({-896, 448});
+    for (const auto& coin: coins_) {
+        coin->Enable();
+    }
     current_state_ = State::Start;
 }
 
