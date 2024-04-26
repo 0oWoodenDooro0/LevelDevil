@@ -10,8 +10,8 @@
 #include "CollisionHandler.hpp"
 #include "Character.hpp"
 
-Coin::Coin(AudioManager audio_manager) : audio_manager_(std::move(audio_manager)) {
-    SetImage(RESOURCE_DIR"/image/component/coin.png");
+Coin::Coin(AudioManager audio_manager, const std::string& image_path) : audio_manager_(std::move(audio_manager)) {
+    SetImage(image_path);
     SetZIndex(0);
 }
 
@@ -25,6 +25,7 @@ void Coin::Update(const std::shared_ptr<Character> &character_) {
     if (CollisionHandler::CheckCollision(character_->GetCollider(), GetCollider())) {
         audio_manager_.Play(AudioManager::SFX::Coin);
         Disable();
+        current_state_ = State::Trigger;
     }
 }
 
