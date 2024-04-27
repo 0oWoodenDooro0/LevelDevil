@@ -10,6 +10,11 @@ bool CollisionHandler::CheckCollision(Collider collider, Collider other) {
            collider.bottom < other.top;
 }
 
+bool CollisionHandler::CheckCollisionWithBorder(Collider collider, Collider other) {
+    return collider.right >= other.left && collider.left <= other.right && collider.top >= other.bottom &&
+           collider.bottom <= other.top;
+}
+
 bool CollisionHandler::IsCollide(glm::vec2 position, Collider collider) {
     return collider.right > position.x && collider.left < position.x && collider.top > position.y &&
            collider.bottom < position.y;

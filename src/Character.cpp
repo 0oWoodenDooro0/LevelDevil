@@ -56,7 +56,6 @@ void Character::Move(glm::vec2 input_velocity, const std::vector<std::shared_ptr
             animator_.UpdateAnimationState("JumpLeft", set_drawable_function);
         }
     } else {
-        rigidbody_.ResetVelocity();
         if (input_velocity.x > 0) {
             animator_.UpdateAnimationState("RunRight", set_drawable_function);
         } else if (input_velocity.x < 0) {

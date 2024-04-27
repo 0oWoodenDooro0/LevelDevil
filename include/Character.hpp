@@ -36,9 +36,11 @@ public:
 
     [[nodiscard]] inline Collider GetCollider() const { return {GetPosition() - glm::vec2(2, 6), {32, 52}}; }
 
-    inline State GetCurrentState() { return current_state_; }
+    [[nodiscard]] inline State GetCurrentState() const { return current_state_; }
 
     [[nodiscard]] inline bool GetEnabled() const { return enabled_; }
+
+    [[nodiscard]] inline Rigidbody GetRigidbody() const { return rigidbody_; }
 
     void Move(glm::vec2 input_velocity, const std::vector<std::shared_ptr<Sprite>> &walls);
 

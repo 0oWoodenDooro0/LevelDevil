@@ -10,7 +10,8 @@ public:
     enum class State {
         LEVEL_SELECT,
         LEVEL_1,
-        LEVEL_2
+        LEVEL_2,
+        LEVEL_6
     };
 };
 
