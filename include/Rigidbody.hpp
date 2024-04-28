@@ -19,13 +19,15 @@ public:
 
     inline void SetVelocity(glm::vec2 velocity) { velocity_ = velocity; }
 
-    inline glm::vec2 GetAcceleration() { return acceleration_; }
+    [[nodiscard]] inline glm::vec2 GetAcceleration() const { return acceleration_; }
 
-    inline glm::vec2 GetVelocity() { return velocity_; }
+    [[nodiscard]] inline glm::vec2 GetVelocity() const { return velocity_; }
 
     inline void ResetAcceleration() { acceleration_ = {0, 0}; }
 
     inline void ResetVelocity() { velocity_ = {0, 0}; }
+
+    inline void AddAcceleration(glm::vec2 acceleration) { acceleration_ += acceleration; }
 
     void Update(Collider collider, const std::vector<std::shared_ptr<Sprite>> &walls,
                 const std::function<void(glm::vec2)> &translate);

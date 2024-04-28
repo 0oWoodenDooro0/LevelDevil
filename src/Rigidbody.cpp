@@ -8,6 +8,7 @@
 #include "CollisionHandler.hpp"
 #include "Collider.hpp"
 #include "Sprite.hpp"
+#include "Util/Logger.hpp"
 
 void Rigidbody::Update(Collider collider, const std::vector<std::shared_ptr<Sprite>> &walls,
                        const std::function<void(glm::vec2)> &translate) {
@@ -27,6 +28,10 @@ void Rigidbody::Update(Collider collider, const std::vector<std::shared_ptr<Spri
                 nearest_delta_position.y = delta_velocity.y;
             }
         }
+    }
+    if (collider.top + nearest_delta_position.y > walls[5]->GetCollider().bottom){
+        LOG_DEBUG("{}", nearest_delta_position.y);
+        glm::vec2 delta_velocity = CollisionHandler::SweepTest(collider, walls[5]->GetCollider(), GetVelocity());
     }
     SetVelocity(nearest_delta_position);
 

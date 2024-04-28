@@ -49,14 +49,13 @@ void Character::Move(glm::vec2 input_velocity, const std::vector<std::shared_ptr
             const std::shared_ptr<Core::Drawable> &drawable) { this->SetDrawable(drawable); };
     auto isGrounded = GroundCheck(walls);
     if (!isGrounded) {
-        rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, gravity_});
+        rigidbody_.AddAcceleration({0, gravity_ * Util::Time::GetDeltaTimeMs() / 1000});
         if (is_direction_right_) {
             animator_.UpdateAnimationState("JumpRight", set_drawable_function);
         } else {
             animator_.UpdateAnimationState("JumpLeft", set_drawable_function);
         }
     } else {
-        rigidbody_.ResetVelocity();
         if (input_velocity.x > 0) {
             animator_.UpdateAnimationState("RunRight", set_drawable_function);
         } else if (input_velocity.x < 0) {
@@ -75,12 +74,11 @@ void Character::Move(glm::vec2 input_velocity, const std::vector<std::shared_ptr
         audio_manager_.Play(AudioManager::SFX::Run);
     }
     if (input_velocity.y > 0 && isGrounded) {
-        rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, jump_height_});
+        rigidbody_.AddAcceleration({0, jump_height_});
         audio_manager_.Play(AudioManager::SFX::Jump);
     }
     rigidbody_.SetVelocity(
-            {move_speed_ * input_velocity.x * Util::Time::GetDeltaTimeMs() / 1000,
-             rigidbody_.GetVelocity().y});
+            {move_speed_ * input_velocity.x * Util::Time::GetDeltaTimeMs() / 1000, rigidbody_.GetVelocity().y});
 
     std::function<void(glm::vec2)> translate = [&](glm::vec2 position) { m_Transform.translation += position; };
     rigidbody_.Update(GetCollider(), walls, translate);
@@ -126,11 +124,10 @@ void Character::Dead() {
 
 void Character::LevelClear() {
     Disable();
-    level_clear_ = true;
 }
 
 void Character::Bounce() {
-    rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, spring_height_});
+    rigidbody_.AddAcceleration({0, spring_height_});
     audio_manager_.Play(AudioManager::SFX::Bounce);
 }
 
