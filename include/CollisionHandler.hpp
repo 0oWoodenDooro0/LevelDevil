@@ -12,11 +12,11 @@
 
 class CollisionHandler {
 public:
-    static bool CheckCollision(Collider collider, Collider other);
+    static bool CheckCollision(const Collider &collider, const Collider &other);
 
-    static bool IsCollide(glm::vec2 position, Collider collider) ;
+    static bool IsCollide(glm::vec2 position, const Collider &collider);
 
-    static glm::vec2 SweepTest(Collider collider, Collider other, glm::vec2 velocity);
+    static glm::vec2 SweepTest(const Collider &collider, const Collider &other, glm::vec2 velocity);
 };
 
 

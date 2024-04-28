@@ -5,17 +5,17 @@
 #include "CollisionHandler.hpp"
 #include "Collider.hpp"
 
-bool CollisionHandler::CheckCollision(Collider collider, Collider other) {
+bool CollisionHandler::CheckCollision(const Collider &collider, const Collider &other) {
     return collider.right > other.left && collider.left < other.right && collider.top > other.bottom &&
            collider.bottom < other.top;
 }
 
-bool CollisionHandler::IsCollide(glm::vec2 position, Collider collider) {
+bool CollisionHandler::IsCollide(glm::vec2 position, const Collider &collider) {
     return collider.right > position.x && collider.left < position.x && collider.top > position.y &&
            collider.bottom < position.y;
 }
 
-glm::vec2 CollisionHandler::SweepTest(Collider collider, Collider other, glm::vec2 velocity) {
+glm::vec2 CollisionHandler::SweepTest(const Collider &collider, const Collider &other, glm::vec2 velocity) {
     float deltaX = velocity.x;
     float deltaY = velocity.y;
     if (collider.top > other.bottom && collider.bottom < other.top) {

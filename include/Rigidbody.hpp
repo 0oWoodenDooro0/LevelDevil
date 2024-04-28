@@ -29,7 +29,7 @@ public:
 
     inline void AddAcceleration(glm::vec2 acceleration) { acceleration_ += acceleration; }
 
-    void Update(Collider collider, const std::vector<std::shared_ptr<Sprite>> &walls,
+    void Update(const Collider &collider, const std::vector<std::shared_ptr<Sprite>> &walls,
                 const std::function<void(glm::vec2)> &translate);
 
 private:
