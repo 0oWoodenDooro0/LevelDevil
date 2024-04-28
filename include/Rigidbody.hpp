@@ -19,9 +19,9 @@ public:
 
     inline void SetVelocity(glm::vec2 velocity) { velocity_ = velocity; }
 
-    inline glm::vec2 GetAcceleration() { return acceleration_; }
+    inline glm::vec2 GetAcceleration() const { return acceleration_; }
 
-    inline glm::vec2 GetVelocity() { return velocity_; }
+    inline glm::vec2 GetVelocity() const { return velocity_; }
 
     inline void ResetAcceleration() { acceleration_ = {0, 0}; }
 

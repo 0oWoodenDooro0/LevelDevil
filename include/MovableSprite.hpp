@@ -14,6 +14,8 @@ public:
     explicit MovableSprite(const std::shared_ptr<Core::Drawable> &drawable, float z_index = 0);
 
     void Move(glm::vec2 target_position, float speed, const Character& character);
+
+    void Move(glm::vec2 target_position, float speed);
 };
 
 

@@ -31,4 +31,5 @@ void Rigidbody::Update(Collider collider, const std::vector<std::shared_ptr<Spri
     SetVelocity(nearest_delta_position);
 
     translate(GetVelocity());
+    ResetVelocity();
 }

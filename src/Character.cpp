@@ -77,9 +77,9 @@ void Character::Move(glm::vec2 input_velocity, const std::vector<std::shared_ptr
         rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, jump_height_});
         audio_manager_.Play(AudioManager::SFX::Jump);
     }
-    rigidbody_.SetVelocity(
-            {move_speed_ * input_velocity.x * Util::Time::GetDeltaTimeMs() / 1000,
-             rigidbody_.GetVelocity().y});
+    rigidbody_.SetVelocity(rigidbody_.GetVelocity() +
+                           glm::vec2{move_speed_ * input_velocity.x * Util::Time::GetDeltaTimeMs() / 1000,
+                                     rigidbody_.GetVelocity().y});
 
     std::function<void(glm::vec2)> translate = [&](glm::vec2 position) { m_Transform.translation += position; };
     rigidbody_.Update(GetCollider(), walls, translate);

@@ -205,18 +205,18 @@ void Level6::Move1() {
         move1_timer_ -= Util::Time::GetDeltaTimeMs();
     }
     for (int i = 0; i < number_of_platform_ - 1; ++i) {
-        movable_walls_[i]->Move({movable_walls_[i]->GetPosition().x, -600}, platform_down_speed_, nullptr);
+        movable_walls_[i]->Move({movable_walls_[i]->GetPosition().x, -600}, platform_down_speed_);
     }
 }
 
 void Level6::Move2() {
     if (move2_timer_ <= 0) {
-        movable_walls_[5]->Move({movable_walls_[5]->GetPosition().x, 480}, platform_up_speed_, nullptr);
+        movable_walls_[5]->Move({movable_walls_[5]->GetPosition().x, 480}, platform_up_speed_);
     } else {
         move2_timer_ -= Util::Time::GetDeltaTimeMs();
     }
 }
 
 void Level6::Move3() {
-    movable_walls_[6]->Move({movable_walls_[6]->GetPosition().x, -600}, platform_down_speed_, nullptr);
+    movable_walls_[6]->Move({movable_walls_[6]->GetPosition().x, -600}, platform_down_speed_);
 }
