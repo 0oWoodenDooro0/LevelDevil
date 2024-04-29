@@ -51,7 +51,7 @@ void Level2::Start() {
 
     auto spike_image = RESOURCE_DIR"/image/level/Level2/spike.png";
     for (int i = 0; i < 22; i++) {
-        auto spike = std::make_shared<Spike>(spike_image, audio_manager_);
+        auto spike = std::make_shared<Spike>(spike_image,Spike::Position::Bottom, audio_manager_);
         spikes_.push_back(spike);
         renderer_.AddChild(spike);
         spike->SetPosition({-640 + i * 64, -64});

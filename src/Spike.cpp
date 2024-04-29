@@ -10,7 +10,8 @@
 #include "CollisionHandler.hpp"
 #include "Character.hpp"
 
-Spike::Spike(const std::string &image_path, AudioManager audio_manager) : audio_manager_(std::move(audio_manager)) {
+Spike::Spike(const std::string &image_path,Position position_inbox, AudioManager audio_manager) : audio_manager_(std::move(audio_manager))
+    , position_inbox_(position_inbox) {
     SetImage(image_path);
     SetZIndex(0);
 }
@@ -18,6 +19,13 @@ Spike::Spike(const std::string &image_path, AudioManager audio_manager) : audio_
 void Spike::SetImage(const std::string &image_path) {
     image_path_ = image_path;
     m_Drawable = std::make_shared<Util::Image>(image_path);
+}
+
+Collider Spike::GetCollider() const{
+    if(position_inbox_==Position::Bottom)return { GetPosition() - glm::vec2(0, 21), GetSize() - glm::vec2(0, 42) };
+    if (position_inbox_ == Position::Top)return { GetPosition() + glm::vec2(0, 21), GetSize() - glm::vec2(0, 42) };
+    if (position_inbox_ == Position::Left)return { GetPosition() - glm::vec2(21, 0), GetSize() - glm::vec2(42, 0) };
+    if (position_inbox_ == Position::Right)return { GetPosition() + glm::vec2(21, 0), GetSize() - glm::vec2(42, 0) };
 }
 
 void Spike::Update(const std::shared_ptr<Character> &character) {

@@ -18,7 +18,13 @@
 
 class Spike : public Util::GameObject, public IBehaviour {
 public:
-    explicit Spike(const std::string &image_path, AudioManager audio_manager);
+    enum class Position {
+        Top,
+        Bottom,
+        Left,
+        Right
+    };
+    explicit Spike(const std::string &image_path,Position position_inbox, AudioManager audio_manager);
 
     void SetImage(const std::string &image_path);
 
@@ -28,11 +34,11 @@ public:
 
     [[nodiscard]] inline glm::vec2 GetSize() const { return m_Drawable->GetSize(); }
 
-    [[nodiscard]] inline Collider GetCollider() const {
-        return {GetPosition() - glm::vec2(0, 21), GetSize() - glm::vec2(0, 42)};
-    }
+     Collider GetCollider() const;
 
     void Update(const std::shared_ptr<Character> &character);
+
+    [[nodiscard]] inline bool IsEnable() const { return enable_; }
 
     void Enable() override;
 
@@ -40,6 +46,7 @@ public:
 
 private:
     bool enable_ = true;
+    Position position_inbox_ = Position::Bottom;
     std::string image_path_;
     AudioManager audio_manager_;
 };
