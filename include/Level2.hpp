@@ -39,12 +39,12 @@ public:
 
     void UpdateCurrentState(State state);
 
-    void spike1_act();
+    void Spike1Act();
 
-    void spike2_act();
+    void Spike2Act();
 
 private:
-    Util::Renderer root_;
+    Util::Renderer renderer_;
     State current_state_ = State::Intro;
     Level::State level_ = Level::State::LEVEL_2;
 

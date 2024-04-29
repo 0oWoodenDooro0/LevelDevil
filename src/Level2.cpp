@@ -11,16 +11,16 @@ Level2::Level2(AudioManager audio_manager, std::function<void(Level::State)> set
         : set_level_state_function_(std::move(set_level_state_function)), audio_manager_(std::move(audio_manager)) {}
 
 void Level2::Start() {
-    root_.AddChild(transition_.GetTop());
-    root_.AddChild(transition_.GetBottom());
+    renderer_.AddChild(transition_.GetTop());
+    renderer_.AddChild(transition_.GetBottom());
     background_ = std::make_shared<Background>(RESOURCE_DIR"/image/level/Level2/background.png");
-    root_.AddChild(background_);
+    renderer_.AddChild(background_);
     button_ = std::make_shared<EscButton>(audio_manager_);
     button_->SetPosition({-800, 416});
-    root_.AddChild(button_);
+    renderer_.AddChild(button_);
     character_ = std::make_shared<Character>(audio_manager_);
     character_->SetCheckPoint({704, -64});
-    root_.AddChild(character_);
+    renderer_.AddChild(character_);
 
     std::vector<std::string> img_paths = {RESOURCE_DIR"/image/level/level2/door.png",
                                           RESOURCE_DIR"/image/level/level2/in_door1.png",
@@ -30,7 +30,7 @@ void Level2::Start() {
                                           RESOURCE_DIR"/image/level/level2/in_door5.png"};
     door_ = std::make_shared<Door>(audio_manager_, img_paths);
     door_->SetPosition({-704, -64});
-    root_.AddChild(door_);
+    renderer_.AddChild(door_);
     auto wall_image = std::vector<std::string>{RESOURCE_DIR"/image/level/Level2/hole.png",
                                                RESOURCE_DIR"/image/level/Level2/Lbottom.png",
                                                RESOURCE_DIR"/image/level/Level2/Lside.png",
@@ -40,7 +40,7 @@ void Level2::Start() {
     for (int i = 0; i < 6; ++i) {
         auto wall = std::make_shared<Sprite>(std::make_shared<Util::Image>(wall_image[i]));
         walls_.push_back(wall);
-        root_.AddChild(wall);
+        renderer_.AddChild(wall);
     }
     walls_[0]->SetPosition({768, -320});
     walls_[1]->SetPosition({-64, -288});
@@ -53,7 +53,7 @@ void Level2::Start() {
     for (int i = 0; i < 22; i++) {
         auto spike = std::make_shared<Spike>(spike_image, audio_manager_);
         spikes_.push_back(spike);
-        root_.AddChild(spike);
+        renderer_.AddChild(spike);
         spike->SetPosition({-640 + i * 64, -64});
         spike->Disable();
     }
@@ -104,7 +104,7 @@ void Level2::Update() {
             }
             break;
         case State::Spike1:
-            if (spike_num_ < 26) spike1_act();
+            if (spike_num_ < 26) Spike1Act();
             triggerColliders_[1]->Update(character_->GetPosition());
             if (triggerColliders_[1]->GetState() == TriggerCollider::State::Trigger) {
                 UpdateCurrentState(State::Spike2);
@@ -113,13 +113,13 @@ void Level2::Update() {
             }
             break;
         case State::Spike2:
-            if (spike_num_ >= 0) spike2_act();
+            if (spike_num_ >= 0) Spike2Act();
             break;
         case State::Outro:
             transition_.Outro([this]() { set_level_state_function_(level_); });
             break;
     }
-    root_.Update();
+    renderer_.Update();
 }
 
 void Level2::ResetLevel() {
@@ -168,7 +168,7 @@ void Level2::UpdateCurrentState(State state) {
     }
 }
 
-void Level2::spike1_act() {
+void Level2::Spike1Act() {
     timer_ -= float(Util::Time::GetDeltaTimeMs());
     if (timer_ <= 0) {
         if (spike_num_ < 22) {
@@ -182,7 +182,7 @@ void Level2::spike1_act() {
     }
 }
 
-void Level2::spike2_act() {
+void Level2::Spike2Act() {
     timer_ -= float(Util::Time::GetDeltaTimeMs());
     if (timer_ <= 0) {
         if (spike_num_ >= 0) {

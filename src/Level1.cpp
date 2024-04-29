@@ -12,16 +12,16 @@ Level1::Level1(AudioManager audio_manager, std::function<void(Level::State)> set
         : set_level_state_function_(std::move(set_level_state_function)), audio_manager_(std::move(audio_manager)) {}
 
 void Level1::Start() {
-    root_.AddChild(transition_.GetTop());
-    root_.AddChild(transition_.GetBottom());
+    renderer_.AddChild(transition_.GetTop());
+    renderer_.AddChild(transition_.GetBottom());
     background_ = std::make_shared<Background>(RESOURCE_DIR"/image/level/level1/background.png");
-    root_.AddChild(background_);
+    renderer_.AddChild(background_);
     button_ = std::make_shared<EscButton>(audio_manager_);
     button_->SetPosition({-800, 416});
-    root_.AddChild(button_);
+    renderer_.AddChild(button_);
     character_ = std::make_shared<Character>(audio_manager_);
     character_->SetCheckPoint({-576, -128});
-    root_.AddChild(character_);
+    renderer_.AddChild(character_);
 
     std::vector<std::string> img_paths = {RESOURCE_DIR"/image/level/level1/door.png",
                                           RESOURCE_DIR"/image/level/level1/in_door1.png",
@@ -31,7 +31,7 @@ void Level1::Start() {
                                           RESOURCE_DIR"/image/level/level1/in_door5.png"};
     door_ = std::make_shared<Door>(audio_manager_, img_paths);
     door_->SetPosition({576, -128});
-    root_.AddChild(door_);
+    renderer_.AddChild(door_);
     auto wall_image = std::vector<std::string>{RESOURCE_DIR"/image/level/level1/top.png",
                                                RESOURCE_DIR"/image/level/level1/bottom.png",
                                                RESOURCE_DIR"/image/level/level1/side.png",
@@ -39,7 +39,7 @@ void Level1::Start() {
     for (int i = 0; i < 4; ++i) {
         auto wall = std::make_shared<Sprite>(std::make_shared<Util::Image>(wall_image[i]));
         walls_.push_back(wall);
-        root_.AddChild(wall);
+        renderer_.AddChild(wall);
     }
     walls_[0]->SetPosition({0, 320});
     walls_[1]->SetPosition({640, -320});
@@ -51,7 +51,7 @@ void Level1::Start() {
         auto movable_wall = std::make_shared<MovableSprite>(std::make_shared<Util::Image>(movable_wall_image[i]));
         movable_walls_.push_back(movable_wall);
         walls_.push_back(movable_wall);
-        root_.AddChild(movable_wall);
+        renderer_.AddChild(movable_wall);
     }
     walls_[4]->SetPosition({-288, -320});
     walls_[5]->SetPosition({256, -320});
@@ -114,7 +114,7 @@ void Level1::Update() {
     }
 
 
-    root_.Update();
+    renderer_.Update();
 }
 
 void Level1::ResetLevel() {
