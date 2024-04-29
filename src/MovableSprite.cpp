@@ -5,8 +5,8 @@
 #include "MovableSprite.hpp"
 #include "Util/Time.hpp"
 
-MovableSprite::MovableSprite(const std::shared_ptr<Core::Drawable> &drawable, float z_index) : Sprite(drawable,
-                                                                                                      z_index) {}
+MovableSprite::MovableSprite(const std::shared_ptr<Core::Drawable> &drawable, float z_index)
+        : Sprite(drawable, z_index) {}
 
 void MovableSprite::Move(glm::vec2 target_position, float speed) {
     auto vector = target_position - GetPosition();

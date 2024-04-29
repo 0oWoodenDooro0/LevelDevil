@@ -24,7 +24,8 @@ public:
         Left,
         Right
     };
-    explicit Spike(const std::string &image_path,Position position_inbox, AudioManager audio_manager);
+
+    explicit Spike(const std::string &image_path, Position position_inbox, AudioManager audio_manager);
 
     void SetImage(const std::string &image_path);
 
@@ -34,11 +35,11 @@ public:
 
     [[nodiscard]] inline glm::vec2 GetSize() const { return m_Drawable->GetSize(); }
 
-     Collider GetCollider() const;
-
-    void Update(const std::shared_ptr<Character> &character);
+    [[nodiscard]] Collider GetCollider() const;
 
     [[nodiscard]] inline bool IsEnable() const { return enable_; }
+
+    void Update(const std::shared_ptr<Character> &character);
 
     void Enable() override;
 
