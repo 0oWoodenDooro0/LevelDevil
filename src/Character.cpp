@@ -8,7 +8,6 @@
 #include "Util/Image.hpp"
 #include "Util/Time.hpp"
 #include "CollisionHandler.hpp"
-#include "InputHandler.hpp"
 
 Character::Character(AudioManager audio_manager) : Util::GameObject(), audio_manager_(std::move(audio_manager)) {
     SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/image/character/idle/man_idle.png"));
@@ -18,24 +17,24 @@ Character::Character(AudioManager audio_manager) : Util::GameObject(), audio_man
              {"JumpLeft",  std::make_unique<Util::Image>(RESOURCE_DIR"/image/character/jump_left/man_jump_left.png")},
              {"JumpRight", std::make_unique<Util::Image>(RESOURCE_DIR"/image/character/jump_right/man_jump_right.png")},
              {"RunLeft",   std::make_unique<Util::Animation>(
-                     std::vector<std::string>{(RESOURCE_DIR"/image/character/run_left/man_run_left1.png"),
-                                              (RESOURCE_DIR"/image/character/run_left/man_run_left2.png"),
-                                              (RESOURCE_DIR"/image/character/run_left/man_run_left3.png"),
-                                              (RESOURCE_DIR"/image/character/run_left/man_run_left4.png"),
-                                              (RESOURCE_DIR"/image/character/run_left/man_run_left5.png"),
-                                              (RESOURCE_DIR"/image/character/run_left/man_run_left6.png"),
-                                              (RESOURCE_DIR"/image/character/run_left/man_run_left7.png"),
-                                              (RESOURCE_DIR"/image/character/run_left/man_run_left8.png")}, true, 40,
+                     std::vector<std::string>{RESOURCE_DIR"/image/character/run_left/man_run_left1.png",
+                                              RESOURCE_DIR"/image/character/run_left/man_run_left2.png",
+                                              RESOURCE_DIR"/image/character/run_left/man_run_left3.png",
+                                              RESOURCE_DIR"/image/character/run_left/man_run_left4.png",
+                                              RESOURCE_DIR"/image/character/run_left/man_run_left5.png",
+                                              RESOURCE_DIR"/image/character/run_left/man_run_left6.png",
+                                              RESOURCE_DIR"/image/character/run_left/man_run_left7.png",
+                                              RESOURCE_DIR"/image/character/run_left/man_run_left8.png"}, true, 40,
                      true, 0)},
              {"RunRight",  std::make_unique<Util::Animation>(
-                     std::vector<std::string>{(RESOURCE_DIR"/image/character/run_right/man_run_right1.png"),
-                                              (RESOURCE_DIR"/image/character/run_right/man_run_right2.png"),
-                                              (RESOURCE_DIR"/image/character/run_right/man_run_right3.png"),
-                                              (RESOURCE_DIR"/image/character/run_right/man_run_right4.png"),
-                                              (RESOURCE_DIR"/image/character/run_right/man_run_right5.png"),
-                                              (RESOURCE_DIR"/image/character/run_right/man_run_right6.png"),
-                                              (RESOURCE_DIR"/image/character/run_right/man_run_right7.png"),
-                                              (RESOURCE_DIR"/image/character/run_right/man_run_right8.png")}, true, 40,
+                     std::vector<std::string>{RESOURCE_DIR"/image/character/run_right/man_run_right1.png",
+                                              RESOURCE_DIR"/image/character/run_right/man_run_right2.png",
+                                              RESOURCE_DIR"/image/character/run_right/man_run_right3.png",
+                                              RESOURCE_DIR"/image/character/run_right/man_run_right4.png",
+                                              RESOURCE_DIR"/image/character/run_right/man_run_right5.png",
+                                              RESOURCE_DIR"/image/character/run_right/man_run_right6.png",
+                                              RESOURCE_DIR"/image/character/run_right/man_run_right7.png",
+                                              RESOURCE_DIR"/image/character/run_right/man_run_right8.png"}, true, 40,
                      true, 0)}});
 }
 
@@ -45,18 +44,17 @@ void Character::SetCheckPoint(glm::vec2 check_point) {
 }
 
 void Character::Move(glm::vec2 input_velocity, const std::vector<std::shared_ptr<Sprite>> &walls) {
-    std::function<void(std::shared_ptr<Core::Drawable>)> set_drawable_function = [&](
+    std::function<void(std::shared_ptr<Core::Drawable>)> set_drawable_function = [this](
             const std::shared_ptr<Core::Drawable> &drawable) { this->SetDrawable(drawable); };
     auto isGrounded = GroundCheck(walls);
     if (!isGrounded) {
-        rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, gravity_});
+        rigidbody_.AddAcceleration({0, gravity_});
         if (is_direction_right_) {
             animator_.UpdateAnimationState("JumpRight", set_drawable_function);
         } else {
             animator_.UpdateAnimationState("JumpLeft", set_drawable_function);
         }
     } else {
-        rigidbody_.ResetVelocity();
         if (input_velocity.x > 0) {
             animator_.UpdateAnimationState("RunRight", set_drawable_function);
         } else if (input_velocity.x < 0) {
@@ -75,12 +73,11 @@ void Character::Move(glm::vec2 input_velocity, const std::vector<std::shared_ptr
         audio_manager_.Play(AudioManager::SFX::Run);
     }
     if (input_velocity.y > 0 && isGrounded) {
-        rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, jump_height_});
+        rigidbody_.AddAcceleration({0, jump_height_});
         audio_manager_.Play(AudioManager::SFX::Jump);
     }
     rigidbody_.SetVelocity(
-            {move_speed_ * input_velocity.x * Util::Time::GetDeltaTimeMs() / 1000,
-             rigidbody_.GetVelocity().y});
+            {move_speed_ * input_velocity.x * Util::Time::GetDeltaTimeMs() / 1000, rigidbody_.GetVelocity().y});
 
     std::function<void(glm::vec2)> translate = [this](glm::vec2 position) { m_Transform.translation += position; };
     rigidbody_.Update(GetCollider(), walls, translate);
@@ -97,14 +94,11 @@ void Character::Disable() {
 }
 
 bool Character::GroundCheck(const std::vector<std::shared_ptr<Sprite>> &others) const {
-    for (const auto &other: others) {
-        if (CollisionHandler::CheckCollision(
+    return std::any_of(others.begin(), others.end(), [this](const std::shared_ptr<Sprite>& other) {
+        return CollisionHandler::CheckCollision(
                 Collider({GetCollider().center.x, GetCollider().bottom}, {GetCollider().size.x, 0.1}),
-                other->GetCollider())) {
-            return true;
-        }
-    }
-    return false;
+                other->GetCollider());
+    });
 }
 
 void Character::Revive() {
@@ -126,11 +120,10 @@ void Character::Dead() {
 
 void Character::LevelClear() {
     Disable();
-    level_clear_ = true;
 }
 
 void Character::Bounce() {
-    rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, spring_height_});
+    rigidbody_.AddAcceleration({0, spring_height_});
     audio_manager_.Play(AudioManager::SFX::Bounce);
 }
 

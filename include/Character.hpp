@@ -36,7 +36,7 @@ public:
 
     [[nodiscard]] inline Collider GetCollider() const { return {GetPosition() - glm::vec2(2, 6), {32, 52}}; }
 
-    inline State GetCurrentState() { return current_state_; }
+    [[nodiscard]] inline State GetCurrentState() const { return current_state_; }
 
     [[nodiscard]] inline bool GetEnabled() const { return enabled_; }
 
@@ -67,12 +67,11 @@ private:
     glm::vec2 check_point_ = {0, 0};
     float move_speed_ = 350;
     float jump_height_ = 12;
-    float gravity_ = -0.98;
+    float gravity_ = -0.98f;
     float spring_height_ = 24;
     bool enabled_ = true;
     bool is_direction_right_ = true;
     bool is_run_ = false;
-    bool level_clear_ = false;
 };
 
 #endif //LEVELDEVIL_CHARACTER_HPP

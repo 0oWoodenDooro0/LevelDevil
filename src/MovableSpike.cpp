@@ -1,14 +1,14 @@
 //
-// Created by User on 2024/3/24.
+// Created by User on 2024/4/27.
 //
 
-#include "MovableSprite.hpp"
+#include "MovableSpike.hpp"
 #include "Util/Time.hpp"
 
-MovableSprite::MovableSprite(const std::shared_ptr<Core::Drawable> &drawable, float z_index)
-        : Sprite(drawable, z_index) {}
+MovableSpike::MovableSpike(const std::string& image_path, Position position_inbox, AudioManager audio_manager) : Spike(image_path,
+    position_inbox,audio_manager) {}
 
-void MovableSprite::Move(glm::vec2 target_position, float speed) {
+void MovableSpike::Move(glm::vec2 target_position, float speed) {
     auto vector = target_position - GetPosition();
     auto normalize = vector / hypot(vector.x, vector.y);
     if (hypot(vector.x, vector.y) != 0) {
@@ -16,7 +16,8 @@ void MovableSprite::Move(glm::vec2 target_position, float speed) {
         auto new_position = glm::vec2(int(position.x), int(position.y));
         if (abs(new_position.x) < abs(vector.x) || abs(new_position.y) < abs(vector.y)) {
             SetPosition(GetPosition() + new_position);
-        } else {
+        }
+        else {
             SetPosition(target_position);
         }
     }
