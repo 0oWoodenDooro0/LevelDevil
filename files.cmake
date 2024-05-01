@@ -16,6 +16,7 @@ set(SRC_FILES
     Level2.cpp
     Level3.cpp
     Level4.cpp
+    Level5.cpp
     LevelButton.cpp
     LevelSelect.cpp
     MovableSpike.cpp
@@ -51,6 +52,7 @@ set(INCLUDE_FILES
     Level2.hpp
     Level3.hpp
     Level4.hpp
+    Level5.hpp
     LevelButton.hpp
     LevelSelect.hpp
     MovableSpike.hpp
