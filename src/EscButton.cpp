@@ -6,7 +6,8 @@
 
 #include <utility>
 
-EscButton::EscButton(AudioManager audio_manager) : Button(
-        std::make_shared<Util::Image>(RESOURCE_DIR"/image/button/escbtn_up.png"),
-        std::make_shared<Util::Image>(RESOURCE_DIR"/image/button/escbtn_up.png"),
-        std::make_shared<Util::Image>(RESOURCE_DIR"/image/button/escbtn_down.png"), std::move(audio_manager)) {}
+EscButton::EscButton(AudioManager audio_manager)
+        : Button(std::make_shared<Util::Image>(RESOURCE_DIR"/image/button/escbtn_up.png"),
+                 std::make_shared<Util::Image>(RESOURCE_DIR"/image/button/escbtn_up.png"),
+                 std::make_shared<Util::Image>(RESOURCE_DIR"/image/button/escbtn_down.png"),
+                 std::move(audio_manager)) {}

@@ -5,6 +5,7 @@
 #include "Button.hpp"
 #include "Util/Input.hpp"
 #include "CollisionHandler.hpp"
+#include "Util/Logger.hpp"
 
 Button::Button(const std::shared_ptr<Core::Drawable> &idle, const std::shared_ptr<Core::Drawable> &hover,
                const std::shared_ptr<Core::Drawable> &click, AudioManager audio_manager, float z_index)
@@ -34,7 +35,8 @@ void Button::UpdateState(Button::State state) {
 }
 
 void Button::Update() {
-    if (CollisionHandler::IsCollide(Util::Input::GetCursorPosition(), GetCollider())) {
+    if (CollisionHandler::IsCollide({Util::Input::GetCursorPosition().x, -Util::Input::GetCursorPosition().y},
+                                    GetCollider())) {
         UpdateState(State::Hover);
         if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
             UpdateState(State::Click);
