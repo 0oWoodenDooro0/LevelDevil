@@ -120,8 +120,11 @@ void Level5::Update() {
             break;
     }
 
-
     renderer_.Update();
+    if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE)) {
+        UpdateCurrentState(State::Outro);
+        level_ = Level::State::LEVEL_SELECT;
+    }
 }
 
 void Level5::ResetLevel() {

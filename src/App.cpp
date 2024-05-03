@@ -30,6 +30,9 @@ void App::UpdateCurrentLevelState(Level::State level_state) {
         case Level::State::LEVEL_5:
             level_ = std::make_unique<Level5>(audio_manager_, set_level_state_function);
             break;
+        case Level::State::END:
+            current_state_ = State::END;
+            break;
     }
     level_->Start();
 }
@@ -56,7 +59,7 @@ void App::Update() {
      * Do not touch the code below as they serve the purpose for
      * closing the window.
      */
-    if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) || Util::Input::IfExit()) {
+    if (Util::Input::IfExit()) {
         current_state_ = State::END;
     }
 }
