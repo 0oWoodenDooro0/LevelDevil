@@ -94,7 +94,7 @@ void Character::Disable() {
 }
 
 bool Character::GroundCheck(const std::vector<std::shared_ptr<Sprite>> &others) const {
-    return std::any_of(others.begin(), others.end(), [this](const std::shared_ptr<Sprite>& other) {
+    return std::any_of(others.begin(), others.end(), [this](const std::shared_ptr<Sprite> &other) {
         return CollisionHandler::CheckCollision(
                 Collider({GetCollider().center.x, GetCollider().bottom}, {GetCollider().size.x, 0.1}),
                 other->GetCollider());
