@@ -35,7 +35,7 @@ void Spring::Update(const std::shared_ptr<Character> &character_) {
         audio_manager_.Play(AudioManager::SFX::Bounce);
         current_state_ = State::Up;
         character_->Bounce();
-        bounce_timer_ = 100;
+        bounce_timer_ = 200;
         draw_timer_ = 500;
     }
 }

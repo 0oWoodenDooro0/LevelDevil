@@ -38,7 +38,7 @@ private:
     std::map<SFX, std::shared_ptr<SoundEffect>> sfxs_ = {
             {SFX::Run,        std::make_shared<SoundEffect>(RESOURCE_DIR"/sound/run.mp3", 250)},
             {SFX::Jump,       std::make_shared<SoundEffect>(RESOURCE_DIR"/sound/jump.mp3", 130)},
-            {SFX::Bounce,     std::make_shared<SoundEffect>(RESOURCE_DIR"/sound/bounce.mp3", 100)},
+            {SFX::Bounce,     std::make_shared<SoundEffect>(RESOURCE_DIR"/sound/bounce.mp3", 200)},
             {SFX::Button,     std::make_shared<SoundEffect>(RESOURCE_DIR"/sound/Button.mp3", 100)},
             {SFX::Coin,       std::make_shared<SoundEffect>(RESOURCE_DIR"/sound/coin.mp3", 100)},
             {SFX::Dead,       std::make_shared<SoundEffect>(RESOURCE_DIR"/sound/dead.mp3", 100)},
