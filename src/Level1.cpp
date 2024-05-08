@@ -115,6 +115,10 @@ void Level1::Update() {
 
 
     renderer_.Update();
+    if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE)) {
+        UpdateCurrentState(State::Outro);
+        level_ = Level::State::LEVEL_SELECT;
+    }
 }
 
 void Level1::ResetLevel() {

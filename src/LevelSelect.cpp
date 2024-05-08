@@ -7,15 +7,17 @@
 #include <utility>
 #include "Util/Animation.hpp"
 #include "Util/Time.hpp"
+#include "Util/Input.hpp"
+#include "Util/Keycode.hpp"
 
 LevelSelect::LevelSelect(AudioManager audio_manager, std::function<void(Level::State)> set_level_state_function)
         : set_level_state_function_(std::move(set_level_state_function)), audio_manager_(std::move(audio_manager)) {}
 
 void LevelSelect::Start() {
-    root_.AddChild(transition_.GetTop());
-    root_.AddChild(transition_.GetBottom());
+    renderer_.AddChild(transition_.GetTop());
+    renderer_.AddChild(transition_.GetBottom());
     background_ = std::make_shared<Background>(RESOURCE_DIR"/image/background/level_select.png");
-    root_.AddChild(background_);
+    renderer_.AddChild(background_);
     std::array<glm::vec2, 15> door_positions = {glm::vec2(-728, 4), glm::vec2(-580, -72), glm::vec2(-404, -8),
                                                 glm::vec2(-236, -44), glm::vec2(-332, -184), glm::vec2(-284, -344),
                                                 glm::vec2(-84, -324), glm::vec2(24, -192), glm::vec2(0, -28),
@@ -35,7 +37,7 @@ void LevelSelect::Start() {
         door_buttons_.push_back(door_button);
         button_hovers_.push_back(button_hover);
         door_button->AddChild(button_hover);
-        root_.AddChild(door_button);
+        renderer_.AddChild(door_button);
     }
 }
 
@@ -81,7 +83,11 @@ void LevelSelect::Update() {
             break;
     }
 
-    root_.Update();
+    renderer_.Update();
+    if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE)) {
+        UpdateCurrentState(State::Outro);
+        level_ = Level::State::END;
+    }
 }
 
 void LevelSelect::UpdateCurrentState(LevelSelect::State state) {

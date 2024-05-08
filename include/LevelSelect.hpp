@@ -34,7 +34,7 @@ public:
     void UpdateCurrentState(State state);
 
 private:
-    Util::Renderer root_;
+    Util::Renderer renderer_;
     State current_state_ = State::Intro;
     Level::State level_ = Level::State::LEVEL_SELECT;
 
