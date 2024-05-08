@@ -70,7 +70,7 @@ private:
     glm::vec2 check_point_ = {0, 0};
     float move_speed_ = 350;
     float jump_height_ = 12;
-    float gravity_ = -0.98f;
+    float gravity_ = -1;
     float spring_height_ = 24;
     bool enabled_ = true;
     bool is_direction_right_ = true;

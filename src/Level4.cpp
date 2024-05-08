@@ -126,7 +126,12 @@ void Level4::Update() {
             transition_.Outro([this]() { set_level_state_function_(level_); });
             break;
     }
+
     renderer_.Update();
+    if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE)) {
+        UpdateCurrentState(State::Outro);
+        level_ = Level::State::LEVEL_SELECT;
+    }
 }
 
 void Level4::ResetLevel() {

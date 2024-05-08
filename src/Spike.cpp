@@ -32,13 +32,15 @@ Collider Spike::GetCollider() const {
         case Position::Right:
             return {GetPosition() + glm::vec2(21, 0), GetSize() - glm::vec2(42, 0)};
     }
+    assert(false && "Wrong Spike Position");
 }
 
 void Spike::Update(const std::shared_ptr<Character> &character) {
     if (!enable_)return;
     if (!character->GetEnabled())return;
-    if (CollisionHandler::CheckCollision(character->GetCollider(), GetCollider()))
+    if (CollisionHandler::CheckCollision(character->GetCollider(), GetCollider())){
         character->UpdateState(Character::State::Dead);
+    }
 }
 
 void Spike::Enable() {
