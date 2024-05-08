@@ -3,9 +3,12 @@
 //
 
 #include "MovableSpring.hpp"
+
+#include <utility>
 #include "Util/Time.hpp"
 
-MovableSpring::MovableSpring(std::vector<std::string> image_paths, AudioManager audio_manager) : Spring(image_paths, audio_manager) {}
+MovableSpring::MovableSpring(const std::vector<std::string> &image_paths, AudioManager audio_manager)
+        : Spring(image_paths, std::move(audio_manager)) {}
 
 void MovableSpring::Move(glm::vec2 target_position, float speed) {
     auto vector = target_position - GetPosition();
@@ -15,8 +18,7 @@ void MovableSpring::Move(glm::vec2 target_position, float speed) {
         auto new_position = glm::vec2(int(position.x), int(position.y));
         if (abs(new_position.x) < abs(vector.x) || abs(new_position.y) < abs(vector.y)) {
             SetPosition(GetPosition() + new_position);
-        }
-        else {
+        } else {
             SetPosition(target_position);
         }
     }

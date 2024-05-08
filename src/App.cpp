@@ -33,6 +33,7 @@ void App::UpdateCurrentLevelState(Level::State level_state) {
             break;
         case Level::State::LEVEL_7:
             level_ = std::make_unique<Level7>(audio_manager_, set_level_state_function);
+            break;
         case Level::State::END:
             current_state_ = State::END;
             break;

@@ -123,7 +123,7 @@ void Character::LevelClear() {
 }
 
 void Character::Bounce() {
-    rigidbody_.SetVelocity({ rigidbody_.GetVelocity().x,0 });
+    rigidbody_.SetVelocity({rigidbody_.GetVelocity().x, 0});
     rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, spring_height_});
 }
 
