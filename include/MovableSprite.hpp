@@ -7,12 +7,13 @@
 
 #include "Sprite.hpp"
 #include "Core/Drawable.hpp"
+#include "Character.hpp"
 
 class MovableSprite : public Sprite {
 public:
     explicit MovableSprite(const std::shared_ptr<Core::Drawable> &drawable, float z_index = 0);
 
-    void Move(glm::vec2 target_position, float speed);
+    void Move(glm::vec2 target_position,const std::shared_ptr<Character> &character, float speed);
 };
 
 

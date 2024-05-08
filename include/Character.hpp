@@ -17,6 +17,7 @@
 #include "SoundEffect.hpp"
 #include "AudioManager.hpp"
 #include "IBehaviour.hpp"
+#include "MovableSprite.hpp"
 
 class Character : public Util::GameObject, public IBehaviour {
 public:
@@ -57,6 +58,8 @@ public:
     void Bounce();
 
     void UpdateState(State state);
+
+    void MoveWithSprite(std::shared_ptr<MovableSprite>& sprite, glm::vec2 vector);
 
 private:
     State current_state_ = State::Alive;

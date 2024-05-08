@@ -6,8 +6,8 @@
 #include "Collider.hpp"
 
 bool CollisionHandler::CheckCollision(const Collider &collider, const Collider &other) {
-    return collider.right > other.left && collider.left < other.right && collider.top > other.bottom &&
-           collider.bottom < other.top;
+    return collider.right >= other.left && collider.left <= other.right && collider.top >= other.bottom &&
+           collider.bottom <= other.top;
 }
 
 bool CollisionHandler::IsCollide(glm::vec2 position, const Collider &collider) {
