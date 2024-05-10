@@ -127,6 +127,12 @@ void Character::Bounce() {
     rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, spring_height_});
 }
 
+void Character::Warp(glm::vec2 position) {
+    rigidbody_.ResetVelocity();
+    rigidbody_.ResetAcceleration();
+    SetPosition(position);
+}
+
 void Character::UpdateState(Character::State state) {
     if (current_state_ == state) return;
     current_state_ = state;

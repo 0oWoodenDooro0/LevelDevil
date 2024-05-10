@@ -23,6 +23,7 @@ set(SRC_FILES
     MovableSpike.cpp
     MovableSpring.cpp
     MovableSprite.cpp
+    Portal.cpp
     Rigidbody.cpp
     SoundEffect.cpp
     Spike.cpp
@@ -61,6 +62,7 @@ set(INCLUDE_FILES
     MovableSpike.hpp
     MovableSpring.hpp
     MovableSprite.hpp
+    Portal.hpp
     Rigidbody.hpp
     SoundEffect.hpp
     Spike.hpp
