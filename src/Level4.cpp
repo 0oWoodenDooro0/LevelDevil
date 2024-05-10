@@ -172,7 +172,7 @@ void Level4::UpdateCurrentState(Level4::State state) {
 
 void Level4::MoveCoins() const {
     for (const auto &coin: coins_) {
-        coin->SetPosition(coin->GetPosition() + coin_speed_ * (Util::Time::GetDeltaTimeMs() / 1000) * glm::vec2{1, 0});
+        Movable::Move(coin, {1728, coin->GetPosition().y}, coin_speed_);
     }
 }
 
@@ -192,7 +192,7 @@ void Level4::ResetCoins() const {
     coins_[12]->SetPosition({-896, 320});
     coins_[13]->SetPosition({-896, 384});
     coins_[14]->SetPosition({-896, 448});
-    for (const auto& coin: coins_) {
+    for (const auto &coin: coins_) {
         coin->Enable();
     }
 }
