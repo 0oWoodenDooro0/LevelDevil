@@ -9,7 +9,7 @@
 
 class Movable {
 public:
-    static void Move(GameObject gameObject, glm::vec2 target_position, float speed);
+    static void Move(const std::shared_ptr<GameObject> &gameObject, glm::vec2 target_position, float speed);
 };
 
 

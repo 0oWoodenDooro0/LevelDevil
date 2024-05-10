@@ -11,7 +11,6 @@
 #include "Level.hpp"
 #include "Background.hpp"
 #include "Util/Renderer.hpp"
-#include "MovableSprite.hpp"
 #include "Spike.hpp"
 #include "Button.hpp"
 #include "EscButton.hpp"

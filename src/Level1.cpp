@@ -48,8 +48,7 @@ void Level1::Start() {
     auto movable_wall_image = std::vector<std::string>{RESOURCE_DIR"/image/level/level1/move1.png",
                                                        RESOURCE_DIR"/image/level/level1/move2.png"};
     for (int i = 0; i < 2; ++i) {
-        auto movable_wall = std::make_shared<MovableSprite>(std::make_shared<Util::Image>(movable_wall_image[i]));
-        movable_walls_.push_back(movable_wall);
+        auto movable_wall = std::make_shared<Sprite>(std::make_shared<Util::Image>(movable_wall_image[i]));
         walls_.push_back(movable_wall);
         renderer_.AddChild(movable_wall);
     }
@@ -97,16 +96,16 @@ void Level1::Update() {
             }
             break;
         case State::Move1:
-            movable_walls_[0]->Move({480, -320}, 750);
+            Movable::Move(walls_[4], {480, -320}, 750);
             triggerColliders_[1]->Update(character_->GetPosition());
             if (triggerColliders_[1]->GetState() == TriggerCollider::State::Trigger) {
                 UpdateCurrentState(State::Move2);
             }
             break;
         case State::Move2:
-            movable_walls_[0]->SetPosition({1000, 1000});
-            movable_walls_[0]->Disable();
-            movable_walls_[1]->Move({192, -320}, 500);
+            walls_[4]->SetPosition({100, 1000});
+            walls_[4]->Disable();
+            Movable::Move(walls_[5], {192, -320}, 500);
             break;
         case State::Outro:
             transition_.Outro([this]() { set_level_state_function_(level_); });
@@ -122,10 +121,10 @@ void Level1::Update() {
 }
 
 void Level1::ResetLevel() {
-    movable_walls_[0]->SetPosition({-288, -320});
-    movable_walls_[1]->SetPosition({256, -320});
+    walls_[4]->SetPosition({-288, -320});
+    walls_[5]->SetPosition({256, -320});
     current_state_ = State::Start;
-    movable_walls_[0]->Enable();
+    walls_[4]->Enable();
 }
 
 void Level1::UpdateCurrentState(State state) {

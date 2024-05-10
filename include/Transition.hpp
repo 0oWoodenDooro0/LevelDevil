@@ -7,16 +7,16 @@
 
 
 #include <functional>
-#include "Util/GameObject.hpp"
-#include "MovableSprite.hpp"
+#include "GameObject.hpp"
+#include "Sprite.hpp"
 
 class Transition {
 public:
     Transition();
 
-    [[nodiscard]] inline std::shared_ptr<Util::GameObject> GetTop() const { return top_; }
+    [[nodiscard]] inline std::shared_ptr<GameObject> GetTop() const { return top_; }
 
-    [[nodiscard]] inline std::shared_ptr<Util::GameObject> GetBottom() const { return bottom_; }
+    [[nodiscard]] inline std::shared_ptr<GameObject> GetBottom() const { return bottom_; }
 
     inline void ResetTimer() { transition_timer_ = 0; }
 
@@ -25,8 +25,8 @@ public:
     void Outro(const std::function<void()> &function);
 
 private:
-    std::shared_ptr<MovableSprite> top_;
-    std::shared_ptr<MovableSprite> bottom_;
+    std::shared_ptr<Sprite> top_;
+    std::shared_ptr<Sprite> bottom_;
 
     float transition_timer_ = 0;
     float transition_delta_time_multiple_ = 0.003f;
