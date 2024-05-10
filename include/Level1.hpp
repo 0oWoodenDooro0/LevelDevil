@@ -13,11 +13,10 @@
 #include "Background.hpp"
 #include "Util/Renderer.hpp"
 #include "MovableSprite.hpp"
-#include "Button.hpp"
 #include "EscButton.hpp"
 #include "TriggerCollider.hpp"
 #include "Transition.hpp"
-#include "MovableGameObject.hpp"
+#include "Movable.hpp"
 
 class Level1 : public ILevel {
 public:
