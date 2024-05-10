@@ -143,7 +143,6 @@ void Level7::Update() {
             break;
     }
 
-
     renderer_.Update();
 }
 
