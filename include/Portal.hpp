@@ -17,8 +17,8 @@
 class Portal : public Util::GameObject, public IBehaviour {
 public:
     enum class State {
-        s1,
-        s2
+        State1,
+        State2
     };
 
     explicit Portal(std::vector<std::string> image_paths, glm::vec2 position, AudioManager audio_manager);
@@ -30,10 +30,10 @@ public:
     [[nodiscard]] inline glm::vec2 GetSize() const { return m_Drawable->GetSize(); }
 
     [[nodiscard]] inline Collider GetCollider() const {
-        return { GetPosition() - glm::vec2(0, 21), GetSize() - glm::vec2(0, 42) };
+        return {GetPosition() - glm::vec2(0, 21), GetSize() - glm::vec2(0, 42)};
     }
 
-    void Update(const std::shared_ptr<Character>& character_);
+    void Update(const std::shared_ptr<Character> &character_);
 
     void Enable() override;
 
@@ -44,7 +44,7 @@ private:
     AudioManager audio_manager_;
     float draw_timer_ = 300;
     glm::vec2 goal_;
-    State current_state_ = State::s1;
+    State current_state_ = State::State1;
     bool enable_ = true;
 };
 
