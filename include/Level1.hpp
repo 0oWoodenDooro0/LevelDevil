@@ -17,6 +17,7 @@
 #include "EscButton.hpp"
 #include "TriggerCollider.hpp"
 #include "Transition.hpp"
+#include "MovableGameObject.hpp"
 
 class Level1 : public ILevel {
 public:
@@ -50,7 +51,7 @@ private:
     std::shared_ptr<Background> background_;
     std::shared_ptr<EscButton> button_;
     std::vector<std::shared_ptr<Sprite>> walls_;
-    std::vector<std::shared_ptr<MovableSprite>> movable_walls_;
+    std::vector<std::shared_ptr<MovableGameObject>> movable_walls_;
     std::vector<std::shared_ptr<TriggerCollider>> triggerColliders_;
     std::shared_ptr<Door> door_;
     std::shared_ptr<Character> character_;

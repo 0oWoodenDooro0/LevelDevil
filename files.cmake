@@ -20,6 +20,7 @@ set(SRC_FILES
     Level7.cpp
     LevelButton.cpp
     LevelSelect.cpp
+    MovableGameObject.cpp
     MovableSpike.cpp
     MovableSpring.cpp
     MovableSprite.cpp
@@ -58,6 +59,7 @@ set(INCLUDE_FILES
     Level7.hpp
     LevelButton.hpp
     LevelSelect.hpp
+    MovalbeGameObject.hpp
     MovableSpike.hpp
     MovableSpring.hpp
     MovableSprite.hpp
