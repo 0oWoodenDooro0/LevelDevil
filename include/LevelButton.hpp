@@ -7,16 +7,14 @@
 
 #include <string>
 #include <glm/vec2.hpp>
-#include "Util/GameObject.hpp"
 #include "Util/Image.hpp"
 #include "Util/Animation.hpp"
 #include "Animator.hpp"
 #include "AudioManager.hpp"
 #include "SoundEffect.hpp"
 #include "Character.hpp"
-#include "IBehaviour.hpp"
 
-class LevelButton : public Util::GameObject, public IBehaviour {
+class LevelButton : public GameObject {
 public:
     enum class State {
         Up,
@@ -25,21 +23,11 @@ public:
 
     explicit LevelButton(AudioManager audiomanager);
 
-    inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }
-
-    [[nodiscard]] inline glm::vec2 GetPosition() const { return m_Transform.translation; }
-
-    [[nodiscard]] inline glm::vec2 GetSize() const { return m_Drawable->GetSize(); }
-
-    [[nodiscard]] inline Collider GetCollider() const {
-        return { GetPosition() - glm::vec2(0, 21), GetSize() - glm::vec2(24, 42) };
+    [[nodiscard]] inline Collider GetCollider() const override {
+        return {GetPosition() - glm::vec2(0, 21), GetSize() - glm::vec2(24, 42)};
     }
 
-    void Update(const std::shared_ptr<Character>& character_);
-
-    void Enable() override;
-
-    void Disable() override;
+    void Update(const std::shared_ptr<Character> &character_);
 
 private:
     Animator animator_;

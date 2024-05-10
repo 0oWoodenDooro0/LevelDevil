@@ -40,11 +40,3 @@ void Spring::Update(const std::shared_ptr<Character> &character_) {
         draw_timer_ = 500;
     }
 }
-
-void Spring::Enable() {
-    SetVisible(true);
-}
-
-void Spring::Disable() {
-    SetVisible(false);
-}

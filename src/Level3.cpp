@@ -121,7 +121,7 @@ void Level3::Update() {
             break;
         case State::Move:
             for (int i = 0; i < 5; i++) {
-                if (!movable_spikes_[i]->IsEnable()) movable_spikes_[i]->Enable();
+                if (!movable_spikes_[i]->GetEnabled()) movable_spikes_[i]->Enable();
             }
             movable_walls_[0]->Move({320, 0}, speed);
             for (int i = 0; i < 5; i++) {
@@ -212,12 +212,12 @@ void Level3::UpdateCurrentState(State state) {
 void Level3::SpikeDelay() {
     if (timer > 0) {
         for (int i = 0; i < 3; i++) {
-            if (!spikes_[i]->IsEnable()) spikes_[i]->Enable();
+            if (!spikes_[i]->GetEnabled()) spikes_[i]->Enable();
         }
     } else {
-        if (spikes_[0]->IsEnable())audio_manager_.Play(AudioManager::SFX::WallTrap);
+        if (spikes_[0]->GetEnabled())audio_manager_.Play(AudioManager::SFX::WallTrap);
         for (int i = 0; i < 3; i++) {
-            if (spikes_[i]->IsEnable()) spikes_[i]->Disable();
+            if (spikes_[i]->GetEnabled()) spikes_[i]->Disable();
         }
     }
 }

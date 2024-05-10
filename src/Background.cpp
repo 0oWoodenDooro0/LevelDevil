@@ -4,4 +4,7 @@
 
 #include "Background.hpp"
 
-Background::Background(const std::string &path) : GameObject(std::make_unique<Util::Image>(path), -10) {}
+Background::Background(const std::string &path) : GameObject() {
+    SetDrawable(std::make_unique<Util::Image>(path));
+    SetZIndex(-10);
+}

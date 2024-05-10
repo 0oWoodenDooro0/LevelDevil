@@ -11,6 +11,7 @@ set(SRC_FILES
     Door.cpp
     DoorButton.cpp
     EscButton.cpp
+    GameObject.cpp
     InputHandler.cpp
     Level1.cpp
     Level2.cpp
@@ -47,6 +48,7 @@ set(INCLUDE_FILES
     DoorButton.hpp
     EasingFunction.hpp
     EscButton.hpp
+    GameObject.hpp
     IBehaviour.hpp
     ILevel.hpp
     InputHandler.hpp

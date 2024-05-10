@@ -48,11 +48,10 @@ void Level1::Start() {
     auto movable_wall_image = std::vector<std::string>{RESOURCE_DIR"/image/level/level1/move1.png",
                                                        RESOURCE_DIR"/image/level/level1/move2.png"};
     for (int i = 0; i < 2; ++i) {
-        auto wall = std::make_shared<Sprite>(std::make_shared<Util::Image>(movable_wall_image[i]));
-        auto movable_wall = std::make_shared<MovableGameObject>(wall);
+        auto movable_wall = std::make_shared<MovableSprite>(std::make_shared<Util::Image>(movable_wall_image[i]));
         movable_walls_.push_back(movable_wall);
-        walls_.push_back(wall);
-        renderer_.AddChild(wall);
+        walls_.push_back(movable_wall);
+        renderer_.AddChild(movable_wall);
     }
     walls_[4]->SetPosition({-288, -320});
     walls_[5]->SetPosition({256, -320});
