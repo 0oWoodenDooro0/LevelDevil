@@ -18,8 +18,10 @@ set(SRC_FILES
     Level4.cpp
     Level5.cpp
     Level7.cpp
+    Level8.cpp
     LevelButton.cpp
     LevelSelect.cpp
+    MovablePortal.cpp
     MovableSpike.cpp
     MovableSpring.cpp
     MovableSprite.cpp
@@ -57,8 +59,10 @@ set(INCLUDE_FILES
     Level4.hpp
     Level5.hpp
     Level7.hpp
+    Level8.hpp
     LevelButton.hpp
     LevelSelect.hpp
+    MovablePortal.hpp
     MovableSpike.hpp
     MovableSpring.hpp
     MovableSprite.hpp
