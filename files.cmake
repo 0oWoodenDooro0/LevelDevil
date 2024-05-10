@@ -17,9 +17,11 @@ set(SRC_FILES
     Level3.cpp
     Level4.cpp
     Level5.cpp
+    Level7.cpp
     LevelButton.cpp
     LevelSelect.cpp
     MovableSpike.cpp
+    MovableSpring.cpp
     MovableSprite.cpp
     Rigidbody.cpp
     SoundEffect.cpp
@@ -53,9 +55,11 @@ set(INCLUDE_FILES
     Level3.hpp
     Level4.hpp
     Level5.hpp
+    Level7.hpp
     LevelButton.hpp
     LevelSelect.hpp
     MovableSpike.hpp
+    MovableSpring.hpp
     MovableSprite.hpp
     Rigidbody.hpp
     SoundEffect.hpp

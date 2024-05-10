@@ -66,8 +66,11 @@ void LevelSelect::Update() {
                         case 4:
                             level_ = Level::State::LEVEL_5;
                             break;
+                        case 6:
+                            level_ = Level::State::LEVEL_7;
+                            break;
                         default:
-                            level_ = Level::State::LEVEL_5;
+                            level_ = Level::State::LEVEL_7;
                             break;
                     }
 

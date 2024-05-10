@@ -123,8 +123,8 @@ void Character::LevelClear() {
 }
 
 void Character::Bounce() {
-    rigidbody_.AddAcceleration({0, spring_height_});
-    audio_manager_.Play(AudioManager::SFX::Bounce);
+    rigidbody_.SetVelocity({rigidbody_.GetVelocity().x, 0});
+    rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, spring_height_});
 }
 
 void Character::UpdateState(Character::State state) {
