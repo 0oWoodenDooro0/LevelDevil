@@ -70,10 +70,15 @@ void Level5::Update() {
         }
         character_->Move(input_vector, walls_);
     } else {
-        if (character_->GetCurrentState() != Character::State::LevelClear && InputHandler::isRevivePressed()) {
-            character_->Revive();
+        if (revive_timer_ > 0) {
+            revive_timer_ -= Util::Time::GetDeltaTimeMs();
+        } else if (character_->GetCurrentState() != Character::State::LevelClear && InputHandler::isRevivePressed()) {
             ResetLevel();
         }
+    }
+
+    if (InputHandler::isResetLevelPressed() && door_->GetState() == Door::State::Idle) {
+        ResetLevel();
     }
 
     button_->Update();
@@ -128,6 +133,8 @@ void Level5::Update() {
 }
 
 void Level5::ResetLevel() {
+    character_->Revive();
+    revive_timer_ = 500;
     reverse_ = true;
     current_state_ = State::Start;
 }

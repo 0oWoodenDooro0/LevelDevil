@@ -82,10 +82,15 @@ void Level7::Update() {
         auto input_vector = InputHandler::GetCharacterMoveVelocity();
         character_->Move(input_vector, walls_);
     } else {
-        if (character_->GetCurrentState() != Character::State::LevelClear && InputHandler::isRevivePressed()) {
-            character_->Revive();
+        if (revive_timer_ > 0) {
+            revive_timer_ -= Util::Time::GetDeltaTimeMs();
+        } else if (character_->GetCurrentState() != Character::State::LevelClear && InputHandler::isRevivePressed()) {
             ResetLevel();
         }
+    }
+
+    if (InputHandler::isResetLevelPressed() && door_->GetState() == Door::State::Idle) {
+        ResetLevel();
     }
 
     button_->Update();
@@ -147,9 +152,12 @@ void Level7::Update() {
 }
 
 void Level7::ResetLevel() {
+    character_->Revive();
+    revive_timer_ = 500;
     for (int i = 0; i < 4; i++) {
         movable_walls_[i]->SetPosition({-320 + 192 * i, -256});
         movable_springs_[i]->SetPosition({-320 + 192 * i, -192});
+        movable_springs_[i]->Reset();
     }
     current_state_ = State::Start;
 }

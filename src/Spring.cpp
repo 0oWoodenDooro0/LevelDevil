@@ -41,6 +41,12 @@ void Spring::Update(const std::shared_ptr<Character> &character_) {
     }
 }
 
+void Spring::Reset() {
+    animator_.UpdateAnimationState("Down", [this](std::shared_ptr<Core::Drawable> drawable) {
+        m_Drawable = std::move(drawable);
+    });
+}
+
 void Spring::Enable() {
     SetVisible(true);
 }
