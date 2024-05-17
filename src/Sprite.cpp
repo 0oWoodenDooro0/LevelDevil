@@ -4,17 +4,7 @@
 
 #include "Sprite.hpp"
 
-Sprite::Sprite(const std::shared_ptr<Core::Drawable>& drawable, float z_index) : Util::GameObject() {
+Sprite::Sprite(const std::shared_ptr<Core::Drawable>& drawable, float z_index) : GameObject() {
     SetDrawable(drawable);
     SetZIndex(z_index);
-}
-
-void Sprite::Enable() {
-    SetVisible(true);
-    enabled = true;
-}
-
-void Sprite::Disable() {
-    SetVisible(false);
-    enabled = false;
 }

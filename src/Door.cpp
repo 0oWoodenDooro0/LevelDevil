@@ -11,8 +11,8 @@
 #include "Character.hpp"
 #include "Animator.hpp"
 
-Door::Door(AudioManager audio_manager, std::vector<std::string> img_paths) : Util::GameObject(),
-                                                                             audio_manager_(std::move(audio_manager)) {
+Door::Door(AudioManager audio_manager, std::vector<std::string> img_paths)
+        : GameObject(), audio_manager_(std::move(audio_manager)) {
     SetZIndex(0);
     m_Drawable = std::make_unique<Util::Image>(img_paths[0]);
     animator_.SetAnimationStates(
@@ -27,7 +27,7 @@ Door::Door(AudioManager audio_manager, std::vector<std::string> img_paths) : Uti
 }
 
 void Door::Update(const std::shared_ptr<Character> &character_) {
-    if (!enabled_) {
+    if (!GetEnabled()) {
         return;
     }
     std::function<void(std::shared_ptr<Core::Drawable>)> set_drawable_function = [this](
@@ -61,14 +61,4 @@ void Door::Update(const std::shared_ptr<Character> &character_) {
         animator_.UpdateAnimationState("Idle", set_drawable_function);
         current_state_ = State::Idle;
     }
-}
-
-void Door::Enable() {
-    enabled_ = true;
-    SetVisible(true);
-}
-
-void Door::Disable() {
-    enabled_ = false;
-    SetVisible(false);
 }

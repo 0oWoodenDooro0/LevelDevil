@@ -46,11 +46,3 @@ void Spring::Reset() {
         m_Drawable = std::move(drawable);
     });
 }
-
-void Spring::Enable() {
-    SetVisible(true);
-}
-
-void Spring::Disable() {
-    SetVisible(false);
-}

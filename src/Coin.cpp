@@ -21,7 +21,7 @@ void Coin::SetImage(const std::string &image_path) {
 }
 
 void Coin::Update(const std::shared_ptr<Character> &character_) {
-    if (!enabled_ || !character_->GetEnabled()) {
+    if (!GetEnabled() || !character_->GetEnabled()) {
         current_state_ = State::Idle;
         return;
     }
@@ -29,14 +29,4 @@ void Coin::Update(const std::shared_ptr<Character> &character_) {
         Disable();
         current_state_ = State::Trigger;
     }
-}
-
-void Coin::Enable() {
-    SetVisible(true);
-    enabled_ = true;
-}
-
-void Coin::Disable() {
-    SetVisible(false);
-    enabled_ = false;
 }

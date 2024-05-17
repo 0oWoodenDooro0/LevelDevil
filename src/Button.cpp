@@ -5,11 +5,10 @@
 #include "Button.hpp"
 #include "Util/Input.hpp"
 #include "CollisionHandler.hpp"
-#include "Util/Logger.hpp"
 
 Button::Button(const std::shared_ptr<Core::Drawable> &idle, const std::shared_ptr<Core::Drawable> &hover,
                const std::shared_ptr<Core::Drawable> &click, AudioManager audio_manager, float z_index)
-        : Util::GameObject(), audio_manager_(std::move(audio_manager)) {
+        : GameObject(), audio_manager_(std::move(audio_manager)) {
     SetDrawable(idle);
     SetZIndex(z_index);
     animator_.SetAnimationStates({{"Idle",  idle},

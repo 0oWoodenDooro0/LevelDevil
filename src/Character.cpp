@@ -9,7 +9,7 @@
 #include "Util/Time.hpp"
 #include "CollisionHandler.hpp"
 
-Character::Character(AudioManager audio_manager) : Util::GameObject(), audio_manager_(std::move(audio_manager)) {
+Character::Character(AudioManager audio_manager) : GameObject(), audio_manager_(std::move(audio_manager)) {
     SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/image/character/idle/man_idle.png"));
     SetZIndex(1);
     animator_.SetAnimationStates(
@@ -81,16 +81,6 @@ void Character::Move(glm::vec2 input_velocity, const std::vector<std::shared_ptr
 
     std::function<void(glm::vec2)> translate = [this](glm::vec2 position) { m_Transform.translation += position; };
     rigidbody_.Update(GetCollider(), walls, translate);
-}
-
-void Character::Enable() {
-    SetVisible(true);
-    enabled_ = true;
-}
-
-void Character::Disable() {
-    SetVisible(false);
-    enabled_ = false;
 }
 
 bool Character::GroundCheck(const std::vector<std::shared_ptr<Sprite>> &others) const {

@@ -7,11 +7,11 @@
 
 #include <memory>
 #include "Util/Image.hpp"
-#include "Util/GameObject.hpp"
+#include "GameObject.hpp"
 
-class Background : public Util::GameObject {
+class Background : public GameObject {
 public:
-    explicit Background(const std::string& path);
+    explicit Background(const std::string &path);
 };
 
 #endif //LEVELDEVIL_BACKGROUND_HPP

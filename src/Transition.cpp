@@ -3,16 +3,15 @@
 //
 
 #include "Transition.hpp"
-#include "MovableSprite.hpp"
 #include "Util/Image.hpp"
 #include "Util/Time.hpp"
 #include "EasingFunction.hpp"
 
 Transition::Transition() {
-    top_ = std::make_shared<MovableSprite>(
+    top_ = std::make_shared<Sprite>(
             std::make_shared<Util::Image>(RESOURCE_DIR"/image/ui/transition_top.png"),
             20);
-    bottom_ = std::make_shared<MovableSprite>(
+    bottom_ = std::make_shared<Sprite>(
             std::make_shared<Util::Image>(RESOURCE_DIR"/image/ui/transition_bottom.png"),
             20);
     top_->SetPosition({0, 208});
