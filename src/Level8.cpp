@@ -94,8 +94,17 @@ void Level8::Update() {
 		if (character_->GetPosition().y < -480) {
 			character_->UpdateState(Character::State::Dead);
 		}
-		auto input_vector = InputHandler::GetCharacterMoveVelocity();
-		character_->Move(input_vector, walls_);
+		if (InputHandler::isGodPressed()) {
+			character_->ChangeGod();
+		}
+		glm::vec2 input_velocity = { 0, 0 };
+		if (character_->GetGod()) {
+			input_velocity = InputHandler::GetGodMoveVelocity();
+		}
+		else {
+			input_velocity = InputHandler::GetCharacterMoveVelocity();
+		}
+		character_->Update(input_velocity, walls_);
 	}
 	else {
 		if (revive_timer_ > 0) {
@@ -142,35 +151,35 @@ void Level8::Update() {
 		}
 		break;
 	case State::Move1:
-		movableportals_[0]->Move({ 0,-64 }, 2000);
+		Movable::Move(portals_[6], { 0,-64 }, 2000);
 		triggerColliders_[0]->Update(character_->GetPosition());
 		if (triggerColliders_[0]->GetState() == TriggerCollider::State::Trigger) {
 			UpdateCurrentState(State::Move2);
 		}
 		break;
 	case State::Move2:
-		movableportals_[0]->Move({ -256,-64 }, 2000);
+		Movable::Move(portals_[6], { -256,-64 }, 2000);
 		triggerColliders_[3]->Update(character_->GetPosition());
 		if (triggerColliders_[3]->GetState() == TriggerCollider::State::Trigger) {
 			UpdateCurrentState(State::Move3);
 		}
 		break;
 	case State::Move3:
-		movableportals_[0]->Move({ 384,-64 }, 2000);
+		Movable::Move(portals_[6], { 384,-64 }, 2000);
 		triggerColliders_[1]->Update(character_->GetPosition());
 		if (triggerColliders_[1]->GetState() == TriggerCollider::State::Trigger) {
 			UpdateCurrentState(State::Move4);
 		}
 		break;
 	case State::Move4:
-		movableportals_[0]->Move({ 640,-64 }, 2000);
+		Movable::Move(portals_[6], { 640,-64 }, 2000);
 		triggerColliders_[2]->Update(character_->GetPosition());
 		if (triggerColliders_[2]->GetState() == TriggerCollider::State::Trigger) {
 			UpdateCurrentState(State::Move5);
 		}
 		break;
 	case State::Move5:
-		movableportals_[0]->Move({ -1000,-64 }, 2000);
+		Movable::Move(portals_[6], { -1000,-64 }, 2000);
 		break;
 	case State::Outro:
 		transition_.Outro([this]() { set_level_state_function_(level_); });
@@ -188,7 +197,7 @@ void Level8::Update() {
 void Level8::ResetLevel() {
 	character_->Revive();
 	revive_timer_ = 500;
-	movableportals_[0]->SetPosition({ -640,-64 });
+	portals_[6]->SetPosition({ -640,-64 });
 	for (int i = 0; i < 6; i++)
 	{
 		portals_[i]->Enable();

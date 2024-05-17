@@ -12,9 +12,8 @@
 #include "Util/Animation.hpp"
 #include "Animator.hpp"
 #include "Character.hpp"
-#include "IBehaviour.hpp"
 
-class Portal : public Util::GameObject, public IBehaviour {
+class Portal : public GameObject{
 public:
     enum class State {
         State1,
@@ -23,15 +22,9 @@ public:
 
     explicit Portal(std::vector<std::string> image_paths, AudioManager audio_manager, glm::vec2 position = { 0,0 });
 
-    inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }
-
     inline void SetGoal(glm::vec2 position) { goal_ = position; }
 
-    [[nodiscard]] inline glm::vec2 GetPosition() const { return m_Transform.translation; }
-
-    [[nodiscard]] inline glm::vec2 GetSize() const { return m_Drawable->GetSize(); }
-
-    [[nodiscard]] inline Collider GetCollider() const {
+    [[nodiscard]] inline Collider GetCollider() const override{
         return {GetPosition() - glm::vec2(0, 21), GetSize() - glm::vec2(0, 42)};
     }
 
@@ -41,15 +34,12 @@ public:
 
     void Enable() override;
 
-    void Disable() override;
-
 private:
     Animator animator_;
     AudioManager audio_manager_;
     float draw_timer_ = 300;
     glm::vec2 goal_;
     State current_state_ = State::State1;
-    bool enable_ = true;
     bool iscollide_ = false;
 };
 

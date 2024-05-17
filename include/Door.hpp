@@ -27,6 +27,8 @@ public:
 
     void Update(const std::shared_ptr<Character> &character_);
 
+    State GetState() { return current_state_; }
+
 private:
     State current_state_ = State::Idle;
     AudioManager audio_manager_;

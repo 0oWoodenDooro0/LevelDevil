@@ -20,7 +20,7 @@ Portal::Portal(std::vector<std::string> image_pahts, AudioManager audio_manager,
 }
 
 void Portal::Update(const std::shared_ptr<Character> &character_) {
-    if (!enable_)return;
+    if (!GetEnabled())return;
     std::function<void(std::shared_ptr<Core::Drawable>)> set_drawable_function = [this](
             std::shared_ptr<Core::Drawable> drawable) { m_Drawable = std::move(drawable); };
     draw_timer_ -= Util::Time::GetDeltaTimeMs();
@@ -42,13 +42,8 @@ void Portal::Update(const std::shared_ptr<Character> &character_) {
 
 void Portal::Enable() {
     SetVisible(true);
-    enable_ = true;
+    SetEnabled(true);
     iscollide_ = false;
     current_state_ = State::State1;
     draw_timer_ = 300;
-}
-
-void Portal::Disable() {
-    SetVisible(false);
-    enable_ = false;
 }
