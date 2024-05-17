@@ -12,7 +12,7 @@
 #include "Level.hpp"
 #include "Background.hpp"
 #include "Util/Renderer.hpp"
-#include "MovablePortal.hpp"
+#include "Portal.hpp"
 #include "Button.hpp"
 #include "EscButton.hpp"
 #include "TriggerCollider.hpp"
@@ -54,7 +54,6 @@ private:
     std::shared_ptr<EscButton> button_;
     std::vector<std::shared_ptr<Sprite>> walls_;
     std::vector<std::shared_ptr<Portal>> portals_;
-    std::vector<std::shared_ptr<MovablePortal>> movableportals_;
     std::vector<std::shared_ptr<TriggerCollider>> triggerColliders_;
     std::shared_ptr<Door> door_;
     std::shared_ptr<Character> character_;

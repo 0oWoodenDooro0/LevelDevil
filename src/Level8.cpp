@@ -6,6 +6,7 @@
 #include "InputHandler.hpp"
 #include "Util/Time.hpp"
 #include "Util/Logger.hpp"
+#include "Movable.hpp"
 
 #include <utility>
 
@@ -76,8 +77,7 @@ void Level8::Start() {
 	portals_[4]->SetGoal({ -128, 384 });
 
 	glm::vec2 goal = { -768, -264 };
-	auto movableportal = std::make_shared<MovablePortal>(portal_image, audio_manager_, goal);
-	movableportals_.push_back(movableportal);
+	auto movableportal = std::make_shared<Portal>(portal_image, audio_manager_, goal);
 	portals_.push_back(movableportal);
 	renderer_.AddChild(movableportal);
 	movableportal->SetPosition({ -640,-64 });
