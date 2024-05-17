@@ -25,6 +25,8 @@ public:
 
     explicit Door(AudioManager audio_manager, std::vector<std::string> img_paths);
 
+    [[nodiscard]] inline State GetState() const { return current_state_; }
+
     void Update(const std::shared_ptr<Character> &character_);
 
     State GetState() { return current_state_; }

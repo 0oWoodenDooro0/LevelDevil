@@ -7,13 +7,13 @@
 
 #include <string>
 #include <glm/vec2.hpp>
-#include "Util/GameObject.hpp"
+#include "GameObject.hpp"
 #include "Util/Image.hpp"
 #include "Util/Animation.hpp"
 #include "Animator.hpp"
 #include "Character.hpp"
 
-class Portal : public GameObject{
+class Portal : public GameObject {
 public:
     enum class State {
         State1,
