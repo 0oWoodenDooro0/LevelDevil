@@ -40,7 +40,15 @@ public:
 
     [[nodiscard]] inline bool GetEnabled() const { return enabled_; }
 
-    void Move(glm::vec2 input_velocity, const std::vector<std::shared_ptr<Sprite>> &walls);
+    [[nodiscard]] inline bool GetGod() const { return god_; }
+
+    inline void ChangeGod() { god_ = !GetGod(); }
+
+    void CharacterMove(glm::vec2 input_velocity, const std::vector<std::shared_ptr<Sprite>> &walls);
+
+    void GodMove(glm::vec2 input_velocity);
+
+    void Update(glm::vec2 input_velocity, const std::vector<std::shared_ptr<Sprite>> &walls);
 
     void Enable() override;
 
@@ -51,8 +59,6 @@ public:
     void Revive();
 
     void Dead();
-
-    void LevelClear();
 
     void Bounce();
 
@@ -74,6 +80,7 @@ private:
     bool enabled_ = true;
     bool is_direction_right_ = true;
     bool is_run_ = false;
+    bool god_ = false;
 };
 
 #endif //LEVELDEVIL_CHARACTER_HPP

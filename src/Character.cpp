@@ -8,6 +8,7 @@
 #include "Util/Image.hpp"
 #include "Util/Time.hpp"
 #include "CollisionHandler.hpp"
+#include "InputHandler.hpp"
 
 Character::Character(AudioManager audio_manager) : Util::GameObject(), audio_manager_(std::move(audio_manager)) {
     SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/image/character/idle/man_idle.png"));
@@ -43,9 +44,10 @@ void Character::SetCheckPoint(glm::vec2 check_point) {
     check_point_ = check_point;
 }
 
-void Character::Move(glm::vec2 input_velocity, const std::vector<std::shared_ptr<Sprite>> &walls) {
-    std::function<void(std::shared_ptr<Core::Drawable>)> set_drawable_function = [this](
-            const std::shared_ptr<Core::Drawable> &drawable) { this->SetDrawable(drawable); };
+void Character::CharacterMove(glm::vec2 input_velocity, const std::vector<std::shared_ptr<Sprite>> &walls) {
+    auto set_drawable_function = [this](const std::shared_ptr<Core::Drawable> &drawable) {
+        this->SetDrawable(drawable);
+    };
     auto isGrounded = GroundCheck(walls);
     if (!isGrounded) {
         rigidbody_.AddAcceleration({0, gravity_});
@@ -78,7 +80,32 @@ void Character::Move(glm::vec2 input_velocity, const std::vector<std::shared_ptr
     }
     rigidbody_.SetVelocity(
             {move_speed_ * input_velocity.x * Util::Time::GetDeltaTimeMs() / 1000, rigidbody_.GetVelocity().y});
+}
 
+void Character::GodMove(glm::vec2 input_velocity) {
+    auto set_drawable_function = [this](const std::shared_ptr<Core::Drawable> &drawable) {
+        this->SetDrawable(drawable);
+    };
+    if (input_velocity.x > 0) {
+        is_direction_right_ = true;
+        animator_.UpdateAnimationState("RunRight", set_drawable_function);
+    } else if (input_velocity.x < 0) {
+        is_direction_right_ = false;
+        animator_.UpdateAnimationState("RunLeft", set_drawable_function);
+    } else {
+        animator_.UpdateAnimationState("Idle", set_drawable_function);
+    }
+    rigidbody_.SetVelocity(
+            {move_speed_ * input_velocity.x * Util::Time::GetDeltaTimeMs() / 1000,
+             move_speed_ * input_velocity.y * Util::Time::GetDeltaTimeMs() / 1000});
+}
+
+void Character::Update(glm::vec2 input_velocity, const std::vector<std::shared_ptr<Sprite>> &walls) {
+    if (GetGod()) {
+        GodMove(input_velocity);
+    } else {
+        CharacterMove(input_velocity, walls);
+    }
     std::function<void(glm::vec2)> translate = [this](glm::vec2 position) { m_Transform.translation += position; };
     rigidbody_.Update(GetCollider(), walls, translate);
 }
@@ -117,12 +144,9 @@ void Character::Revive() {
 }
 
 void Character::Dead() {
+    if (GetGod()) return;
     Disable();
     audio_manager_.Play(AudioManager::SFX::Dead);
-}
-
-void Character::LevelClear() {
-    Disable();
 }
 
 void Character::Bounce() {
@@ -146,7 +170,7 @@ void Character::UpdateState(Character::State state) {
             Dead();
             break;
         case State::LevelClear:
-            LevelClear();
+            Disable();
             break;
     }
 }
