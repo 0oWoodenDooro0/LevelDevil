@@ -12,8 +12,6 @@
 #include "Level.hpp"
 #include "Background.hpp"
 #include "Util/Renderer.hpp"
-#include "MovableSpike.hpp"
-#include "MovableSprite.hpp"
 #include "Button.hpp"
 #include "EscButton.hpp"
 #include "Spike.hpp"
@@ -55,13 +53,13 @@ private:
     std::shared_ptr<EscButton> button_;
     std::vector<std::shared_ptr<Sprite>> walls_;
     std::vector<std::shared_ptr<Spike>> spikes_;
-    std::vector<std::shared_ptr<MovableSpike>> movable_spikes_;
-    std::vector<std::shared_ptr<MovableSprite>> movable_walls_;
     std::vector<std::shared_ptr<TriggerCollider>> triggerColliders_;
     std::shared_ptr<Door> door_;
     std::shared_ptr<Character> character_;
-    float speed = 300;
-    float timer = 2000;
+
+    float speed_ = 300;
+    float timer_ = 2000;
+    float revive_timer_ = 500;
 };
 
 #endif //LEVELDEVIL_LEVEL3_HPP

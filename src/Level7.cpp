@@ -5,6 +5,7 @@
 #include "Level7.hpp"
 #include "InputHandler.hpp"
 #include "Util/Time.hpp"
+#include "Movable.hpp"
 
 #include <utility>
 
@@ -52,8 +53,7 @@ void Level7::Start() {
                                                        RESOURCE_DIR"/image/level/Level7/springBase.png",
                                                        RESOURCE_DIR"/image/level/Level7/springBase.png"};
     for (int i = 0; i < 4; ++i) {
-        auto movable_wall = std::make_shared<MovableSprite>(std::make_shared<Util::Image>(movable_wall_image[i]));
-        movable_walls_.push_back(movable_wall);
+        auto movable_wall = std::make_shared<Sprite>(std::make_shared<Util::Image>(movable_wall_image[i]));
         walls_.push_back(movable_wall);
         renderer_.AddChild(movable_wall);
         movable_wall->SetPosition({-320 + 192 * i, -256});
@@ -62,8 +62,8 @@ void Level7::Start() {
     auto movable_spring_image = std::vector<std::string>{RESOURCE_DIR"/image/level/Level7/springDown.png",
                                                          RESOURCE_DIR"/image/level/Level7/springUp.png"};
     for (int i = 0; i < 4; i++) {
-        auto movable_spring = std::make_shared<MovableSpring>(movable_spring_image, audio_manager_);
-        movable_springs_.push_back(movable_spring);
+        auto movable_spring = std::make_shared<Spring>(movable_spring_image, audio_manager_);
+        springs_.push_back(movable_spring);
         renderer_.AddChild(movable_spring);
         movable_spring->SetPosition({-320 + 192 * i, -192});
     }
@@ -79,13 +79,26 @@ void Level7::Update() {
         if (character_->GetPosition().y < -480) {
             character_->UpdateState(Character::State::Dead);
         }
-        auto input_vector = InputHandler::GetCharacterMoveVelocity();
-        character_->Move(input_vector, walls_);
+        if (InputHandler::isGodPressed()){
+            character_->ChangeGod();
+        }
+        glm::vec2 input_velocity = {0, 0};
+        if (character_->GetGod()) {
+            input_velocity = InputHandler::GetGodMoveVelocity();
+        } else {
+            input_velocity = InputHandler::GetCharacterMoveVelocity();
+        }
+        character_->Update(input_velocity, walls_);
     } else {
-        if (character_->GetCurrentState() != Character::State::LevelClear && InputHandler::isRevivePressed()) {
-            character_->Revive();
+        if (revive_timer_ > 0) {
+            revive_timer_ -= Util::Time::GetDeltaTimeMs();
+        } else if (character_->GetCurrentState() != Character::State::LevelClear && InputHandler::isRevivePressed()) {
             ResetLevel();
         }
+    }
+
+    if (InputHandler::isResetLevelPressed() && door_->GetState() == Door::State::Idle) {
+        ResetLevel();
     }
 
     button_->Update();
@@ -100,8 +113,8 @@ void Level7::Update() {
         UpdateCurrentState(State::Outro);
     }
 
-    for (const auto &movable_spring: movable_springs_) {
-        movable_spring->Update(character_);
+    for (const auto &spring: springs_) {
+        spring->Update(character_);
     }
 
     switch (current_state_) {
@@ -144,12 +157,19 @@ void Level7::Update() {
     }
 
     renderer_.Update();
+    if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE)) {
+        UpdateCurrentState(State::Outro);
+        level_ = Level::State::LEVEL_SELECT;
+    }
 }
 
 void Level7::ResetLevel() {
+    character_->Revive();
+    revive_timer_ = 500;
     for (int i = 0; i < 4; i++) {
-        movable_walls_[i]->SetPosition({-320 + 192 * i, -256});
-        movable_springs_[i]->SetPosition({-320 + 192 * i, -192});
+        walls_[i + 5]->SetPosition({-320 + 192 * i, -256});
+        springs_[i]->SetPosition({-320 + 192 * i, -192});
+        springs_[i]->Reset();
     }
     current_state_ = State::Start;
 }
@@ -215,9 +235,9 @@ void Level7::UpdateCurrentState(State state) {
 void Level7::SpringMove(float distance) {
     for (int i = 0; i < 4; i++) {
         auto X = -320 + 192 * i;
-        auto Ywall = movable_walls_[i]->GetPosition().y;
-        auto Yspring = movable_springs_[i]->GetPosition().y;
-        movable_walls_[i]->Move({X + distance, Ywall}, 300);
-        movable_springs_[i]->Move({X + distance, Yspring}, 300);
+        auto Ywall = walls_[i + 5]->GetPosition().y;
+        auto Yspring = springs_[i]->GetPosition().y;
+        Movable::Move(walls_[i + 5], {X + distance, Ywall}, 300);
+        Movable::Move(springs_[i], {X + distance, Yspring}, 300);
     }
 }

@@ -14,7 +14,6 @@
 #include "Level.hpp"
 #include "Util/Renderer.hpp"
 #include "AudioManager.hpp"
-#include "MovableSprite.hpp"
 #include "Transition.hpp"
 
 class LevelSelect : public ILevel {

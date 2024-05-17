@@ -7,7 +7,6 @@
 
 #include <string>
 #include <glm/vec2.hpp>
-#include "Util/GameObject.hpp"
 #include "Util/Image.hpp"
 #include "Util/Animation.hpp"
 #include "Util/SFX.hpp"
@@ -16,9 +15,8 @@
 #include "Collider.hpp"
 #include "SoundEffect.hpp"
 #include "AudioManager.hpp"
-#include "IBehaviour.hpp"
 
-class Character : public Util::GameObject, public IBehaviour {
+class Character : public GameObject {
 public:
     enum class State {
         Alive,
@@ -28,31 +26,27 @@ public:
 
     explicit Character(AudioManager audio_manager);
 
-    inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }
-
     void SetCheckPoint(glm::vec2 check_point);
 
-    [[nodiscard]] inline glm::vec2 GetPosition() const { return m_Transform.translation; }
-
-    [[nodiscard]] inline Collider GetCollider() const { return {GetPosition() - glm::vec2(2, 6), {32, 52}}; }
+    [[nodiscard]] inline Collider GetCollider() const override { return {GetPosition() - glm::vec2(2, 6), {32, 52}}; }
 
     [[nodiscard]] inline State GetCurrentState() const { return current_state_; }
 
-    [[nodiscard]] inline bool GetEnabled() const { return enabled_; }
+    [[nodiscard]] inline bool GetGod() const { return god_; }
 
-    void Move(glm::vec2 input_velocity, const std::vector<std::shared_ptr<Sprite>> &walls);
+    inline void ChangeGod() { god_ = !GetGod(); }
 
-    void Enable() override;
+    void CharacterMove(glm::vec2 input_velocity, const std::vector<std::shared_ptr<Sprite>> &walls);
 
-    void Disable() override;
+    void GodMove(glm::vec2 input_velocity);
+
+    void Update(glm::vec2 input_velocity, const std::vector<std::shared_ptr<Sprite>> &walls);
 
     [[nodiscard]] bool GroundCheck(const std::vector<std::shared_ptr<Sprite>> &others) const;
 
     void Revive();
 
     void Dead();
-
-    void LevelClear();
 
     void Bounce();
 
@@ -71,9 +65,9 @@ private:
     float jump_height_ = 12;
     float gravity_ = -1;
     float spring_height_ = 24;
-    bool enabled_ = true;
     bool is_direction_right_ = true;
     bool is_run_ = false;
+    bool god_ = false;
 };
 
 #endif //LEVELDEVIL_CHARACTER_HPP

@@ -5,6 +5,7 @@
 #include "Level4.hpp"
 #include "InputHandler.hpp"
 #include "Util/Time.hpp"
+#include "Movable.hpp"
 
 #include <utility>
 
@@ -80,13 +81,26 @@ void Level4::Start() {
 
 void Level4::Update() {
     if (character_->GetEnabled()) {
-        auto input_vector = InputHandler::GetCharacterMoveVelocity();
-        character_->Move(input_vector, walls_);
+        if (InputHandler::isGodPressed()){
+            character_->ChangeGod();
+        }
+        glm::vec2 input_velocity = {0, 0};
+        if (character_->GetGod()) {
+            input_velocity = InputHandler::GetGodMoveVelocity();
+        } else {
+            input_velocity = InputHandler::GetCharacterMoveVelocity();
+        }
+        character_->Update(input_velocity, walls_);
     } else {
-        if (character_->GetCurrentState() != Character::State::LevelClear && InputHandler::isRevivePressed()) {
-            character_->Revive();
+        if (revive_timer_ > 0) {
+            revive_timer_ -= Util::Time::GetDeltaTimeMs();
+        } else if (character_->GetCurrentState() != Character::State::LevelClear && InputHandler::isRevivePressed()) {
             ResetLevel();
         }
+    }
+
+    if (InputHandler::isResetLevelPressed() && door_->GetState() == Door::State::Idle) {
+        ResetLevel();
     }
 
     button_->Update();
@@ -135,6 +149,8 @@ void Level4::Update() {
 }
 
 void Level4::ResetLevel() {
+    character_->Revive();
+    revive_timer_ = 500;
     ResetCoins();
     current_state_ = State::Start;
 }
@@ -171,7 +187,7 @@ void Level4::UpdateCurrentState(Level4::State state) {
 
 void Level4::MoveCoins() const {
     for (const auto &coin: coins_) {
-        coin->SetPosition(coin->GetPosition() + coin_speed_ * (Util::Time::GetDeltaTimeMs() / 1000) * glm::vec2{1, 0});
+        Movable::Move(coin, {1728, coin->GetPosition().y}, coin_speed_);
     }
 }
 
@@ -191,7 +207,7 @@ void Level4::ResetCoins() const {
     coins_[12]->SetPosition({-896, 320});
     coins_[13]->SetPosition({-896, 384});
     coins_[14]->SetPosition({-896, 448});
-    for (const auto& coin: coins_) {
+    for (const auto &coin: coins_) {
         coin->Enable();
     }
 }

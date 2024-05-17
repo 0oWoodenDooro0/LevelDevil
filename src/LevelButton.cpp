@@ -10,7 +10,7 @@
 #include "Util/Time.hpp"
 #include "Character.hpp"
 
-LevelButton::LevelButton(AudioManager audiomanager) : Util::GameObject(), audiomanager_(std::move(audiomanager)) {
+LevelButton::LevelButton(AudioManager audiomanager) : GameObject(), audiomanager_(std::move(audiomanager)) {
     SetZIndex(0);
     m_Drawable = std::make_unique<Util::Image>(RESOURCE_DIR"/image/component/LbuttonUp.png");
     animator_.SetAnimationStates(
@@ -19,13 +19,5 @@ LevelButton::LevelButton(AudioManager audiomanager) : Util::GameObject(), audiom
 }
 
 void LevelButton::Update(const std::shared_ptr<Character> &character_) {
-    /*TODO*/
-}
-
-void LevelButton::Enable() {
-    /*TODO*/
-}
-
-void LevelButton::Disable() {
     /*TODO*/
 }
