@@ -10,7 +10,7 @@
 
 class MovableSpring : public Spring {
 public:
-    explicit MovableSpring(std::vector<std::string> image_paths, AudioManager audio_manager);
+    explicit MovableSpring(const std::vector<std::string> &image_paths, AudioManager audio_manager);
 
     void Move(glm::vec2 target_position, float speed);
 };

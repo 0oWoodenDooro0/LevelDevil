@@ -11,7 +11,8 @@
 #include "CollisionHandler.hpp"
 #include "Character.hpp"
 
-Spring::Spring(std::vector<std::string> image_pahts, AudioManager audio_manager) : audio_manager_(std::move(audio_manager)) {
+Spring::Spring(std::vector<std::string> image_pahts, AudioManager audio_manager)
+        : audio_manager_(std::move(audio_manager)) {
     SetZIndex(0);
     m_Drawable = std::make_unique<Util::Image>(image_pahts[0]);
     animator_.SetAnimationStates(

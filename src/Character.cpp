@@ -94,7 +94,7 @@ void Character::Disable() {
 }
 
 bool Character::GroundCheck(const std::vector<std::shared_ptr<Sprite>> &others) const {
-    return std::any_of(others.begin(), others.end(), [this](const std::shared_ptr<Sprite>& other) {
+    return std::any_of(others.begin(), others.end(), [this](const std::shared_ptr<Sprite> &other) {
         return CollisionHandler::CheckCollision(
                 Collider({GetCollider().center.x, GetCollider().bottom}, {GetCollider().size.x, 0.1}),
                 other->GetCollider());
@@ -126,7 +126,7 @@ void Character::LevelClear() {
 }
 
 void Character::Bounce() {
-    rigidbody_.SetVelocity({ rigidbody_.GetVelocity().x,0 });
+    rigidbody_.SetVelocity({rigidbody_.GetVelocity().x, 0});
     rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, spring_height_});
 }
 
