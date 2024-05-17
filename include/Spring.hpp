@@ -27,6 +27,8 @@ public:
 
     void Update(const std::shared_ptr<Character> &character_);
 
+    void Reset();
+  
 private:
     Animator animator_;
     AudioManager audio_manager_;

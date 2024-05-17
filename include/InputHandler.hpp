@@ -20,6 +20,8 @@ public:
 
     static bool isRevivePressed();
 
+    static bool isResetLevelPressed();
+
 private:
     constexpr static const std::array<Util::Keycode, 2> forward_keycodes_ = {Util::Keycode::D, Util::Keycode::RIGHT};
     constexpr static const std::array<Util::Keycode, 2> backward_keycodes_ = {Util::Keycode::A, Util::Keycode::LEFT};
@@ -29,6 +31,7 @@ private:
                                                                             Util::Keycode::A, Util::Keycode::LEFT,
                                                                             Util::Keycode::W, Util::Keycode::SPACE,
                                                                             Util::Keycode::UP};
+    constexpr static const Util::Keycode reset_level_keycode = Util::Keycode::R;
 };
 
 

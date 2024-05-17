@@ -94,18 +94,21 @@ bool Character::GroundCheck(const std::vector<std::shared_ptr<Sprite>> &others) 
 void Character::Revive() {
     Enable();
     SetPosition(check_point_);
+    animator_.UpdateAnimationState("Idle", [this](const std::shared_ptr<Core::Drawable> &drawable) {
+        this->SetDrawable(drawable);
+    });
     UpdateState(State::Alive);
+    rigidbody_.ResetVelocity();
+    rigidbody_.ResetAcceleration();
     audio_manager_.Play(AudioManager::SFX::Revive);
+    animator_.UpdateAnimationState("Idle", [this](const std::shared_ptr<Core::Drawable> &drawable) {
+        this->SetDrawable(drawable);
+    });
 }
 
 void Character::Dead() {
     Disable();
     audio_manager_.Play(AudioManager::SFX::Dead);
-    rigidbody_.ResetVelocity();
-    rigidbody_.ResetAcceleration();
-    animator_.UpdateAnimationState("Idle", [this](const std::shared_ptr<Core::Drawable> &drawable) {
-        this->SetDrawable(drawable);
-    });
 }
 
 void Character::LevelClear() {
@@ -115,6 +118,12 @@ void Character::LevelClear() {
 void Character::Bounce() {
     rigidbody_.SetVelocity({rigidbody_.GetVelocity().x, 0});
     rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, spring_height_});
+}
+
+void Character::Warp(glm::vec2 position) {
+    rigidbody_.ResetVelocity();
+    rigidbody_.ResetAcceleration();
+    SetPosition(position);
 }
 
 void Character::UpdateState(Character::State state) {

@@ -52,6 +52,8 @@ private:
     std::vector<std::shared_ptr<TriggerCollider>> triggerColliders_;
     std::shared_ptr<Door> door_;
     std::shared_ptr<Character> character_;
+
+    float revive_timer_ = 500;
 };
 
 #endif //LEVELDEVIL_LEVEL1_HPP

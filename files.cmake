@@ -22,6 +22,7 @@ set(SRC_FILES
     LevelButton.cpp
     LevelSelect.cpp
     Movable.cpp
+    Portal.cpp
     Rigidbody.cpp
     SoundEffect.cpp
     Spike.cpp
@@ -59,6 +60,7 @@ set(INCLUDE_FILES
     LevelButton.hpp
     LevelSelect.hpp
     Movalbe.hpp
+    Portal.hpp
     Rigidbody.hpp
     SoundEffect.hpp
     Spike.hpp

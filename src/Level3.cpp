@@ -85,10 +85,15 @@ void Level3::Update() {
         auto input_vector = InputHandler::GetCharacterMoveVelocity();
         character_->Move(input_vector, walls_);
     } else {
-        if (character_->GetCurrentState() != Character::State::LevelClear && InputHandler::isRevivePressed()) {
-            character_->Revive();
+        if (revive_timer_ > 0) {
+            revive_timer_ -= Util::Time::GetDeltaTimeMs();
+        } else if (character_->GetCurrentState() != Character::State::LevelClear && InputHandler::isRevivePressed()) {
             ResetLevel();
         }
+    }
+
+    if (InputHandler::isResetLevelPressed() && door_->GetState() == Door::State::Idle) {
+        ResetLevel();
     }
 
     button_->Update();
@@ -115,7 +120,7 @@ void Level3::Update() {
             triggerColliders_[0]->Update(character_->GetPosition());
             if (triggerColliders_[0]->GetState() == TriggerCollider::State::Trigger) {
                 UpdateCurrentState(State::Move);
-                speed = 0;
+                speed_ = 0;
             }
             break;
         case State::Move:
@@ -126,11 +131,11 @@ void Level3::Update() {
             for (int i = 0; i < 5; i++) {
                 Movable::Move(spikes_[i + 3], {-288, -128 + i * 64}, speed);
             }
-            speed += 5;
+            speed_ += 5;
             triggerColliders_[1]->Update(character_->GetPosition());
             if (triggerColliders_[1]->GetState() == TriggerCollider::State::Trigger) {
                 UpdateCurrentState(State::Spike);
-                timer = 1000;
+                timer_ = 1000;
             }
             break;
         case State::Spike:
@@ -138,9 +143,9 @@ void Level3::Update() {
             for (int i = 0; i < 5; i++) {
                 Movable::Move(spikes_[i + 3], {-288, -128 + i * 64}, speed);
             }
-            speed += 10;
+            speed_ += 10;
             SpikeDelay();
-            timer -= Util::Time::GetDeltaTimeMs();
+            timer_ -= Util::Time::GetDeltaTimeMs();
             break;
         case State::Outro:
             transition_.Outro([this]() { set_level_state_function_(level_); });
@@ -155,6 +160,8 @@ void Level3::Update() {
 }
 
 void Level3::ResetLevel() {
+    character_->Revive();
+    revive_timer_ = 500;
     walls_[4]->SetPosition({1312, 0});
     for (int i = 0; i < 3; i++) {
         spikes_[i]->Disable();
@@ -164,8 +171,8 @@ void Level3::ResetLevel() {
         spikes_[i + 3]->Disable();
     }
     current_state_ = State::Start;
-    speed = 0;
-    timer = 1000;
+    speed_ = 0;
+    timer_ = 1000;
 
 }
 
@@ -209,7 +216,7 @@ void Level3::UpdateCurrentState(State state) {
 }
 
 void Level3::SpikeDelay() {
-    if (timer > 0) {
+    if (timer_ > 0) {
         for (int i = 0; i < 3; i++) {
             if (!spikes_[i]->GetEnabled()) spikes_[i]->Enable();
         }

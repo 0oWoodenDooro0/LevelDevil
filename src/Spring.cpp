@@ -40,3 +40,9 @@ void Spring::Update(const std::shared_ptr<Character> &character_) {
         draw_timer_ = 500;
     }
 }
+
+void Spring::Reset() {
+    animator_.UpdateAnimationState("Down", [this](std::shared_ptr<Core::Drawable> drawable) {
+        m_Drawable = std::move(drawable);
+    });
+}

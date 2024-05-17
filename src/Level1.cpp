@@ -5,6 +5,7 @@
 #include "Level1.hpp"
 #include "InputHandler.hpp"
 #include "Util/Time.hpp"
+#include "Util/Logger.hpp"
 
 #include <utility>
 
@@ -67,10 +68,15 @@ void Level1::Update() {
         auto input_vector = InputHandler::GetCharacterMoveVelocity();
         character_->Move(input_vector, walls_);
     } else {
-        if (character_->GetCurrentState() != Character::State::LevelClear && InputHandler::isRevivePressed()) {
-            character_->Revive();
+        if (revive_timer_ > 0) {
+            revive_timer_ -= Util::Time::GetDeltaTimeMs();
+        } else if (character_->GetCurrentState() != Character::State::LevelClear && InputHandler::isRevivePressed()) {
             ResetLevel();
         }
+    }
+
+    if (InputHandler::isResetLevelPressed() && door_->GetState() == Door::State::Idle) {
+        ResetLevel();
     }
 
     button_->Update();
@@ -121,6 +127,8 @@ void Level1::Update() {
 }
 
 void Level1::ResetLevel() {
+    character_->Revive();
+    revive_timer_ = 500;
     walls_[4]->SetPosition({-288, -320});
     walls_[5]->SetPosition({256, -320});
     current_state_ = State::Start;
