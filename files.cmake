@@ -11,6 +11,7 @@ set(SRC_FILES
     Door.cpp
     DoorButton.cpp
     EscButton.cpp
+    GameObject.cpp
     InputHandler.cpp
     Level1.cpp
     Level2.cpp
@@ -20,9 +21,7 @@ set(SRC_FILES
     Level7.cpp
     LevelButton.cpp
     LevelSelect.cpp
-    MovableSpike.cpp
-    MovableSpring.cpp
-    MovableSprite.cpp
+    Movable.cpp
     Portal.cpp
     Rigidbody.cpp
     SoundEffect.cpp
@@ -47,6 +46,7 @@ set(INCLUDE_FILES
     DoorButton.hpp
     EasingFunction.hpp
     EscButton.hpp
+    GameObject.hpp
     IBehaviour.hpp
     ILevel.hpp
     InputHandler.hpp
@@ -59,9 +59,7 @@ set(INCLUDE_FILES
     Level7.hpp
     LevelButton.hpp
     LevelSelect.hpp
-    MovableSpike.hpp
-    MovableSpring.hpp
-    MovableSprite.hpp
+    Movalbe.hpp
     Portal.hpp
     Rigidbody.hpp
     SoundEffect.hpp

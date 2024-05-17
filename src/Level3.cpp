@@ -5,6 +5,7 @@
 #include "Level3.hpp"
 #include "InputHandler.hpp"
 #include "Util/Time.hpp"
+#include "Movable.hpp"
 
 #include <utility>
 
@@ -47,8 +48,7 @@ void Level3::Start() {
     walls_[3]->SetPosition({-832, 0});
     auto movable_wall_image = std::vector<std::string>{RESOURCE_DIR"/image/level/level3/Rside.png"};
     for (int i = 0; i < 1; ++i) {
-        auto movable_wall = std::make_shared<MovableSprite>(std::make_shared<Util::Image>(movable_wall_image[i]));
-        movable_walls_.push_back(movable_wall);
+        auto movable_wall = std::make_shared<Sprite>(std::make_shared<Util::Image>(movable_wall_image[i]));
         walls_.push_back(movable_wall);
         renderer_.AddChild(movable_wall);
     }
@@ -65,10 +65,9 @@ void Level3::Start() {
 
     auto movable_spike_image = RESOURCE_DIR"/image/level/Level3/Rspike.png";
     for (int i = 0; i < 5; i++) {
-        auto movable_spike = std::make_shared<MovableSpike>(movable_spike_image, Spike::Position::Right,
+        auto movable_spike = std::make_shared<Spike>(movable_spike_image, Spike::Position::Right,
                                                             audio_manager_);
         spikes_.push_back(movable_spike);
-        movable_spikes_.push_back(movable_spike);
         renderer_.AddChild(movable_spike);
         movable_spike->SetPosition({704, -128 + i * 64});
         movable_spike->Disable();
@@ -134,11 +133,11 @@ void Level3::Update() {
             break;
         case State::Move:
             for (int i = 0; i < 5; i++) {
-                if (!movable_spikes_[i]->IsEnable()) movable_spikes_[i]->Enable();
+                if (!spikes_[i + 3]->GetEnabled()) spikes_[i + 3]->Enable();
             }
-            movable_walls_[0]->Move({320, 0}, speed_);
+            Movable::Move(walls_[4], {320, 0}, speed);
             for (int i = 0; i < 5; i++) {
-                movable_spikes_[i]->Move({-288, -128 + i * 64}, speed_);
+                Movable::Move(spikes_[i + 3], {-288, -128 + i * 64}, speed);
             }
             speed_ += 5;
             triggerColliders_[1]->Update(character_->GetPosition());
@@ -148,9 +147,9 @@ void Level3::Update() {
             }
             break;
         case State::Spike:
-            movable_walls_[0]->Move({320, 0}, speed_);
+            Movable::Move(walls_[4], {320, 0}, speed);
             for (int i = 0; i < 5; i++) {
-                movable_spikes_[i]->Move({-288, -128 + i * 64}, speed_);
+                Movable::Move(spikes_[i + 3], {-288, -128 + i * 64}, speed);
             }
             speed_ += 10;
             SpikeDelay();
@@ -171,13 +170,13 @@ void Level3::Update() {
 void Level3::ResetLevel() {
     character_->Revive();
     revive_timer_ = 500;
-    movable_walls_[0]->SetPosition({1312, 0});
+    walls_[4]->SetPosition({1312, 0});
     for (int i = 0; i < 3; i++) {
         spikes_[i]->Disable();
     }
     for (int i = 0; i < 5; i++) {
-        movable_spikes_[i]->SetPosition({704, -128 + i * 64});
-        movable_spikes_[i]->Disable();
+        spikes_[i + 3]->SetPosition({704, -128 + i * 64});
+        spikes_[i + 3]->Disable();
     }
     current_state_ = State::Start;
     speed_ = 0;
@@ -227,12 +226,12 @@ void Level3::UpdateCurrentState(State state) {
 void Level3::SpikeDelay() {
     if (timer_ > 0) {
         for (int i = 0; i < 3; i++) {
-            if (!spikes_[i]->IsEnable()) spikes_[i]->Enable();
+            if (!spikes_[i]->GetEnabled()) spikes_[i]->Enable();
         }
     } else {
-        if (spikes_[0]->IsEnable())audio_manager_.Play(AudioManager::SFX::WallTrap);
+        if (spikes_[0]->GetEnabled())audio_manager_.Play(AudioManager::SFX::WallTrap);
         for (int i = 0; i < 3; i++) {
-            if (spikes_[i]->IsEnable()) spikes_[i]->Disable();
+            if (spikes_[i]->GetEnabled()) spikes_[i]->Disable();
         }
     }
 }

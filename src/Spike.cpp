@@ -36,7 +36,7 @@ Collider Spike::GetCollider() const {
 }
 
 void Spike::Update(const std::shared_ptr<Character> &character) {
-    if (!enable_)return;
+    if (!GetEnabled())return;
     if (!character->GetEnabled())return;
     if (CollisionHandler::CheckCollision(character->GetCollider(), GetCollider())){
         character->UpdateState(Character::State::Dead);
@@ -45,11 +45,6 @@ void Spike::Update(const std::shared_ptr<Character> &character) {
 
 void Spike::Enable() {
     SetVisible(true);
-    enable_ = true;
+    SetEnabled(true);
     audio_manager_.Play(AudioManager::SFX::Trap);
-}
-
-void Spike::Disable() {
-    SetVisible(false);
-    enable_ = false;
 }

@@ -16,7 +16,7 @@ void Rigidbody::Update(const Collider &collider, const std::vector<std::shared_p
 
     glm::vec2 nearest_delta_position = GetVelocity();
     for (const auto &wall: walls) {
-        if (!wall->enabled) { continue; }
+        if (!wall->GetEnabled()) { continue; }
         glm::vec2 delta_velocity = CollisionHandler::SweepTest(collider, wall->GetCollider(), GetVelocity());
         if (hypot(GetVelocity().x, GetVelocity().y) != 0) {
             if (abs(delta_velocity.x) < abs(nearest_delta_position.x)) {

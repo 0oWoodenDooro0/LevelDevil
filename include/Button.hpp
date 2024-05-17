@@ -6,16 +6,15 @@
 #define LEVELDEVIL_BUTTON_HPP
 
 
-#include "Util/GameObject.hpp"
 #include "Animator.hpp"
 #include "Collider.hpp"
 #include "Util/Image.hpp"
 #include "Util/SFX.hpp"
-#include "IBehaviour.hpp"
 #include "AudioManager.hpp"
 #include "SoundEffect.hpp"
+#include "GameObject.hpp"
 
-class Button : public Util::GameObject, public IBehaviour {
+class Button : public GameObject {
 public:
     enum class State {
         Idle,
@@ -28,14 +27,6 @@ public:
                     const std::shared_ptr<Core::Drawable> &click,
                     AudioManager audio_manager,
                     float z_index = 10);
-
-    inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }
-
-    [[nodiscard]] inline glm::vec2 GetPosition() const { return m_Transform.translation; }
-
-    [[nodiscard]] inline glm::vec2 GetSize() const { return m_Drawable->GetSize(); }
-
-    [[nodiscard]] inline Collider GetCollider() const { return {GetPosition(), GetSize()}; }
 
     [[nodiscard]] inline State GetState() const { return current_state_; }
 
