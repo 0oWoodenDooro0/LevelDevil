@@ -36,6 +36,8 @@ public:
 
     [[nodiscard]] inline bool GetEnabled() const { return enabled_; }
 
+    [[nodiscard]] inline State GetState() const { return current_state_; }
+
     void Update(const std::shared_ptr<Character> &character_);
 
     void Enable() override;

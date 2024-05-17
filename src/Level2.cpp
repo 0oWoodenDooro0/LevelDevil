@@ -70,11 +70,17 @@ void Level2::Update() {
         auto input_vector = InputHandler::GetCharacterMoveVelocity();
         character_->Move(input_vector, walls_);
     } else {
-        if (character_->GetCurrentState() != Character::State::LevelClear && InputHandler::isRevivePressed()) {
-            character_->Revive();
+        if (revive_timer_ > 0) {
+            revive_timer_ -= Util::Time::GetDeltaTimeMs();
+        } else if (character_->GetCurrentState() != Character::State::LevelClear && InputHandler::isRevivePressed()) {
             ResetLevel();
         }
     }
+
+    if (InputHandler::isResetLevelPressed() && door_->GetState() == Door::State::Idle) {
+        ResetLevel();
+    }
+
     button_->Update();
     if (button_->GetState() == Button::State::Click) {
         level_ = Level::State::LEVEL_SELECT;
@@ -127,6 +133,8 @@ void Level2::Update() {
 }
 
 void Level2::ResetLevel() {
+    character_->Revive();
+    revive_timer_ = 500;
     current_state_ = State::Start;
     for (int i = 0; i < 22; i++) {
         spikes_[i]->Disable();
