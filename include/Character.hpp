@@ -32,15 +32,21 @@ public:
 
     [[nodiscard]] inline State GetCurrentState() const { return current_state_; }
 
-    void Move(glm::vec2 input_velocity, const std::vector<std::shared_ptr<Sprite>> &walls);
+    [[nodiscard]] inline bool GetGod() const { return god_; }
+
+    inline void ChangeGod() { god_ = !GetGod(); }
+
+    void CharacterMove(glm::vec2 input_velocity, const std::vector<std::shared_ptr<Sprite>> &walls);
+
+    void GodMove(glm::vec2 input_velocity);
+
+    void Update(glm::vec2 input_velocity, const std::vector<std::shared_ptr<Sprite>> &walls);
 
     [[nodiscard]] bool GroundCheck(const std::vector<std::shared_ptr<Sprite>> &others) const;
 
     void Revive();
 
     void Dead();
-
-    void LevelClear();
 
     void Bounce();
 
@@ -61,6 +67,7 @@ private:
     float spring_height_ = 24;
     bool is_direction_right_ = true;
     bool is_run_ = false;
+    bool god_ = false;
 };
 
 #endif //LEVELDEVIL_CHARACTER_HPP

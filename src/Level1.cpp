@@ -65,8 +65,16 @@ void Level1::Update() {
         if (character_->GetPosition().y < -480) {
             character_->UpdateState(Character::State::Dead);
         }
-        auto input_vector = InputHandler::GetCharacterMoveVelocity();
-        character_->Move(input_vector, walls_);
+        if (InputHandler::isGodPressed()){
+            character_->ChangeGod();
+        }
+        glm::vec2 input_velocity = {0, 0};
+        if (character_->GetGod()) {
+            input_velocity = InputHandler::GetGodMoveVelocity();
+        } else {
+            input_velocity = InputHandler::GetCharacterMoveVelocity();
+        }
+        character_->Update(input_velocity, walls_);
     } else {
         if (revive_timer_ > 0) {
             revive_timer_ -= Util::Time::GetDeltaTimeMs();
