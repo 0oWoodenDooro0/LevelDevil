@@ -51,11 +51,32 @@ void Level8::Start() {
     walls_[3]->SetPosition({ 800, -160 });
     walls_[4]->SetPosition({ -832, 128 });
     walls_[5]->SetPosition({ 832, 0 });
-    walls_[6]->SetPosition({ 0, 0 });
-    walls_[7]->SetPosition({ 0, 0 });
+    walls_[6]->SetPosition({ -128, 320 });
+    walls_[7]->SetPosition({ 512, 320 });
 
-    triggerColliders_.push_back(std::make_shared<TriggerCollider>(Collider({ -384, 0 }, { 20, 1000 })));
-    triggerColliders_.push_back(std::make_shared<TriggerCollider>(Collider({ -192, 0 }, { 20, 1000 })));
+    auto portal_image = std::vector<std::string>{ RESOURCE_DIR"/image/level/level8/portal1.png",
+                                               RESOURCE_DIR"/image/level/level8/portal2.png" };
+
+    for (int i = 0; i < 5; ++i) {
+        auto portal = std::make_shared<Portal>(portal_image, audio_manager_);
+        portals_.push_back(portal);
+        renderer_.AddChild(portal);
+    }
+
+    portals_[0]->SetPosition({ 640, -192 });
+    portals_[1]->SetPosition({ 384, -192 });
+    portals_[2]->SetPosition({ 0, -192 });
+    portals_[3]->SetPosition({ -256, -192 });
+    portals_[4]->SetPosition({ -512, -192 });
+    portals_[0]->SetGoal({ 0, 0 });
+    portals_[1]->SetGoal({ 0, 0 });
+    portals_[2]->SetGoal({ 0, 0 });
+    portals_[3]->SetGoal({ 0, 0 });
+    portals_[4]->SetGoal({ 0, 0 });
+
+    triggerColliders_.push_back(std::make_shared<TriggerCollider>(Collider({ -128, 288 }, { 320, 20 })));
+    triggerColliders_.push_back(std::make_shared<TriggerCollider>(Collider({ 512, 288 }, { 320, 20 })));
+    triggerColliders_.push_back(std::make_shared<TriggerCollider>(Collider({ 512, 288 }, { 2000, 20 })));
 }
 
 void Level8::Update() {
@@ -67,10 +88,16 @@ void Level8::Update() {
         character_->Move(input_vector, walls_);
     }
     else {
-        if (character_->GetCurrentState() != Character::State::LevelClear && InputHandler::isRevivePressed()) {
-            character_->Revive();
+        if (revive_timer_ > 0) {
+            revive_timer_ -= Util::Time::GetDeltaTimeMs();
+        }
+        else if (character_->GetCurrentState() != Character::State::LevelClear && InputHandler::isRevivePressed()) {
             ResetLevel();
         }
+    }
+
+    if (InputHandler::isResetLevelPressed() && door_->GetState() == Door::State::Idle) {
+        ResetLevel();
     }
 
     button_->Update();
@@ -85,9 +112,6 @@ void Level8::Update() {
         UpdateCurrentState(State::Outro);
     }
 
-    for (const auto& movable_spring : movable_springs_) {
-        movable_spring->Update(character_);
-    }
 
     switch (current_state_) {
     case State::Intro:
@@ -133,6 +157,8 @@ void Level8::Update() {
 }
 
 void Level8::ResetLevel() {
+    character_->Revive();
+    revive_timer_ = 500;
     for (int i = 0; i < 4; i++) {
         movable_walls_[i]->SetPosition({ -320 + 192 * i,-256 });
         movable_springs_[i]->SetPosition({ -320 + 192 * i,-192 });

@@ -35,6 +35,8 @@ public:
 
     void Update(const std::shared_ptr<Character> &character_);
 
+    void Reset();
+
     void Enable() override;
 
     void Disable() override;

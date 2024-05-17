@@ -11,7 +11,7 @@
 #include "CollisionHandler.hpp"
 #include "Character.hpp"
 
-Portal::Portal(std::vector<std::string> image_pahts, glm::vec2 position, AudioManager audio_manager) : audio_manager_(std::move(audio_manager)), goal_(position) {
+Portal::Portal(std::vector<std::string> image_pahts, AudioManager audio_manager, glm::vec2 position) : audio_manager_(std::move(audio_manager)), goal_(position) {
     SetZIndex(0);
     m_Drawable = std::make_unique<Util::Image>(image_pahts[0]);
     animator_.SetAnimationStates(

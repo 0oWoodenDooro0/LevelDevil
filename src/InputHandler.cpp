@@ -36,3 +36,7 @@ bool InputHandler::isRevivePressed() {
     return std::any_of(revive_keycodes_.begin(), revive_keycodes_.end(),
                        [](Util::Keycode keycode) { return Util::Input::IsKeyDown(keycode); });
 }
+
+bool InputHandler::isResetLevelPressed() {
+    return Util::Input::IsKeyDown(reset_level_keycode);
+}

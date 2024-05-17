@@ -21,9 +21,11 @@ public:
         s2
     };
 
-    explicit Portal(std::vector<std::string> image_paths, glm::vec2 position, AudioManager audio_manager);
+    explicit Portal(std::vector<std::string> image_paths, AudioManager audio_manager, glm::vec2 position = { 0,0 });
 
     inline void SetPosition(glm::vec2 position) { m_Transform.translation = position; }
+
+    inline void SetGoal(glm::vec2 position) { goal_ = position; }
 
     [[nodiscard]] inline glm::vec2 GetPosition() const { return m_Transform.translation; }
 
