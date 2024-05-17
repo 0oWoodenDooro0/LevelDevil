@@ -5,8 +5,8 @@
 #include "MovablePortal.hpp"
 #include "Util/Time.hpp"
 
-MovablePortal::MovablePortal(std::vector<std::string> image_paths, glm::vec2 position, AudioManager audiomanager)
-    : Portal(image_paths, position, audiomanager) {}
+MovablePortal::MovablePortal(std::vector<std::string> image_paths, AudioManager audiomanager, glm::vec2 position)
+    : Portal(image_paths, audiomanager, position) {}
 
 void MovablePortal::Move(glm::vec2 target_position, float speed) {
     auto vector = target_position - GetPosition();

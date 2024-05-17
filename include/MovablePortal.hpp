@@ -10,7 +10,7 @@
 
 class MovablePortal : public Portal {
 public:
-    explicit MovablePortal(std::vector<std::string> image_paths, glm::vec2 position, AudioManager audiomanager);
+    explicit MovablePortal(std::vector<std::string> image_paths, AudioManager audiomanager, glm::vec2 position = {0, 0});
 
     void Move(glm::vec2 target_position, float speed);
 };

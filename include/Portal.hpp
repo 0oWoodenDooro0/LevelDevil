@@ -37,6 +37,8 @@ public:
 
     void Update(const std::shared_ptr<Character> &character_);
 
+    bool IsCollide() { return iscollide_; }
+
     void Enable() override;
 
     void Disable() override;
@@ -48,6 +50,7 @@ private:
     glm::vec2 goal_;
     State current_state_ = State::State1;
     bool enable_ = true;
+    bool iscollide_ = false;
 };
 
 #endif //LEVELDEVIL_PORTAL_HPP
