@@ -56,6 +56,8 @@ public:
 
     void Bounce();
 
+    void Warp(glm::vec2 position);
+
     void UpdateState(State state);
 
 private:
