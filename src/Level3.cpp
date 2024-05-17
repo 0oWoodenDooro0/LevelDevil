@@ -135,9 +135,9 @@ void Level3::Update() {
             for (int i = 0; i < 5; i++) {
                 if (!spikes_[i + 3]->GetEnabled()) spikes_[i + 3]->Enable();
             }
-            Movable::Move(walls_[4], {320, 0}, speed);
+            Movable::Move(walls_[4], {320, 0}, speed_);
             for (int i = 0; i < 5; i++) {
-                Movable::Move(spikes_[i + 3], {-288, -128 + i * 64}, speed);
+                Movable::Move(spikes_[i + 3], {-288, -128 + i * 64}, speed_);
             }
             speed_ += 5;
             triggerColliders_[1]->Update(character_->GetPosition());
@@ -147,9 +147,9 @@ void Level3::Update() {
             }
             break;
         case State::Spike:
-            Movable::Move(walls_[4], {320, 0}, speed);
+            Movable::Move(walls_[4], {320, 0}, speed_);
             for (int i = 0; i < 5; i++) {
-                Movable::Move(spikes_[i + 3], {-288, -128 + i * 64}, speed);
+                Movable::Move(spikes_[i + 3], {-288, -128 + i * 64}, speed_);
             }
             speed_ += 10;
             SpikeDelay();
