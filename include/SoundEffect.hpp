@@ -11,7 +11,7 @@
 
 class SoundEffect {
 public:
-    explicit SoundEffect(const std::string &path, float cooldown = 0);
+    explicit SoundEffect(const std::string_view path, float cooldown = 0);
 
     void Play();
 
