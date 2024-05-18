@@ -44,7 +44,7 @@ void Character::SetCheckPoint(glm::vec2 check_point) {
     check_point_ = check_point;
 }
 
-void Character::CharacterMove(glm::vec2 input_velocity, const std::vector<std::shared_ptr<Sprite>> &walls) {
+void Character::CharacterMove(glm::vec2 input_velocity, const std::vector<std::shared_ptr<GameObject>> &walls) {
     auto set_drawable_function = [this](const std::shared_ptr<Core::Drawable> &drawable) {
         this->SetDrawable(drawable);
     };
@@ -100,7 +100,7 @@ void Character::GodMove(glm::vec2 input_velocity) {
              move_speed_ * input_velocity.y * Util::Time::GetDeltaTimeMs() / 1000});
 }
 
-void Character::Update(glm::vec2 input_velocity, const std::vector<std::shared_ptr<Sprite>> &walls) {
+void Character::Update(glm::vec2 input_velocity, const std::vector<std::shared_ptr<GameObject>> &walls) {
     if (GetGod()) {
         GodMove(input_velocity);
     } else {
@@ -110,8 +110,8 @@ void Character::Update(glm::vec2 input_velocity, const std::vector<std::shared_p
     rigidbody_.Update(GetCollider(), walls, translate);
 }
 
-bool Character::GroundCheck(const std::vector<std::shared_ptr<Sprite>> &others) const {
-    return std::any_of(others.begin(), others.end(), [this](const std::shared_ptr<Sprite> &other) {
+bool Character::GroundCheck(const std::vector<std::shared_ptr<GameObject>> &others) const {
+    return std::any_of(others.begin(), others.end(), [this](const std::shared_ptr<GameObject> &other) {
         return CollisionHandler::CheckCollision(
                 Collider({GetCollider().center.x, GetCollider().bottom}, {GetCollider().size.x, 0.1}),
                 other->GetCollider());

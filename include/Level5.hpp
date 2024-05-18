@@ -49,7 +49,7 @@ private:
     Transition transition_;
     std::shared_ptr<Background> background_;
     std::shared_ptr<EscButton> button_;
-    std::vector<std::shared_ptr<Sprite>> walls_;
+    std::vector<std::shared_ptr<GameObject>> walls_;
     std::vector<std::shared_ptr<TriggerCollider>> triggerColliders_;
     std::shared_ptr<Door> door_;
     std::shared_ptr<Character> character_;
