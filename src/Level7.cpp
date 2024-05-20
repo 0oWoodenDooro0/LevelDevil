@@ -64,6 +64,7 @@ void Level7::Start() {
     for (int i = 0; i < 4; i++) {
         auto movable_spring = std::make_shared<Spring>(movable_spring_image, audio_manager_);
         springs_.push_back(movable_spring);
+        walls_.push_back(movable_spring);
         renderer_.AddChild(movable_spring);
         movable_spring->SetPosition({-320 + 192 * i, -192});
     }
