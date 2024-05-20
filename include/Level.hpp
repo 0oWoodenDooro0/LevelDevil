@@ -15,6 +15,7 @@ public:
         LEVEL_4,
         LEVEL_5,
         LEVEL_7,
+        LEVEL_8,
         END
     };
 };

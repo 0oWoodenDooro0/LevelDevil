@@ -20,13 +20,19 @@ public:
         State2
     };
 
-    explicit Portal(std::vector<std::string> image_paths, glm::vec2 position, AudioManager audio_manager);
+    explicit Portal(std::vector<std::string> image_paths, AudioManager audio_manager, glm::vec2 position = { 0,0 });
 
-    [[nodiscard]] inline Collider GetCollider() const override {
+    inline void SetGoal(glm::vec2 position) { goal_ = position; }
+
+    [[nodiscard]] inline Collider GetCollider() const override{
         return {GetPosition() - glm::vec2(0, 21), GetSize() - glm::vec2(0, 42)};
     }
 
     void Update(const std::shared_ptr<Character> &character_);
+
+    bool IsCollide() { return iscollide_; }
+
+    void Enable() override;
 
 private:
     Animator animator_;
@@ -34,6 +40,7 @@ private:
     float draw_timer_ = 300;
     glm::vec2 goal_;
     State current_state_ = State::State1;
+    bool iscollide_ = false;
 };
 
 #endif //LEVELDEVIL_PORTAL_HPP
