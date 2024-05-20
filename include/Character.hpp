@@ -36,13 +36,13 @@ public:
 
     inline void ChangeGod() { god_ = !GetGod(); }
 
-    void CharacterMove(glm::vec2 input_velocity, const std::vector<std::shared_ptr<Sprite>> &walls);
+    void CharacterMove(glm::vec2 input_velocity, const std::vector<std::shared_ptr<GameObject>> &walls);
 
     void GodMove(glm::vec2 input_velocity);
 
-    void Update(glm::vec2 input_velocity, const std::vector<std::shared_ptr<Sprite>> &walls);
+    void Update(glm::vec2 input_velocity, const std::vector<std::shared_ptr<GameObject>> &walls);
 
-    [[nodiscard]] bool GroundCheck(const std::vector<std::shared_ptr<Sprite>> &others) const;
+    [[nodiscard]] bool GroundCheck(const std::vector<std::shared_ptr<GameObject>> &others) const;
 
     void Revive();
 
