@@ -5,8 +5,11 @@
 #ifndef LEVELDEVIL_SAW_HPP
 #define LEVELDEVIL_SAW_HPP
 
+#define _USE_MATH_DEFINES
+
 #include <string>
 #include <glm/vec2.hpp>
+#include <cmath>
 #include "Util/Image.hpp"
 #include "Util/Animation.hpp"
 #include "Animator.hpp"
@@ -32,6 +35,9 @@ private:
     Position position_inbox_ = Position::Bottom;
     std::string image_path_;
     AudioManager audio_manager_;
+    float angle_ = 0;
+    float rotate_ = 2 * M_PI / 16;
+    float rotate_timer_ = 100;
 };
 
 #endif //LEVELDEVIL_SAW_HPP

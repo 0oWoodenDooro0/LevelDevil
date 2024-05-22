@@ -16,7 +16,7 @@ public:
 
     inline void SetRotation(float rotation) { m_Transform.rotation = rotation; }
 
-    inline void SetEnabled(bool enabled) { enabled_ = enabled; }
+    inline void SetEnabled(bool enabled_) { enabled_ = enabled_; }
 
     [[nodiscard]] inline glm::vec2 GetPosition() const { return m_Transform.translation; }
 

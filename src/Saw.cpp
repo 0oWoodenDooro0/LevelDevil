@@ -27,6 +27,10 @@ Collider Saw::GetCollider() const {
 
 void Saw::Update(const std::shared_ptr<Character>& character) {
     if (!GetEnabled())return;
+    rotate_timer_ -= Util::Time::GetDeltaTimeMs();
+    if (rotate_timer_ <= 0) angle_ += rotate_;
+    if (angle_ >= 2 * M_PI) angle_ = 0;
+    SetRotation(angle_);
     if (!character->GetEnabled())return;
     if (CollisionHandler::CheckCollision(character->GetCollider(), GetCollider())) {
         character->UpdateState(Character::State::Dead);
