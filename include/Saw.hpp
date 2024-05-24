@@ -23,8 +23,6 @@ public:
 
     void SetImage(const std::string& image_path);
 
-    [[nodiscard]] Collider GetCollider() const override;
-
     void Update(const std::shared_ptr<Character>& character);
 
     void Enable() override;

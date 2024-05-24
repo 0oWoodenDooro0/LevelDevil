@@ -21,10 +21,6 @@ void Saw::SetImage(const std::string& image_path) {
     m_Drawable = std::make_shared<Util::Image>(image_path);
 }
 
-Collider Saw::GetCollider() const {
-    return { GetPosition(), GetSize() };
-}
-
 void Saw::Update(const std::shared_ptr<Character>& character) {
     if (!GetEnabled())return;
     rotate_timer_ -= Util::Time::GetDeltaTimeMs();
