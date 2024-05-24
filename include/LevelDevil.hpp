@@ -13,7 +13,8 @@
 #include "Background.hpp"
 #include "Util/Renderer.hpp"
 #include "Portal.hpp"
-#include ""
+#include "Saw.hpp"
+#include "Spike.hpp"
 #include "Button.hpp"
 #include "EscButton.hpp"
 #include "TriggerCollider.hpp"
@@ -29,6 +30,11 @@ public:
         Move3,
         Move4,
         Move5,
+        Move6,
+        Move7,
+        Move8,
+        Move9,
+        Move10,
         Outro
     };
 
@@ -55,11 +61,13 @@ private:
     std::shared_ptr<EscButton> button_;
     std::vector<std::shared_ptr<GameObject>> walls_;
     std::vector<std::shared_ptr<Portal>> portals_;
-
+    std::vector<std::shared_ptr<Saw>> saws_;
+    std::vector<std::shared_ptr<Spike>> spikes_;
     std::vector<std::shared_ptr<TriggerCollider>> triggerColliders_;
     std::shared_ptr<Door> door_;
     std::shared_ptr<Character> character_;
 
+    float delay_timer_ = 500;
     float revive_timer_ = 500;
 };
 

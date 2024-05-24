@@ -26,6 +26,7 @@ set(SRC_FILES
     Movable.cpp
     Portal.cpp
     Rigidbody.cpp
+    Saw.cpp
     SoundEffect.cpp
     Spike.cpp
     Spring.cpp
@@ -66,6 +67,7 @@ set(INCLUDE_FILES
     Movalbe.hpp
     Portal.hpp
     Rigidbody.hpp
+    Saw.hpp
     SoundEffect.hpp
     Spike.hpp
     Spring.hpp
