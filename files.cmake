@@ -20,6 +20,7 @@ set(SRC_FILES
     Level5.cpp
     Level7.cpp
     Level8.cpp
+    LevelDevil.cpp
     LevelButton.cpp
     LevelSelect.cpp
     Movable.cpp
@@ -59,6 +60,7 @@ set(INCLUDE_FILES
     Level5.hpp
     Level7.hpp
     Level8.hpp
+    LevelDevil.hpp
     LevelButton.hpp
     LevelSelect.hpp
     Movalbe.hpp

@@ -13,6 +13,7 @@
 #include "Background.hpp"
 #include "Util/Renderer.hpp"
 #include "Portal.hpp"
+#include ""
 #include "Button.hpp"
 #include "EscButton.hpp"
 #include "TriggerCollider.hpp"
@@ -52,8 +53,9 @@ private:
     Transition transition_;
     std::shared_ptr<Background> background_;
     std::shared_ptr<EscButton> button_;
-    std::vector<std::shared_ptr<Sprite>> walls_;
+    std::vector<std::shared_ptr<GameObject>> walls_;
     std::vector<std::shared_ptr<Portal>> portals_;
+
     std::vector<std::shared_ptr<TriggerCollider>> triggerColliders_;
     std::shared_ptr<Door> door_;
     std::shared_ptr<Character> character_;
