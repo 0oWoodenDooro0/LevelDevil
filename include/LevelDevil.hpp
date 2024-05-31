@@ -48,6 +48,8 @@ public:
 
     void UpdateCurrentState(State state);
 
+    void SpikeAct();
+
 private:
     Util::Renderer renderer_;
     State current_state_ = State::Intro;
@@ -67,8 +69,12 @@ private:
     std::shared_ptr<Door> door_;
     std::shared_ptr<Character> character_;
 
+    float spike_timer_ = 0;
+    int spike_num_ = 0;
     float delay_timer_ = 500;
     float revive_timer_ = 500;
+    float trap_speed_ = 370;
+    bool audio_trig_ = false;
 };
 
 #endif //LEVELDEVIL_LEVELDEVIL_HPP
