@@ -21,7 +21,9 @@ public:
     enum class State {
         Alive,
         Dead,
-        LevelClear
+        LevelClear,
+        Vanish,
+        Appear
     };
 
     explicit Character(AudioManager audio_manager);
@@ -48,6 +50,10 @@ public:
 
     void Dead();
 
+    void Vanish();
+
+    void Appear();
+
     void Bounce();
 
     void Warp(glm::vec2 position);
@@ -68,6 +74,7 @@ private:
     bool is_direction_right_ = true;
     bool is_run_ = false;
     bool god_ = false;
+    float timer_ = 200;
 };
 
 #endif //LEVELDEVIL_CHARACTER_HPP

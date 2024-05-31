@@ -65,7 +65,7 @@ void Level1::Update() {
         if (character_->GetPosition().y < -480) {
             character_->UpdateState(Character::State::Dead);
         }
-        if (InputHandler::isGodPressed()){
+        if (InputHandler::isGodPressed()) {
             character_->ChangeGod();
         }
         glm::vec2 input_velocity = {0, 0};

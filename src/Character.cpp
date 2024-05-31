@@ -8,7 +8,6 @@
 #include "Util/Image.hpp"
 #include "Util/Time.hpp"
 #include "CollisionHandler.hpp"
-#include "InputHandler.hpp"
 
 Character::Character(AudioManager audio_manager) : GameObject(), audio_manager_(std::move(audio_manager)) {
     SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/image/character/idle/man_idle.png"));
@@ -36,7 +35,21 @@ Character::Character(AudioManager audio_manager) : GameObject(), audio_manager_(
                                               RESOURCE_DIR"/image/character/run_right/man_run_right6.png",
                                               RESOURCE_DIR"/image/character/run_right/man_run_right7.png",
                                               RESOURCE_DIR"/image/character/run_right/man_run_right8.png"}, true, 40,
-                     true, 0)}});
+                     true, 0)},
+             {"Vanish",    std::make_shared<Util::Animation>(
+                     std::vector<std::string>{RESOURCE_DIR"/image/character/vanish/man_vanish1.png",
+                                              RESOURCE_DIR"/image/character/vanish/man_vanish2.png",
+                                              RESOURCE_DIR"/image/character/vanish/man_vanish3.png",
+                                              RESOURCE_DIR"/image/character/vanish/man_vanish4.png",
+                                              RESOURCE_DIR"/image/character/vanish/man_vanish5.png",}, true, 50,
+                     false, 0)},
+             {"Appear",    std::make_shared<Util::Animation>(
+                     std::vector<std::string>{RESOURCE_DIR"/image/character/vanish/man_vanish5.png",
+                                              RESOURCE_DIR"/image/character/vanish/man_vanish4.png",
+                                              RESOURCE_DIR"/image/character/vanish/man_vanish3.png",
+                                              RESOURCE_DIR"/image/character/vanish/man_vanish2.png",
+                                              RESOURCE_DIR"/image/character/vanish/man_vanish1.png",}, true, 50,
+                     false, 0)}});
 }
 
 void Character::SetCheckPoint(glm::vec2 check_point) {
@@ -101,6 +114,20 @@ void Character::GodMove(glm::vec2 input_velocity) {
 }
 
 void Character::Update(glm::vec2 input_velocity, const std::vector<std::shared_ptr<GameObject>> &walls) {
+    switch (current_state_) {
+        case State::Vanish:
+            Vanish();
+            return;
+        case State::Appear:
+            Appear();
+            return;
+        case State::Alive:
+            break;
+        case State::Dead:
+            return;
+        case State::LevelClear:
+            return;
+    }
     if (GetGod()) {
         GodMove(input_velocity);
     } else {
@@ -121,22 +148,35 @@ bool Character::GroundCheck(const std::vector<std::shared_ptr<GameObject>> &othe
 void Character::Revive() {
     Enable();
     SetPosition(check_point_);
-    animator_.UpdateAnimationState("Idle", [this](const std::shared_ptr<Core::Drawable> &drawable) {
-        this->SetDrawable(drawable);
-    });
-    UpdateState(State::Alive);
     rigidbody_.ResetVelocity();
     rigidbody_.ResetAcceleration();
     audio_manager_.Play(AudioManager::SFX::Revive);
-    animator_.UpdateAnimationState("Idle", [this](const std::shared_ptr<Core::Drawable> &drawable) {
-        this->SetDrawable(drawable);
-    });
+    UpdateState(State::Appear);
 }
 
 void Character::Dead() {
     if (GetGod()) return;
-    Disable();
     audio_manager_.Play(AudioManager::SFX::Dead);
+    UpdateState(State::Vanish);
+}
+
+void Character::Vanish() {
+    if (timer_ > 0) {
+        timer_ -= Util::Time::GetDeltaTimeMs();
+    } else {
+        Disable();
+    }
+}
+
+void Character::Appear() {
+    if (timer_ > 0) {
+        timer_ -= Util::Time::GetDeltaTimeMs();
+    } else {
+        animator_.UpdateAnimationState("Idle", [this](const std::shared_ptr<Core::Drawable> &drawable) {
+            this->SetDrawable(drawable);
+        });
+        UpdateState(State::Alive);
+    }
 }
 
 void Character::Bounce() {
@@ -161,6 +201,18 @@ void Character::UpdateState(Character::State state) {
             break;
         case State::LevelClear:
             Disable();
+            break;
+        case State::Vanish:
+            timer_ = 200;
+            animator_.UpdateAnimationState("Vanish", [this](const std::shared_ptr<Core::Drawable> &drawable) {
+                this->SetDrawable(drawable);
+            });
+            break;
+        case State::Appear:
+            timer_ = 200;
+            animator_.UpdateAnimationState("Appear", [this](const std::shared_ptr<Core::Drawable> &drawable) {
+                this->SetDrawable(drawable);
+            });
             break;
     }
 }
