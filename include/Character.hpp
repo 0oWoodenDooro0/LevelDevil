@@ -24,7 +24,8 @@ public:
         LevelClear,
         Vanish,
         Appear,
-        Portal
+        Portal,
+        Warp
     };
 
     explicit Character(AudioManager audio_manager);
@@ -59,7 +60,7 @@ public:
 
     void Bounce();
 
-    void Warp(glm::vec2 position);
+    void Warp();
 
     void UpdateState(State state);
 
@@ -69,7 +70,7 @@ private:
     Rigidbody rigidbody_;
     AudioManager audio_manager_;
 
-    glm::vec2 check_point_ = {0, 0};
+    glm::vec2 check_point_ = { 0, 0 };
     float move_speed_ = 350;
     float jump_height_ = 12;
     float gravity_ = -1;

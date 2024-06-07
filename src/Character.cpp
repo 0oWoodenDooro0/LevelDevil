@@ -7,6 +7,7 @@
 #include <utility>
 #include "Util/Image.hpp"
 #include "Util/Time.hpp"
+#include "Util/Logger.hpp"
 #include "CollisionHandler.hpp"
 #include "Movable.hpp"
 #include "EasingFunction.hpp"
@@ -130,10 +131,12 @@ void Character::Update(glm::vec2 input_velocity, const std::vector<std::shared_p
         case State::LevelClear:
             return;
         case State::Portal:
-//            Warp();
-            /* TODO */
+             Warp();
+            break;
+        case State::Warp:
             break;
     }
+    if (current_state_ != State::Alive)return;
     if (GetGod()) {
         GodMove(input_velocity);
     } else {
@@ -184,8 +187,9 @@ void Character::Bounce() {
     rigidbody_.SetAcceleration({rigidbody_.GetAcceleration().x, spring_height_});
 }
 
-void Character::Warp(glm::vec2 position) {
-   /* TODO */
+void Character::Warp() {
+    if (animator_.GetAnimation("Vanish")->GetState() != Util::Animation::State::ENDED) return;
+    UpdateState(State::Warp);
 }
 
 void Character::UpdateState(Character::State state) {
@@ -216,6 +220,8 @@ void Character::UpdateState(Character::State state) {
             animator_.UpdateAnimationState("Vanish", [this](const std::shared_ptr<Core::Drawable> &drawable) {
                 this->SetDrawable(drawable);
             });
+            break;
+        case State::Warp:
             break;
     }
 }

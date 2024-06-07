@@ -145,35 +145,35 @@ void Level8::Update() {
 		transition_.Intro([this]() { UpdateCurrentState(State::Start); });
 		break;
 	case State::Start:
-		triggerColliders_[4]->Update(character_->GetPosition());
+		if (character_->GetCurrentState() == Character::State::Alive)triggerColliders_[4]->Update(character_->GetPosition());
 		if (triggerColliders_[4]->GetState() == TriggerCollider::State::Trigger) {
 			UpdateCurrentState(State::Move1);
 		}
 		break;
 	case State::Move1:
 		Movable::Move(portals_[5], { 0,-64 }, 2000);
-		triggerColliders_[0]->Update(character_->GetPosition());
+		if (character_->GetCurrentState() == Character::State::Alive)triggerColliders_[0]->Update(character_->GetPosition());
 		if (triggerColliders_[0]->GetState() == TriggerCollider::State::Trigger) {
 			UpdateCurrentState(State::Move2);
 		}
 		break;
 	case State::Move2:
 		Movable::Move(portals_[5], { -256,-64 }, 2000);
-		triggerColliders_[3]->Update(character_->GetPosition());
+		if (character_->GetCurrentState() == Character::State::Alive)triggerColliders_[3]->Update(character_->GetPosition());
 		if (triggerColliders_[3]->GetState() == TriggerCollider::State::Trigger) {
 			UpdateCurrentState(State::Move3);
 		}
 		break;
 	case State::Move3:
 		Movable::Move(portals_[5], { 384,-64 }, 2000);
-		triggerColliders_[1]->Update(character_->GetPosition());
+		if (character_->GetCurrentState() == Character::State::Alive)triggerColliders_[1]->Update(character_->GetPosition());
 		if (triggerColliders_[1]->GetState() == TriggerCollider::State::Trigger) {
 			UpdateCurrentState(State::Move4);
 		}
 		break;
 	case State::Move4:
 		Movable::Move(portals_[5], { 640,-64 }, 2000);
-		triggerColliders_[2]->Update(character_->GetPosition());
+		if (character_->GetCurrentState() == Character::State::Alive)triggerColliders_[2]->Update(character_->GetPosition());
 		if (triggerColliders_[2]->GetState() == TriggerCollider::State::Trigger) {
 			UpdateCurrentState(State::Move5);
 		}
