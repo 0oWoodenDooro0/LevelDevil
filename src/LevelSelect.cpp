@@ -24,8 +24,17 @@ void LevelSelect::Start() {
                                                 glm::vec2(128, 32), glm::vec2(304, -80), glm::vec2(316, -244),
                                                 glm::vec2(404, -364), glm::vec2(620, -372), glm::vec2(728, -260)};
     for (int i = 0; i < 15; ++i) {
+        std::string image_path;
+        if (i < 8 && i != 5) {
+            image_path.append(RESOURCE_DIR"/image/ui/unlock_door");
+            image_path.append(std::to_string(i+1));
+            image_path.append(".png");
+        }
+        else {
+            image_path.append(RESOURCE_DIR"/image/ui/unlock_door.png");
+        }
         auto door_button = std::make_shared<DoorButton>(
-                std::make_shared<Util::Image>(RESOURCE_DIR"/image/ui/unlock_door.png"), audio_manager_);
+            std::make_shared<Util::Image>(image_path), audio_manager_);
         door_button->SetPosition(door_positions[i]);
         auto button_hover = std::make_shared<Sprite>(std::make_shared<Util::Animation>(
                 std::vector<std::string>{RESOURCE_DIR"/image/ui/door_hover1.png",
@@ -39,6 +48,20 @@ void LevelSelect::Start() {
         door_button->AddChild(button_hover);
         renderer_.AddChild(door_button);
     }
+    auto door_button = std::make_shared<DoorButton>(
+        std::make_shared<Util::Image>(RESOURCE_DIR"/image/ui/unlock_boss_door.png"), audio_manager_);
+    door_button->SetPosition({ 635, -20 });
+    auto button_hover = std::make_shared<Sprite>(std::make_shared<Util::Animation>(
+        std::vector<std::string>{RESOURCE_DIR"/image/ui/boos_door_hover1.png",
+        RESOURCE_DIR"/image/ui/boos_door_hover2.png",
+        RESOURCE_DIR"/image/ui/boos_door_hover3.png",
+        RESOURCE_DIR"/image/ui/boos_door_hover4.png"}, true, 200, true, 0), 11);
+    button_hover->SetPosition(glm::vec2({ 635, -20 }) + glm::vec2({ -4, 26 }));
+    button_hover->SetVisible(false);
+    door_buttons_.push_back(door_button);
+    button_hovers_.push_back(button_hover);
+    door_button->AddChild(button_hover);
+    renderer_.AddChild(door_button);
 }
 
 void LevelSelect::Update() {
@@ -71,6 +94,9 @@ void LevelSelect::Update() {
                             break;
                         case 7:
                             level_ = Level::State::LEVEL_8;
+                            break;
+                        case 15:
+                            level_ = Level::State::LEVEL_DEVIL;
                             break;
                         default:
                             level_ = Level::State::LEVEL_8;

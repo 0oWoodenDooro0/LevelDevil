@@ -19,7 +19,7 @@
 
 class Saw : public GameObject {
 public:
-    explicit Saw(const std::string& image_path, Position position_inbox, AudioManager audio_manager);
+    explicit Saw(const std::string& image_path, AudioManager audio_manager);
 
     void SetImage(const std::string& image_path);
 
@@ -30,7 +30,6 @@ public:
     void Disable() override;
 
 private:
-    Position position_inbox_ = Position::Bottom;
     std::string image_path_;
     AudioManager audio_manager_;
     float angle_ = 0;
