@@ -8,6 +8,8 @@
 #include "Util/Image.hpp"
 #include "Util/Time.hpp"
 #include "CollisionHandler.hpp"
+#include "Movable.hpp"
+#include "EasingFunction.hpp"
 
 Character::Character(AudioManager audio_manager) : GameObject(), audio_manager_(std::move(audio_manager)) {
     SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/image/character/idle/man_idle.png"));
@@ -127,6 +129,10 @@ void Character::Update(glm::vec2 input_velocity, const std::vector<std::shared_p
             return;
         case State::LevelClear:
             return;
+        case State::Portal:
+//            Warp();
+            /* TODO */
+            break;
     }
     if (GetGod()) {
         GodMove(input_velocity);
@@ -161,22 +167,16 @@ void Character::Dead() {
 }
 
 void Character::Vanish() {
-    if (timer_ > 0) {
-        timer_ -= Util::Time::GetDeltaTimeMs();
-    } else {
-        Disable();
-    }
+    if (animator_.GetAnimation("Vanish")->GetState() != Util::Animation::State::ENDED) return;
+    Disable();
 }
 
 void Character::Appear() {
-    if (timer_ > 0) {
-        timer_ -= Util::Time::GetDeltaTimeMs();
-    } else {
-        animator_.UpdateAnimationState("Idle", [this](const std::shared_ptr<Core::Drawable> &drawable) {
-            this->SetDrawable(drawable);
-        });
-        UpdateState(State::Alive);
-    }
+    if (animator_.GetAnimation("Appear")->GetState() != Util::Animation::State::ENDED) return;
+    animator_.UpdateAnimationState("Idle", [this](const std::shared_ptr<Core::Drawable> &drawable) {
+        this->SetDrawable(drawable);
+    });
+    UpdateState(State::Alive);
 }
 
 void Character::Bounce() {
@@ -185,9 +185,7 @@ void Character::Bounce() {
 }
 
 void Character::Warp(glm::vec2 position) {
-    rigidbody_.ResetVelocity();
-    rigidbody_.ResetAcceleration();
-    SetPosition(position);
+   /* TODO */
 }
 
 void Character::UpdateState(Character::State state) {
@@ -203,14 +201,19 @@ void Character::UpdateState(Character::State state) {
             Disable();
             break;
         case State::Vanish:
-            timer_ = 200;
             animator_.UpdateAnimationState("Vanish", [this](const std::shared_ptr<Core::Drawable> &drawable) {
                 this->SetDrawable(drawable);
             });
             break;
         case State::Appear:
-            timer_ = 200;
             animator_.UpdateAnimationState("Appear", [this](const std::shared_ptr<Core::Drawable> &drawable) {
+                this->SetDrawable(drawable);
+            });
+            break;
+        case State::Portal:
+            rigidbody_.ResetVelocity();
+            rigidbody_.ResetAcceleration();
+            animator_.UpdateAnimationState("Vanish", [this](const std::shared_ptr<Core::Drawable> &drawable) {
                 this->SetDrawable(drawable);
             });
             break;

@@ -23,7 +23,8 @@ public:
         Dead,
         LevelClear,
         Vanish,
-        Appear
+        Appear,
+        Portal
     };
 
     explicit Character(AudioManager audio_manager);
@@ -76,7 +77,6 @@ private:
     bool is_direction_right_ = true;
     bool is_run_ = false;
     bool god_ = false;
-    float timer_ = 200;
 };
 
 #endif //LEVELDEVIL_CHARACTER_HPP

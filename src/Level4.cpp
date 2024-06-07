@@ -117,8 +117,8 @@ void Level4::Update() {
 
     for (const auto &coin: coins_) {
         coin->Update(character_);
-        if (coin->GetState() == Coin::State::Trigger) {
-            character_->Dead();
+        if (coin->GetState() == Coin::State::Trigger && character_->GetCurrentState() != Character::State::Vanish) {
+            character_->UpdateState(Character::State::Dead);
         }
     }
 
