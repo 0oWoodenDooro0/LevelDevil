@@ -30,7 +30,7 @@ public:
 
     void Update(const std::shared_ptr<Character> &character_);
 
-    inline bool IsCollide() { return iscollide_; }
+    bool IsCollide() { return iscollide_; }
 
     void Enable() override;
 

@@ -10,8 +10,8 @@
 #include "CollisionHandler.hpp"
 #include "Character.hpp"
 
-Saw::Saw(const std::string& image_path, AudioManager audio_manager)
-    : audio_manager_(std::move(audio_manager)) {
+Saw::Saw(const std::string& image_path, Position position_inbox, AudioManager audio_manager)
+    : position_inbox_(position_inbox), audio_manager_(std::move(audio_manager)) {
     SetImage(image_path);
     SetZIndex(0);
 }

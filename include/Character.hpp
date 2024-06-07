@@ -30,8 +30,6 @@ public:
 
     void SetCheckPoint(glm::vec2 check_point);
 
-    inline void SetMoveSpeed(float speed) { move_speed_ = speed; }
-
     [[nodiscard]] inline Collider GetCollider() const override { return {GetPosition() - glm::vec2(2, 6), {32, 52}}; }
 
     [[nodiscard]] inline State GetCurrentState() const { return current_state_; }

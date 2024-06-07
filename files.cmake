@@ -20,13 +20,11 @@ set(SRC_FILES
     Level5.cpp
     Level7.cpp
     Level8.cpp
-    LevelDevil.cpp
     LevelButton.cpp
     LevelSelect.cpp
     Movable.cpp
     Portal.cpp
     Rigidbody.cpp
-    Saw.cpp
     SoundEffect.cpp
     Spike.cpp
     Spring.cpp
@@ -61,13 +59,11 @@ set(INCLUDE_FILES
     Level5.hpp
     Level7.hpp
     Level8.hpp
-    LevelDevil.hpp
     LevelButton.hpp
     LevelSelect.hpp
     Movalbe.hpp
     Portal.hpp
     Rigidbody.hpp
-    Saw.hpp
     SoundEffect.hpp
     Spike.hpp
     Spring.hpp

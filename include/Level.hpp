@@ -16,7 +16,6 @@ public:
         LEVEL_5,
         LEVEL_7,
         LEVEL_8,
-        LEVEL_DEVIL,
         END
     };
 };

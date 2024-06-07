@@ -27,16 +27,12 @@ public:
         return {GetPosition() - glm::vec2(0, 21), GetSize() - glm::vec2(24, 42)};
     }
 
-    inline void SetUp() { current_state_ = State::Up; }
-
-    inline State GetcurrentState() { return current_state_; }
-
-    void Update(const std::shared_ptr<Character> &character);
+    void Update(const std::shared_ptr<Character> &character_);
 
 private:
     Animator animator_;
     AudioManager audiomanager_;
-    State current_state_ = State::Up;
+    State current_state_ = State::Down;
 };
 
 #endif //LEVELDEVIL_LEVELBUTTON_HPP
