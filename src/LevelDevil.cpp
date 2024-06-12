@@ -143,9 +143,11 @@ void LevelDevil::Update() {
 		saws_[i]->Update(character_);
 	}
 
-	for (int i = 0; i < 19; i++)
-	{
-		spikes_[i]->Update(character_);
+	if (character_->GetCurrentState() == Character::State::Alive) {
+		for (int i = 0; i < 19; i++)
+		{
+			spikes_[i]->Update(character_);
+		}
 	}
 
 	switch (current_state_) {
