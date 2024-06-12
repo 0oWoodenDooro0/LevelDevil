@@ -41,10 +41,10 @@ private:
             {SFX::Bounce,     std::make_shared<SoundEffect>(RESOURCE_DIR"/sound/bounce.mp3", 200)},
             {SFX::Button,     std::make_shared<SoundEffect>(RESOURCE_DIR"/sound/Button.mp3", 100)},
             {SFX::Coin,       std::make_shared<SoundEffect>(RESOURCE_DIR"/sound/coin.mp3", 100)},
-            {SFX::Dead,       std::make_shared<SoundEffect>(RESOURCE_DIR"/sound/dead.mp3", 100)},
+            {SFX::Dead,       std::make_shared<SoundEffect>(RESOURCE_DIR"/sound/dead.mp3", 1000)},
             {SFX::Door,       std::make_shared<SoundEffect>(RESOURCE_DIR"/sound/door.mp3", 100)},
             {SFX::Revive,     std::make_shared<SoundEffect>(RESOURCE_DIR"/sound/revive.mp3", 100)},
-            {SFX::Saw,        std::make_shared<SoundEffect>(RESOURCE_DIR"/sound/saw.mp3", 100)},
+            {SFX::Saw,        std::make_shared<SoundEffect>(RESOURCE_DIR"/sound/saw.mp3", 1000)},
             {SFX::StageClear, std::make_shared<SoundEffect>(RESOURCE_DIR"/sound/stageclear.mp3", 100)},
             {SFX::Trap,       std::make_shared<SoundEffect>(RESOURCE_DIR"/sound/trap.mp3", -1)},
             {SFX::WallTrap,   std::make_shared<SoundEffect>(RESOURCE_DIR"/sound/wall trap.mp3", 100)}
