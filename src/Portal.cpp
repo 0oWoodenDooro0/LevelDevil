@@ -7,8 +7,6 @@
 #include <utility>
 #include "Util/Image.hpp"
 #include "Util/Time.hpp"
-#include "Util/Logger.hpp"
-#include "Animator.hpp"
 #include "CollisionHandler.hpp"
 #include "Character.hpp"
 #include "Movable.hpp"
@@ -41,7 +39,6 @@ void Portal::Update(const std::shared_ptr<Character> &character_) {
     }
     if (iscollide_ && character_->GetCurrentState() == Character::State::Warp) {
         Movable::Move(character_, goal_, speed_);
-        LOG_DEBUG("moving");
         speed_ += 100;
         if (character_->GetPosition() == goal_) {
             character_->UpdateState(Character::State::Appear);
