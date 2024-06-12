@@ -286,8 +286,8 @@ void LevelDevil::ResetLevel() {
 	spike_timer_ = 0;
 	spike_num_ = 0;
 	delay_timer_ = 500;
-	float revive_timer_ = 500;
-	float trap_speed_ = 330;
+	revive_timer_ = 500;
+	trap_speed_ = 330;
 	current_state_ = State::Start;
 	for (auto collider : triggerColliders_) {
 		collider->UpdateState(TriggerCollider::State::Idle);
