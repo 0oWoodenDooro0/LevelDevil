@@ -5,7 +5,6 @@
 #include "LevelDevil.hpp"
 #include "InputHandler.hpp"
 #include "Util/Time.hpp"
-#include "Util/Logger.hpp"
 #include "Movable.hpp"
 
 #include <utility>

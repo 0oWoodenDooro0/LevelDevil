@@ -3,7 +3,6 @@
 //
 
 #include "Animator.hpp"
-#include "Util/Logger.hpp"
 #include "Util/Animation.hpp"
 
 #include <utility>

@@ -7,10 +7,8 @@
 #include <utility>
 #include "Util/Image.hpp"
 #include "Util/Time.hpp"
-#include "Util/Logger.hpp"
 #include "CollisionHandler.hpp"
 #include "Movable.hpp"
-#include "EasingFunction.hpp"
 
 Character::Character(AudioManager audio_manager) : GameObject(), audio_manager_(std::move(audio_manager)) {
     SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/image/character/idle/man_idle.png"));
