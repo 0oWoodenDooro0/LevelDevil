@@ -284,9 +284,9 @@ void LevelDevil::ResetLevel() {
 	for (auto spike : spikes_){
 		spike->Disable();
 	}
-	float spike_timer_ = 0;
-	int spike_num_ = 0;
-	float delay_timer_ = 500;
+	spike_timer_ = 0;
+	spike_num_ = 0;
+	delay_timer_ = 500;
 	float revive_timer_ = 500;
 	float trap_speed_ = 330;
 	current_state_ = State::Start;
