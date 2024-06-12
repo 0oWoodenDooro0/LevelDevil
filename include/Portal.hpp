@@ -38,6 +38,7 @@ private:
     Animator animator_;
     AudioManager audio_manager_;
     float draw_timer_ = 300;
+    float speed_ = 100;
     glm::vec2 goal_;
     State current_state_ = State::State1;
     bool iscollide_ = false;

@@ -5,7 +5,6 @@
 #include "Level1.hpp"
 #include "InputHandler.hpp"
 #include "Util/Time.hpp"
-#include "Util/Logger.hpp"
 
 #include <utility>
 

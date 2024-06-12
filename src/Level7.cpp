@@ -77,7 +77,7 @@ void Level7::Start() {
 
 void Level7::Update() {
     if (character_->GetEnabled()) {
-        if (character_->GetPosition().y < -480) {
+        if (character_->GetPosition().y < -480 && character_->GetCurrentState() != Character::State::Vanish) {
             character_->UpdateState(Character::State::Dead);
         }
         if (InputHandler::isGodPressed()){

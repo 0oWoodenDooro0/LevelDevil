@@ -3,7 +3,6 @@
 //
 
 #include "Animator.hpp"
-#include "Util/Logger.hpp"
 #include "Util/Animation.hpp"
 
 #include <utility>
@@ -20,4 +19,8 @@ void Animator::UpdateAnimationState(const std::string &animation_state_name,
     auto animation = std::dynamic_pointer_cast<Util::Animation>(animation_states_[animation_state_name]);
     if (animation == nullptr) return;
     animation->Play();
+}
+
+std::shared_ptr<Util::Animation> Animator::GetAnimation(const std::string& key) {
+    return std::dynamic_pointer_cast<Util::Animation>(animation_states_[key]);
 }

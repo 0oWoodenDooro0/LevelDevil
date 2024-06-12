@@ -38,7 +38,7 @@ Collider Spike::GetCollider() const {
 void Spike::Update(const std::shared_ptr<Character> &character) {
     if (!GetEnabled())return;
     if (!character->GetEnabled())return;
-    if (CollisionHandler::CheckCollision(character->GetCollider(), GetCollider())){
+    if (CollisionHandler::CheckCollision(character->GetCollider(), GetCollider()) && character->GetCurrentState() != Character::State::Vanish){
         character->UpdateState(Character::State::Dead);
     }
 }

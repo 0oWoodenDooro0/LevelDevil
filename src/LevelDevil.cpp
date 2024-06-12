@@ -5,7 +5,6 @@
 #include "LevelDevil.hpp"
 #include "InputHandler.hpp"
 #include "Util/Time.hpp"
-#include "Util/Logger.hpp"
 #include "Movable.hpp"
 
 #include <utility>
@@ -143,9 +142,11 @@ void LevelDevil::Update() {
 		saws_[i]->Update(character_);
 	}
 
-	for (int i = 0; i < 19; i++)
-	{
-		spikes_[i]->Update(character_);
+	if (character_->GetCurrentState() == Character::State::Alive) {
+		for (int i = 0; i < 19; i++)
+		{
+			spikes_[i]->Update(character_);
+		}
 	}
 
 	switch (current_state_) {
@@ -153,7 +154,7 @@ void LevelDevil::Update() {
 		transition_.Intro([this]() { UpdateCurrentState(State::Start); });
 		break;
 	case State::Start:
-		triggerColliders_[0]->Update(character_->GetPosition());
+		if(character_->GetCurrentState() == Character::State::Alive)triggerColliders_[0]->Update(character_->GetPosition());
 		if (triggerColliders_[0]->GetState() == TriggerCollider::State::Trigger) {
 			UpdateCurrentState(State::Move1);
 		}
@@ -209,7 +210,7 @@ void LevelDevil::Update() {
 			Movable::Move(saws_[1], { -512,-96 }, trap_speed_);
 			Movable::Move(saws_[2], { -864,-0 }, trap_speed_);
 		}
-		triggerColliders_[3]->Update(character_->GetPosition());
+		if (character_->GetCurrentState() == Character::State::Alive)triggerColliders_[3]->Update(character_->GetPosition());
 		if (triggerColliders_[3]->GetState() == TriggerCollider::State::Trigger) {
 			UpdateCurrentState(State::Move6);
 			delay_timer_ = 500;
@@ -234,7 +235,7 @@ void LevelDevil::Update() {
 			for (int i = 0; i < 19; i++)spikes_[i]->Disable();
 			Movable::Move(portals_[0], { 576, -96 }, trap_speed_);
 		}
-		triggerColliders_[4]->Update(character_->GetPosition());
+		if (character_->GetCurrentState() == Character::State::Alive)triggerColliders_[4]->Update(character_->GetPosition());
 		if (triggerColliders_[4]->GetState() == TriggerCollider::State::Trigger) {
 			UpdateCurrentState(State::Move8);
 			trap_speed_ = 400;
@@ -249,7 +250,7 @@ void LevelDevil::Update() {
 		break;
 	case State::Move9:
 		Movable::Move(door_, { -704, 0 }, trap_speed_);
-		triggerColliders_[5]->Update(character_->GetPosition());
+		if (character_->GetCurrentState() == Character::State::Alive)triggerColliders_[5]->Update(character_->GetPosition());
 		if (triggerColliders_[5]->GetState() == TriggerCollider::State::Trigger) {
 			UpdateCurrentState(State::Move10);
 		}
@@ -282,12 +283,15 @@ void LevelDevil::ResetLevel() {
 	for (auto spike : spikes_){
 		spike->Disable();
 	}
-	float spike_timer_ = 0;
-	int spike_num_ = 0;
-	float delay_timer_ = 500;
-	float revive_timer_ = 500;
-	float trap_speed_ = 330;
+	spike_timer_ = 0;
+	spike_num_ = 0;
+	delay_timer_ = 500;
+	revive_timer_ = 500;
+	trap_speed_ = 330;
 	current_state_ = State::Start;
+	for (auto collider : triggerColliders_) {
+		collider->UpdateState(TriggerCollider::State::Idle);
+	}
 }
 
 void LevelDevil::UpdateCurrentState(State state) {

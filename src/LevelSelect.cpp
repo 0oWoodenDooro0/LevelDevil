@@ -99,8 +99,8 @@ void LevelSelect::Update() {
                             level_ = Level::State::LEVEL_DEVIL;
                             break;
                         default:
-                            level_ = Level::State::LEVEL_8;
-                            break;
+                            renderer_.Update();
+                            return;
                     }
 
                     UpdateCurrentState(State::Outro);

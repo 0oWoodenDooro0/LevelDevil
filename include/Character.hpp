@@ -23,7 +23,9 @@ public:
         Dead,
         LevelClear,
         Vanish,
-        Appear
+        Appear,
+        Portal,
+        Warp
     };
 
     explicit Character(AudioManager audio_manager);
@@ -58,7 +60,7 @@ public:
 
     void Bounce();
 
-    void Warp(glm::vec2 position);
+    void Warp();
 
     void UpdateState(State state);
 
@@ -68,7 +70,7 @@ private:
     Rigidbody rigidbody_;
     AudioManager audio_manager_;
 
-    glm::vec2 check_point_ = {0, 0};
+    glm::vec2 check_point_ = { 0, 0 };
     float move_speed_ = 350;
     float jump_height_ = 12;
     float gravity_ = -1;
@@ -76,7 +78,6 @@ private:
     bool is_direction_right_ = true;
     bool is_run_ = false;
     bool god_ = false;
-    float timer_ = 200;
 };
 
 #endif //LEVELDEVIL_CHARACTER_HPP
