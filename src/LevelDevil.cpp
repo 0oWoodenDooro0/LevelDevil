@@ -290,6 +290,9 @@ void LevelDevil::ResetLevel() {
 	float revive_timer_ = 500;
 	float trap_speed_ = 330;
 	current_state_ = State::Start;
+	for (auto collider : triggerColliders_) {
+		collider->UpdateState(TriggerCollider::State::Idle);
+	}
 }
 
 void LevelDevil::UpdateCurrentState(State state) {
