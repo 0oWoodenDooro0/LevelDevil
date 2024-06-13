@@ -162,7 +162,10 @@ void Character::Revive() {
 }
 
 void Character::Dead() {
-    if (GetGod()) return;
+    if (GetGod()) {
+        UpdateState(State::Alive);
+        return;
+    }
     audio_manager_.Play(AudioManager::SFX::Dead);
     UpdateState(State::Vanish);
 }
